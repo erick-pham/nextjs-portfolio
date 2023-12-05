@@ -1,4 +1,4 @@
-export interface Product {
+export interface Question {
   id?: string;
   thumbnail?: string;
   name?: string;

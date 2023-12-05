@@ -20,3 +20,6 @@ export const getStatusColor = (status: string) => {
 
 export const getLabelText = (labels: Label[], code: Label["code"]) =>
   labels.find((label: Label) => label.code === code)?.label || "";
+
+export const waitFor = (seconds: number) =>
+  new Promise((r) => setTimeout(() => r(true), seconds));

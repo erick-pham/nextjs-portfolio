@@ -1,7 +1,7 @@
 "use client";
 import { Flex, Button } from "antd";
 import { useState } from "react";
-import QuestionCreateForm from "./CreateProductModel";
+import QuestionCreateForm from "./CreateQuestionModel";
 import { PlusOutlined } from "@ant-design/icons";
 
 const CreateProduct = () => {

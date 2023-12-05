@@ -1,14 +1,28 @@
 "use client";
-import React, { useState } from "react";
-import { Form, Input, InputNumber, Popconfirm, Table, Typography } from "antd";
-import { Product } from "@/models/product";
+import React, { useEffect, useState } from "react";
+import {
+  Form,
+  Input,
+  InputNumber,
+  Popconfirm,
+  Table,
+  TablePaginationConfig,
+  Typography,
+} from "antd";
+import { Question } from "@/types/question";
+import { useSearchParams, usePathname, useRouter } from "next/navigation";
+
+type TableProductProps = {
+  products: Question[];
+  totalCount: number;
+};
 
 interface EditableCellProps extends React.HTMLAttributes<HTMLElement> {
   editing: boolean;
   dataIndex: string;
   title: any;
   inputType: "number" | "text";
-  record: Product;
+  record: Question;
   index: number;
   children: React.ReactNode;
 }
@@ -47,18 +61,23 @@ const EditableCell: React.FC<EditableCellProps> = ({
   );
 };
 
-const TableProduct: React.FC<{ products: Product[] }> = ({
+const TableProduct: React.FC<TableProductProps> = ({
   products,
-}: {
-  products: Product[];
-}) => {
+  totalCount,
+}: TableProductProps) => {
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const { replace } = useRouter();
+  const [isFetching, setIsFetching] = useState<boolean>(false);
   const [form] = Form.useForm();
-
   const [editingKey, setEditingKey] = useState<string | undefined>("");
 
-  const isEditing = (record: Product) => record.id === editingKey;
+  useEffect(() => {
+    if (products) setIsFetching(false);
+  }, [products]);
+  const isEditing = (record: Question) => record.id === editingKey;
 
-  const edit = (record: Partial<Product>) => {
+  const edit = (record: Partial<Question>) => {
     form.setFieldsValue({ name: "", age: "", address: "", ...record });
     setEditingKey(record.id);
   };
@@ -112,11 +131,16 @@ const TableProduct: React.FC<{ products: Product[] }> = ({
       dataIndex: "createdAt",
       width: "15%",
       editable: true,
+      render: (_: any, record: Question) => {
+        return record.createdAt
+          ? new Date(record.createdAt).toLocaleString()
+          : "";
+      },
     },
     {
-      title: "operation",
+      title: "Action",
       dataIndex: "operation",
-      render: (_: any, record: Product) => {
+      render: (_: any, record: Question) => {
         const editable = isEditing(record);
         return editable ? (
           <span>
@@ -148,7 +172,7 @@ const TableProduct: React.FC<{ products: Product[] }> = ({
     }
     return {
       ...col,
-      onCell: (record: Product) => ({
+      onCell: (record: Question) => ({
         record,
         inputType: col.dataIndex === "age" ? "number" : "text",
         dataIndex: col.dataIndex,
@@ -161,16 +185,29 @@ const TableProduct: React.FC<{ products: Product[] }> = ({
   return (
     <Form form={form} component={false}>
       <Table
+        rowKey={"id"}
         components={{
           body: {
             cell: EditableCell,
           },
         }}
+        loading={isFetching}
         bordered
         dataSource={products}
         columns={mergedColumns}
         rowClassName="editable-row"
+        onChange={(pagination: TablePaginationConfig) => {
+          if (pagination && pagination.current) {
+            const currentParams = new URLSearchParams(searchParams);
+            currentParams.set("page", String(pagination.current));
+            replace(`${pathname}?${currentParams.toString()}`);
+            setIsFetching(true);
+          }
+        }}
         pagination={{
+          position: ["topRight"],
+          total: totalCount,
+          current: Number(searchParams.get("page")),
           onChange: cancel,
         }}
       />

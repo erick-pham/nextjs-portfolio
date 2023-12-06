@@ -1,7 +1,7 @@
 import * as React from "react";
 import CreateProduct from "./components/CreateQuestionnaire";
 import { Flex } from "antd";
-import { getListQuestionnaires } from "@/lib/question.api";
+import { getListQuestionnaires } from "@/lib/questionnaire.api";
 import { PageProps } from "@/types/page";
 import TableQuestionnaire from "./components/TableQuestionnaire";
 

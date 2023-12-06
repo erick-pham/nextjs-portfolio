@@ -3,16 +3,16 @@ import { format as datefnsFormat } from "date-fns";
 import { Flex, Card, Col, Row, Typography } from "antd";
 import { useState } from "react";
 
-import { Collection } from "@/types/questionnaire";
+import { Questionnaire } from "@/types/questionnaire";
 import Meta from "antd/es/card/Meta";
 import Link from "next/link";
 import { ClockCircleOutlined } from "@ant-design/icons";
 import Image from "next/image";
 
-const TableCollection = ({
-  listCollection,
+const TableQuestionnaire = ({
+  listQuestionnaires,
 }: {
-  listCollection: Collection[];
+  listQuestionnaires: Questionnaire[];
 }) => {
   const [open, setOpen] = useState(false);
 
@@ -23,7 +23,7 @@ const TableCollection = ({
 
   return (
     <Row gutter={[16, 24]} style={{ margin: 8 }}>
-      {listCollection.map(
+      {listQuestionnaires.map(
         ({
           name,
           status,
@@ -31,7 +31,7 @@ const TableCollection = ({
           description,
           thumbnail,
           createdAt,
-        }: Collection) => {
+        }: Questionnaire) => {
           return (
             <Col span={6} key={id} className="gutter-row">
               <Link href={`/questionnaires/${id}`}>
@@ -81,4 +81,4 @@ const TableCollection = ({
   );
 };
 
-export default TableCollection;
+export default TableQuestionnaire;

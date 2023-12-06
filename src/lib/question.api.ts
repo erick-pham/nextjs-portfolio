@@ -1,7 +1,7 @@
 import { Questionnaire } from "@/types/questionnaire";
 import { IListItem, ISearchParam } from "@/types/page";
 
-export const getQuestionList = async ({
+export const getListQuestionnaires = async ({
   limit,
   page,
   searchTerm,

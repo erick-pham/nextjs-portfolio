@@ -7,14 +7,14 @@ import {
   PieChartOutlined,
   TeamOutlined,
   UserOutlined,
-  FormOutlined,
+  InboxOutlined,
 } from "@ant-design/icons";
 
 import type { MenuProps } from "antd";
-import { Breadcrumb, Layout, Menu, theme } from "antd";
+import { Layout, Menu, theme } from "antd";
 import { Footer } from "antd/es/layout/layout";
 import Link from "next/link";
-import { useRouter, usePathname } from "next/navigation";
+import { usePathname } from "next/navigation";
 
 const { Content, Sider } = Layout;
 
@@ -36,8 +36,12 @@ const getItem = (
 
 const items: MenuItem[] = [
   getItem(<Link href="/">Home</Link>, "1", <PieChartOutlined />),
-  getItem(<Link href="/tasks">Tasks</Link>, "2", <DesktopOutlined />),
-  getItem(<Link href="/questions">Questions</Link>, "3", <FormOutlined />),
+  getItem(
+    <Link href="/questionnaires">Questionnaires</Link>,
+    "2",
+    <InboxOutlined />
+  ),
+  getItem(<Link href="/tasks">Tasks</Link>, "3", <DesktopOutlined />),
   getItem("User", "sub1", <UserOutlined />, [
     getItem("Tom", "sub1-1"),
     getItem("Bill", "sub1-2"),
@@ -50,16 +54,18 @@ const items: MenuItem[] = [
   getItem("Files", "4", <FileOutlined />),
 ];
 
-const MenuItemPathKeys: Record<string, string> = {
-  "/": "1",
-  "/tasks": "2",
-  "/questions": "3",
-};
+const getBreadcrumb = (path: string): string => {
+  if (!path) return "";
 
-const MenuItemBreadcrumb: Record<string, string> = {
-  "/": "Home",
-  "/tasks": "Tasks",
-  "/questions": "Questions",
+  if (/\/questionnaires/.test(path)) {
+    return "2";
+  }
+
+  if (/\/tasks/.test(path)) {
+    return "3";
+  }
+
+  return "1";
 };
 
 const MainLayout: React.FC<React.PropsWithChildren> = ({
@@ -81,7 +87,7 @@ const MainLayout: React.FC<React.PropsWithChildren> = ({
       >
         <Menu
           theme="dark"
-          defaultSelectedKeys={[MenuItemPathKeys[pathname] || "1"]}
+          defaultSelectedKeys={[getBreadcrumb(pathname)]}
           mode="inline"
           items={items}
         />
@@ -89,14 +95,14 @@ const MainLayout: React.FC<React.PropsWithChildren> = ({
       <Layout>
         {/* <Header style={{ padding: 0, background: colorBgContainer }} /> */}
         <Content style={{ margin: "0 16px" }}>
-          <Breadcrumb
+          {/* <Breadcrumb
             style={{ margin: "16px 0" }}
             items={[
               {
                 title: MenuItemBreadcrumb[pathname] || "/",
               },
             ]}
-          ></Breadcrumb>
+          ></Breadcrumb> */}
           <div
             style={{
               padding: 24,

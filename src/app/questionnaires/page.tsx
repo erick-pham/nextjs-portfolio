@@ -1,9 +1,9 @@
 import * as React from "react";
-import CreateProduct from "./components/CreateQuestion";
-import TableProduct from "./components/TableQuestion";
+import CreateProduct from "./components/CreateQuestionnaire";
 import { Flex } from "antd";
 import { getQuestionList } from "@/lib/question.api";
 import { PageProps } from "@/types/page";
+import TableCollection from "./components/TableCollection";
 
 export default async function QuestionsPage(props: PageProps) {
   const LIMIT = 10;
@@ -18,10 +18,7 @@ export default async function QuestionsPage(props: PageProps) {
   return (
     <Flex gap={8} justify="flex-start" vertical>
       <CreateProduct />
-      <TableProduct
-        products={listProductRes.data}
-        totalCount={listProductRes.totalCount}
-      />
+      <TableCollection listCollection={listProductRes.data} />
     </Flex>
   );
 }

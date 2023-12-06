@@ -2,11 +2,6 @@
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
-  modularizeImports: {
-    '@mui/icons-material': {
-      transform: '@mui/icons-material/{{member}}',
-    },
-  },
   images: {
     remotePatterns: [
       {
@@ -14,6 +9,12 @@ const nextConfig = {
         hostname: 'source.unsplash.com',
         port: '',
         pathname: '/random',
+      },
+      {
+        protocol: 'https',
+        hostname: 'gw.alipayobjects.com',
+        port: '',
+        pathname: '/**',
       },
     ],
   },

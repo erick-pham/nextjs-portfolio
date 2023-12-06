@@ -1,10 +1,10 @@
 "use client";
 import { Flex, Button } from "antd";
 import { useState } from "react";
-import QuestionCreateForm from "./CreateQuestionModel";
+import QuestionCreateForm from "./CreateQuestionnaireModel";
 import { PlusOutlined } from "@ant-design/icons";
 
-const CreateProduct = () => {
+const CreateQuestionnaire = () => {
   const [open, setOpen] = useState(false);
 
   const onCreate = (values: any) => {
@@ -37,4 +37,4 @@ const CreateProduct = () => {
   );
 };
 
-export default CreateProduct;
+export default CreateQuestionnaire;

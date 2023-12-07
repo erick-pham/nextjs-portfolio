@@ -10,6 +10,6 @@ export type ISearchParam = {
 };
 
 export type IListItem<T> = {
-  totalCount: number;
   data: T[];
+  totalCount: number;
 };

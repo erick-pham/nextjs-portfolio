@@ -1,5 +1,7 @@
 import * as React from "react";
 
-export default function TasksPage() {
+export const TaskPage: React.FC = () => {
   return <div>Tasks Page</div>;
-}
+};
+
+export default TaskPage;

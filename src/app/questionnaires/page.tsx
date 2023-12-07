@@ -2,12 +2,12 @@ import * as React from "react";
 import CreateProduct from "./components/CreateQuestionnaire";
 import { Flex } from "antd";
 import { getListQuestionnaires } from "@/lib/questionnaire.api";
-import { PageProps } from "@/types/page";
+import type { PageProps } from "@/types/page";
 import TableQuestionnaire from "./components/TableQuestionnaire";
 
-export default async function QuestionnairePage(props: PageProps) {
+const QuestionnairePage: React.FC<PageProps> = async (props: PageProps) => {
   const LIMIT = 10;
-  const currentPage = Number(props.searchParams.page ?? 1);
+  const currentPage = Number(props.searchParams.page || 1);
 
   const listQuestionnairesRes = await getListQuestionnaires({
     limit: LIMIT,
@@ -21,4 +21,6 @@ export default async function QuestionnairePage(props: PageProps) {
       <TableQuestionnaire listQuestionnaires={listQuestionnairesRes.data} />
     </Flex>
   );
-}
+};
+
+export default QuestionnairePage;

@@ -1,51 +1,39 @@
 "use client";
 import { format as datefnsFormat } from "date-fns";
 import { Flex, Card, Col, Row, Typography } from "antd";
-import { useState } from "react";
 
-import { Questionnaire } from "@/types/questionnaire";
+import type { Questionnaire } from "@/types/questionnaire";
 import Meta from "antd/es/card/Meta";
 import Link from "next/link";
 import { ClockCircleOutlined } from "@ant-design/icons";
 import Image from "next/image";
+import React from "react";
 
 const TableQuestionnaire = ({
   listQuestionnaires,
 }: {
   listQuestionnaires: Questionnaire[];
-}) => {
-  const [open, setOpen] = useState(false);
-
-  const onCreate = (values: any) => {
-    console.log("Received values of form: ", values);
-    setOpen(false);
-  };
-
+}): React.ReactElement => {
   return (
-    <Row gutter={[16, 24]} style={{ margin: 8 }}>
+    <Row gutter={[16, 16]}>
       {listQuestionnaires.map(
-        ({
-          name,
-          status,
-          id,
-          description,
-          thumbnail,
-          createdAt,
-        }: Questionnaire) => {
+        ({ name, id, description, thumbnail, createdAt }: Questionnaire) => {
           return (
-            <Col span={6} key={id} className="gutter-row">
+            <Col xs={24} sm={24} md={12} lg={8} xl={4} key={id}>
               <Link href={`/questionnaires/${id}`}>
                 <Card
                   hoverable
                   title={name}
                   bordered={false}
-                  style={{ width: 300 }}
                   key={"id"}
                   cover={
                     <Image
                       alt="example"
-                      width="300"
-                      height="200"
+                      width={0}
+                      height={0}
+                      sizes="100vw"
+                      style={{ width: "100%", height: "auto" }}
+                      loading="lazy"
                       src={`${
                         thumbnail
                           ? thumbnail

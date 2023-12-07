@@ -1,8 +1,10 @@
 export interface Questionnaire {
-  id: string;
-  thumbnail: string;
-  name: string;
-  status: string;
+  createdAt: Date | string;
   description: string;
-  createdAt: string | Date;
+  id: string;
+  name: string;
+  questions: Nullable<object>;
+  status: string;
+  thumbnail: string;
+  updatedAt: Date | string;
 }

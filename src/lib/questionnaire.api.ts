@@ -1,5 +1,5 @@
-import { Questionnaire } from "@/types/questionnaire";
-import { IListItem, ISearchParam } from "@/types/page";
+import type { Questionnaire } from "@/types/questionnaire";
+import type { IListItem, ISearchParam } from "@/types/page";
 
 export const getListQuestionnaires = async ({
   limit,
@@ -17,5 +17,5 @@ export const getListQuestionnaires = async ({
     }
   );
 
-  return data.json();
+  return data.json() as Promise<IListItem<Questionnaire>>;
 };

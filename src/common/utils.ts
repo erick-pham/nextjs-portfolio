@@ -1,6 +1,6 @@
-import { Label } from "./interface";
+import type { Label } from "./interface";
 
-export const getStatusColor = (status: string) => {
+export const getStatusColor = (status: string): string => {
   switch (status) {
     case "NEW":
       return "info";
@@ -18,8 +18,12 @@ export const getStatusColor = (status: string) => {
   }
 };
 
-export const getLabelText = (labels: Label[], code: Label["code"]) =>
+export const getLabelText = (labels: Label[], code: Label["code"]): string =>
   labels.find((label: Label) => label.code === code)?.label || "";
 
-export const waitFor = (seconds: number) =>
-  new Promise((r) => setTimeout(() => r(true), seconds));
+export const waitFor = async (seconds: number): Promise<void> =>
+  new Promise((resolve: () => void) =>
+    setTimeout(() => {
+      resolve();
+    }, seconds)
+  );

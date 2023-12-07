@@ -1,4 +1,4 @@
-import { Label } from "./interface";
+import type { Label } from "./interface";
 
 export const PRODUCT_STATUS = {
   NEW: "NEW",
@@ -73,7 +73,7 @@ export const PRODUCT_ITEM_STATUS_TEXT_VI = {
   SELLING: "Đang bán",
   SOLD: "Đã bán",
   DELETED: "Đã xóa",
-} as any;
+};
 
 export const Currencies = [
   {

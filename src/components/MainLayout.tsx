@@ -83,7 +83,9 @@ const MainLayout: React.FC<React.PropsWithChildren> = ({
       <Sider
         collapsible
         collapsed={collapsed}
-        onCollapse={(value) => setCollapsed(value)}
+        onCollapse={(value: boolean) => {
+          setCollapsed(value);
+        }}
       >
         <Menu
           theme="dark"

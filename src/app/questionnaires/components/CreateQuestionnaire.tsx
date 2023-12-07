@@ -1,5 +1,5 @@
 "use client";
-import { Flex, Button, Form, Input, Modal } from "antd";
+import { Flex, Button, Form, Input, Modal, message } from "antd";
 import { useState } from "react";
 import { PlusOutlined } from "@ant-design/icons";
 import { addQuestionnaire } from "../actions";
@@ -34,8 +34,11 @@ const CreateQuestionnaire = (): React.ReactElement => {
               setIsSubmitting(true);
               return addQuestionnaire(values);
             })
-            .catch((info: Error) => {
-              console.log("Validate Failed:", info);
+            .then(() => {
+              message.success("Create Questionnaire success!");
+            })
+            .catch(() => {
+              message.error("Create Questionnaire failed!");
             })
             .finally(() => {
               form.resetFields();
@@ -49,6 +52,7 @@ const CreateQuestionnaire = (): React.ReactElement => {
           layout="vertical"
           name="form_in_modal"
           initialValues={{ modifier: "public" }}
+          disabled={isSubmitting}
         >
           <Form.Item
             name="name"
@@ -60,7 +64,7 @@ const CreateQuestionnaire = (): React.ReactElement => {
               },
             ]}
           >
-            <Input disabled={isSubmitting} />
+            <Input />
           </Form.Item>
           <Form.Item
             name="description"
@@ -72,7 +76,7 @@ const CreateQuestionnaire = (): React.ReactElement => {
               },
             ]}
           >
-            <Input disabled={isSubmitting} />
+            <Input />
           </Form.Item>
         </Form>
       </Modal>

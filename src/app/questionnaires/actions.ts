@@ -38,3 +38,19 @@ export const listQuestionnaire = async ({
     totalCount: countQuestionnaireDocuments,
   };
 };
+
+export const getQuestionnaireById = async (
+  id: string
+): Promise<Questionnaire | null> => {
+  await connectToDatabase();
+
+  const questionnaireRecord: Questionnaire | null =
+    await QuestionnaireModel.findOne({
+      id: id,
+    })
+      .select("-_id -__v")
+      .lean()
+      .exec();
+
+  return questionnaireRecord;
+};

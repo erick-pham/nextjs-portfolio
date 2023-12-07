@@ -1,13 +1,10 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import { waitFor } from "@/common/utils";
-import type { IListItem } from "@/types/page";
 import type { Questionnaire } from "@/types/questionnaire";
 import type { NextResponse } from "next/server";
 import { NextResponse as ServerNextResponse } from "next/server";
 
-export const GET = async (
-  req: Request
-): Promise<NextResponse<IListItem<Questionnaire>>> => {
+export const GET = async (req: Request): Promise<NextResponse> => {
   try {
     const { searchParams } = new URL(req.url);
     const page = Number(searchParams.get("page")) || 1;

@@ -2,7 +2,8 @@
 import { Flex, Button, Form, Input, Modal } from "antd";
 import { useState } from "react";
 import { PlusOutlined } from "@ant-design/icons";
-import addQuestionnaire from "../actions";
+import { addQuestionnaire } from "../actions";
+import type { Questionnaire } from "@/types/questionnaire";
 
 const CreateQuestionnaire = (): React.ReactElement => {
   const [form] = Form.useForm();
@@ -29,7 +30,7 @@ const CreateQuestionnaire = (): React.ReactElement => {
         onOk={() => {
           form
             .validateFields()
-            .then(async (values: FormData) => {
+            .then(async (values: Questionnaire) => {
               setIsSubmitting(true);
               return addQuestionnaire(values);
             })
@@ -48,7 +49,6 @@ const CreateQuestionnaire = (): React.ReactElement => {
           layout="vertical"
           name="form_in_modal"
           initialValues={{ modifier: "public" }}
-          action={addQuestionnaire}
         >
           <Form.Item
             name="name"

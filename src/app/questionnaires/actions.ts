@@ -1,7 +1,8 @@
 "use server";
 
 import connectToDatabase from "@/database/db";
-import QuestionnaireModel from "@/database/questionnaire";
+import type { IQuestion, IQuestionnaire } from "@/database/questionnaire";
+import { QuestionnaireModel, QuestionModel } from "@/database/questionnaire";
 import type { IListItem, ISearchParam } from "@/types/page";
 import type { Questionnaire } from "@/types/questionnaire";
 import { revalidatePath } from "next/cache";
@@ -41,10 +42,10 @@ export const listQuestionnaire = async ({
 
 export const getQuestionnaireById = async (
   id: string
-): Promise<Questionnaire | null> => {
+): Promise<IQuestionnaire | null> => {
   await connectToDatabase();
 
-  const questionnaireRecord: Questionnaire | null =
+  const questionnaireRecord: IQuestionnaire | null =
     await QuestionnaireModel.findOne({
       id: id,
     })
@@ -52,7 +53,19 @@ export const getQuestionnaireById = async (
       .lean()
       .exec();
 
-  return questionnaireRecord;
+  const questions = await QuestionModel.find({
+    questionnaire: id,
+  })
+    .select("-_id -__v")
+    .lean()
+    .exec();
+
+  return questionnaireRecord
+    ? {
+        ...questionnaireRecord,
+        questions,
+      }
+    : null;
 };
 
 export const updateQuestionnaire = async (
@@ -72,4 +85,19 @@ export const updateQuestionnaire = async (
     .exec();
 
   // revalidatePath("/questionnaires/[slug]");
+};
+
+export const addQuestion = async (questionObj: IQuestion): Promise<void> => {
+  await connectToDatabase();
+
+  const questionnaireRecord = await QuestionnaireModel.findOne({
+    id: questionObj.questionnaire,
+  });
+
+  if (questionnaireRecord) {
+    const newRecord = new QuestionModel(questionObj);
+    await newRecord.save();
+  }
+
+  revalidatePath("/questionnaires/[slug]");
 };

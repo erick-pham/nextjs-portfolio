@@ -1,9 +1,12 @@
 "use client";
-import { Flex, Button, Form, Input, Modal, message } from "antd";
+import { Flex, Button, Form, Input, Modal, message, Select } from "antd";
 import { useState } from "react";
 import { PlusOutlined } from "@ant-design/icons";
-import { addQuestionnaire } from "../../actions";
+import { addQuestion } from "../../actions";
 import type { Questionnaire } from "@/types/questionnaire";
+import type { IQuestion } from "@/database/questionnaire";
+import { QuestionTypeEnum } from "@/common/constants";
+import { renderQuestionTypeSelection } from "./QuestionnaireTableQuestion";
 
 const CreateQuestion = ({
   questionnaire,
@@ -33,9 +36,9 @@ const CreateQuestion = ({
         onOk={() => {
           form
             .validateFields()
-            .then(async (values: Questionnaire) => {
+            .then(async (values: IQuestion) => {
               setIsSubmitting(true);
-              return addQuestionnaire(values);
+              return addQuestion(values);
             })
             .then(() => {
               message.success("Create Question success!");
@@ -56,10 +59,11 @@ const CreateQuestion = ({
           name="form_in_modal"
           disabled={isSubmitting}
           initialValues={{
-            questionnaireId: questionnaire.id,
+            questionnaire: questionnaire.id,
+            questionType: QuestionTypeEnum.TEXT,
           }}
         >
-          <Form.Item name="questionnaireId" hidden>
+          <Form.Item name="questionnaire" hidden>
             <Input />
           </Form.Item>
           <Form.Item
@@ -75,16 +79,13 @@ const CreateQuestion = ({
             <Input />
           </Form.Item>
           <Form.Item
-            name="description"
-            label="Description"
-            rules={[
-              {
-                required: true,
-                message: "Please input the description!",
-              },
-            ]}
+            name="questionType"
+            label="Type"
+            rules={[{ required: true }]}
           >
-            <Input />
+            <Select placeholder="Select a type" allowClear>
+              {renderQuestionTypeSelection()}
+            </Select>
           </Form.Item>
         </Form>
       </Modal>

@@ -1,8 +1,8 @@
 "use client";
+import { format as datefnsFormat } from "date-fns";
 import type { ReactElement, Validator } from "react";
 import React, { useState } from "react";
 import {
-  EditOutlined,
   MinusCircleOutlined,
   PlusOutlined,
   DeleteOutlined,
@@ -28,15 +28,10 @@ import { QuestionTypeEnum, QUESTION_TYPE_LABEL } from "@/common/constants";
 import type { Label } from "@/common/interface";
 import TextArea from "antd/es/input/TextArea";
 import CreateQuestion from "./CreateQuestion";
-import type { Questionnaire } from "@/types/questionnaire";
+import type { IQuestion, IQuestionnaire } from "@/database/questionnaire";
 
-interface DataType {
-  id: string;
+interface DataType extends IQuestion {
   key: string;
-  name: string;
-  questionType: string;
-  status: string;
-  updatedAt: string;
 }
 
 const layout = {
@@ -57,7 +52,7 @@ const formItemLayoutWithOutLabel = {
   },
 };
 
-const renderQuestionTypeSelection = (): ReactElement[] => {
+export const renderQuestionTypeSelection = (): ReactElement[] => {
   return QUESTION_TYPE_LABEL.map(
     (questionTypeLabel: Label): ReactElement => (
       <Select.Option
@@ -70,27 +65,14 @@ const renderQuestionTypeSelection = (): ReactElement[] => {
   );
 };
 
-const data: DataType[] = [];
-for (let i = 0; i < 3; ++i) {
-  data.push({
-    key: i.toString(),
-    id: i.toString(),
-    name: "Screen",
-    questionType: QuestionTypeEnum.MULTIPLE_CHOICE,
-    updatedAt: "2014-12-24 23:12:00",
-    status: "success",
-  });
-}
-
 const QuestionnaireTableQuestion = ({
   questionnaire,
 }: {
-  questionnaire: Questionnaire;
+  questionnaire: IQuestionnaire;
 }): ReactElement => {
   const [questionType, setQuestionType] = useState<QuestionTypeEnum>(
     QuestionTypeEnum.MULTIPLE_CHOICE
   );
-  const [expandedRowKey, setExpandedRowKey] = useState<string>("");
   const [form] = Form.useForm();
 
   const onReset = (): void => {
@@ -106,7 +88,7 @@ const QuestionnaireTableQuestion = ({
       case QuestionTypeEnum.TEXT:
       case QuestionTypeEnum.NUMBER:
       case QuestionTypeEnum.DATE:
-        return <>no render input field</>;
+        return <></>;
       case QuestionTypeEnum.MULTIPLE_CHOICE:
         return (
           <Form.List
@@ -162,7 +144,8 @@ const QuestionnaireTableQuestion = ({
                         {
                           required: true,
                           whitespace: true,
-                          len: 255,
+                          min: 1,
+                          max: 255,
                         },
                       ]}
                       noStyle
@@ -211,24 +194,26 @@ const QuestionnaireTableQuestion = ({
       key: "status",
       render: () => <Badge status="success" text="Finished" />,
     },
-    { title: "Last Update", dataIndex: "updatedAt", key: "updatedAt" },
+    {
+      title: "Last Update",
+      dataIndex: "updatedAt",
+      key: "updatedAt",
+      render: (_: unknown, record: DataType) =>
+        datefnsFormat(new Date(record.updatedAt), "Pp"),
+    },
     {
       title: "Action",
       key: "operation",
       render: (_: unknown, record: DataType) => (
         <Flex gap={8}>
           <Button
+            danger
             type="primary"
-            icon={<EditOutlined />}
+            icon={<DeleteOutlined />}
             onClick={(): void => {
-              setExpandedRowKey(
-                expandedRowKey === record.key ? "" : record.key
-              );
+              alert(record.id);
             }}
           >
-            Edit
-          </Button>
-          <Button danger type="primary" icon={<DeleteOutlined />}>
             Delete
           </Button>
         </Flex>
@@ -237,7 +222,12 @@ const QuestionnaireTableQuestion = ({
   ];
 
   const defaultExpandable = {
-    expandedRowRender: (record: DataType): ReactElement => (
+    onExpand: (expanded: boolean, record: IQuestion): void => {
+      if (expanded) {
+        setQuestionType(record.questionType as QuestionTypeEnum);
+      }
+    },
+    expandedRowRender: (record: IQuestion): ReactElement => (
       <Card>
         <Form
           {...layout}
@@ -258,7 +248,6 @@ const QuestionnaireTableQuestion = ({
             <Select
               placeholder="Select a type"
               allowClear
-              defaultValue={QuestionTypeEnum.TEXT}
               onChange={(selectedType: QuestionTypeEnum) => {
                 setQuestionType(selectedType);
               }}
@@ -293,7 +282,10 @@ const QuestionnaireTableQuestion = ({
         </Form>
       </Card>
     ),
-    expandedRowKeys: [expandedRowKey],
+    expandRowByClick: false,
+    showExpandColumn: true,
+    // columnTitle: "columnTitle",
+    // expandedRowKeys: [expandedRowKey],
   };
 
   return (
@@ -304,7 +296,11 @@ const QuestionnaireTableQuestion = ({
         title={() => "Set of question"}
         columns={columns}
         expandable={defaultExpandable}
-        dataSource={data}
+        dataSource={questionnaire.questions.map(
+          (question: IQuestion): DataType => {
+            return { ...question, key: question.id };
+          }
+        )}
         pagination={{ position: ["none", "bottomCenter"] }}
       />
     </Card>

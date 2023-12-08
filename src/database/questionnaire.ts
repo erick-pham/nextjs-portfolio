@@ -1,19 +1,39 @@
 /* eslint-disable @typescript-eslint/no-unnecessary-condition */
-import type { Nullable } from "@/types/base";
 import { generateKey } from "@/util/crypto";
-import type { Document, Model } from "mongoose";
+import type { Model } from "mongoose";
 import mongoose from "mongoose";
 
-export interface IQuestionnaire extends Document {
+export interface IQuestion {
+  choices: string[];
   createdAt: Date | string;
+  id: string;
+  name: string;
+  questionType: string;
+  questionnaire: string;
+  updatedAt: Date;
+}
+
+export interface IQuestionnaire {
+  createdAt: string;
   description: string;
   id: string;
   name: string;
-  questions: Nullable<object>;
+  questions: IQuestion[];
   status: string;
   thumbnail: string;
   updatedAt: Date;
 }
+
+export const QuestionSchema = new mongoose.Schema<IQuestion>(
+  {
+    id: { type: String, default: (): string => generateKey(10, "base64url") },
+    choices: [{ type: String }],
+    name: { type: String },
+    questionType: { type: String },
+    questionnaire: { ref: "questionnaire", type: String },
+  },
+  { timestamps: true }
+);
 
 export const QuestionnaireSchema = new mongoose.Schema<IQuestionnaire>(
   {
@@ -22,13 +42,16 @@ export const QuestionnaireSchema = new mongoose.Schema<IQuestionnaire>(
     thumbnail: { type: String },
     description: { type: String },
     status: { type: String },
-    questions: { type: Object },
+    questions: [{ ref: "question", type: String }],
   },
   { timestamps: true }
 );
 
-export default (mongoose.models["Questionnaire"] ||
+export const QuestionModel = (mongoose.models["question"] ||
+  mongoose.model("question", QuestionSchema)) as Model<IQuestion>;
+
+export const QuestionnaireModel = (mongoose.models["questionnaire"] ||
   mongoose.model(
-    "Questionnaire",
+    "questionnaire",
     QuestionnaireSchema
   )) as Model<IQuestionnaire>;

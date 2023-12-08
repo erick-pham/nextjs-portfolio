@@ -14,7 +14,7 @@ export const addQuestionnaire = async (
 
   await newModel.save();
 
-  revalidatePath("/questionnaire");
+  revalidatePath("/questionnaires");
 };
 
 export const listQuestionnaire = async ({
@@ -53,4 +53,23 @@ export const getQuestionnaireById = async (
       .exec();
 
   return questionnaireRecord;
+};
+
+export const updateQuestionnaire = async (
+  questionnaireObj: Questionnaire
+): Promise<void> => {
+  await connectToDatabase();
+
+  await QuestionnaireModel.findOneAndUpdate(
+    {
+      id: questionnaireObj.id,
+    },
+    {
+      ...questionnaireObj,
+    }
+  )
+    .lean()
+    .exec();
+
+  // revalidatePath("/questionnaires/[slug]");
 };

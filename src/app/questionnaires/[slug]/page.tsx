@@ -3,7 +3,8 @@ import { Flex } from "antd";
 import type { PageProps } from "@/types/page";
 import { notFound } from "next/navigation";
 import { getQuestionnaireById } from "../actions";
-import QuestionnaireDetails from "./components/details";
+import QuestionnaireDetailPage from "./components/QuestionnaireDetailPage";
+import QuestionnaireTableQuestion from "./components/QuestionnaireTableQuestion";
 
 const QuestionDetailPage: React.FC<PageProps> = async (props: PageProps) => {
   const { slug } = props.params;
@@ -16,7 +17,12 @@ const QuestionDetailPage: React.FC<PageProps> = async (props: PageProps) => {
 
   return (
     <Flex gap={8} justify="flex-start" vertical>
-      <QuestionnaireDetails questionnaire={question}></QuestionnaireDetails>
+      <QuestionnaireDetailPage
+        questionnaire={question}
+      ></QuestionnaireDetailPage>
+      <QuestionnaireTableQuestion
+        questionnaire={question}
+      ></QuestionnaireTableQuestion>
     </Flex>
   );
 };

@@ -2,20 +2,23 @@
 import { Flex, Button, Form, Input, Modal, message } from "antd";
 import { useState } from "react";
 import { PlusOutlined } from "@ant-design/icons";
-import { addQuestionnaire } from "../actions";
+import { addQuestionnaire } from "../../actions";
 import type { Questionnaire } from "@/types/questionnaire";
 
-const CreateQuestionnaire = (): React.ReactElement => {
+const CreateQuestion = ({
+  questionnaire,
+}: {
+  questionnaire: Questionnaire;
+}): React.ReactElement => {
   const [form] = Form.useForm();
-  const [openCreateQuestionnaireModal, setOpenCreateQuestionnaireModal] =
-    useState(false);
+  const [openCreateQuestionModal, setOpenCreateQuestionModal] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   return (
     <div>
       <Modal
-        open={openCreateQuestionnaireModal}
-        title="Create a new Questionnaire"
+        open={openCreateQuestionModal}
+        title="Create a new Question"
         okText="Create"
         okButtonProps={{
           loading: isSubmitting,
@@ -25,7 +28,7 @@ const CreateQuestionnaire = (): React.ReactElement => {
         }}
         cancelText="Cancel"
         onCancel={() => {
-          setOpenCreateQuestionnaireModal(false);
+          setOpenCreateQuestionModal(false);
         }}
         onOk={() => {
           form
@@ -35,14 +38,14 @@ const CreateQuestionnaire = (): React.ReactElement => {
               return addQuestionnaire(values);
             })
             .then(() => {
-              message.success("Create Questionnaire success!");
+              message.success("Create Question success!");
             })
             .catch(() => {
-              message.error("Create Questionnaire failed!");
+              message.error("Create Question failed!");
             })
             .finally(() => {
               form.resetFields();
-              setOpenCreateQuestionnaireModal(false);
+              setOpenCreateQuestionModal(false);
               setIsSubmitting(false);
             });
         }}
@@ -52,7 +55,13 @@ const CreateQuestionnaire = (): React.ReactElement => {
           layout="vertical"
           name="form_in_modal"
           disabled={isSubmitting}
+          initialValues={{
+            questionnaireId: questionnaire.id,
+          }}
         >
+          <Form.Item name="questionnaireId" hidden>
+            <Input />
+          </Form.Item>
           <Form.Item
             name="name"
             label="Name"
@@ -80,19 +89,19 @@ const CreateQuestionnaire = (): React.ReactElement => {
         </Form>
       </Modal>
 
-      <Flex justify={"flex-end"} align={"center"}>
+      <Flex justify="flex-start" align="center" style={{ marginBottom: 8 }}>
         <Button
           type="primary"
           icon={<PlusOutlined />}
           onClick={() => {
-            setOpenCreateQuestionnaireModal(true);
+            setOpenCreateQuestionModal(true);
           }}
         >
-          New Questionnaire
+          New Question
         </Button>
       </Flex>
     </div>
   );
 };
 
-export default CreateQuestionnaire;
+export default CreateQuestion;

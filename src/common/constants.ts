@@ -116,3 +116,37 @@ export const GENDERS = [
     label: "Nữ",
   },
 ];
+
+export enum QuestionTypeEnum {
+  MULTIPLE_CHOICE = "MULTIPLE_CHOICE",
+  YES_NO = "YES_NO",
+  NUMBER = "NUMBER",
+  TEXT = "TEXT",
+  DATE = "DATE",
+}
+
+export const QUESTION_TYPE_LABEL: {
+  code: QuestionTypeEnum;
+  label: string;
+}[] = [
+  {
+    code: QuestionTypeEnum.MULTIPLE_CHOICE,
+    label: "Multiple choice",
+  },
+  {
+    code: QuestionTypeEnum.YES_NO,
+    label: "Yes/No",
+  },
+  {
+    code: QuestionTypeEnum.NUMBER,
+    label: "Number",
+  },
+  {
+    code: QuestionTypeEnum.TEXT,
+    label: "Text",
+  },
+  {
+    code: QuestionTypeEnum.DATE,
+    label: "Date",
+  },
+];

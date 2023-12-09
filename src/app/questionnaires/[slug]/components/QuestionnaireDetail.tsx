@@ -1,11 +1,11 @@
 "use client";
-import { Button, Form, Input, Upload, Radio, message, Card } from "antd";
-
+import { Form, Input, Upload, Radio, message, Card } from "antd";
 import type { Questionnaire } from "@/types/questionnaire";
 import { PlusOutlined } from "@ant-design/icons";
 import React, { useState } from "react";
 import TextArea from "antd/es/input/TextArea";
 import { updateQuestionnaire } from "../../actions";
+import { MyButton } from "@/components/MyButton";
 
 // const normFile = (e: string): string[] | string => {
 //   if (Array.isArray(e)) {
@@ -66,8 +66,9 @@ const QuestionnaireDetailPage = ({
           <TextArea rows={4} />
         </Form.Item>
         <Form.Item
-          label="Upload"
+          label="Thumbnail"
           name="thumbnail"
+          valuePropName="thumbnail"
           // getValueFromEvent={normFile}
         >
           <Upload action="/upload.do" listType="picture-card">
@@ -79,16 +80,19 @@ const QuestionnaireDetailPage = ({
         </Form.Item>
         <Form.Item label="Status" name="status">
           <Radio.Group buttonStyle="solid" optionType="button">
-            <Radio value="NEW">New</Radio>
+            <Radio.Button value="NEW">New</Radio.Button>
             <Radio value="ACTIVE">Active</Radio>
             <Radio value="INACTIVE">InActive</Radio>
           </Radio.Group>
         </Form.Item>
-
-        <Form.Item label="Update">
-          <Button type="primary" onClick={handleUpdateQuestionnaire}>
-            Submit
-          </Button>
+        <Form.Item wrapperCol={{ offset: 2, span: 16 }}>
+          <MyButton
+            type="primary"
+            color="success"
+            onClick={handleUpdateQuestionnaire}
+          >
+            Update
+          </MyButton>
         </Form.Item>
       </Form>
     </Card>

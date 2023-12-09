@@ -1,4 +1,4 @@
-import type { Label } from "./interface";
+import type { ILabel } from "@/types/base";
 
 export const PRODUCT_STATUS = {
   NEW: "NEW",
@@ -6,7 +6,7 @@ export const PRODUCT_STATUS = {
   DELETED: "DELETED",
 };
 
-export const PRODUCT_STATUS_LABEL: Label[] = [
+export const PRODUCT_STATUS_LABEL: ILabel[] = [
   {
     code: "NEW",
     label: "New",
@@ -117,12 +117,19 @@ export const GENDERS = [
   },
 ];
 
+export enum QuestionStatusEnum {
+  NEW = "NEW",
+  ACTIVE = "ACTIVE",
+  INACTIVE = "INACTIVE",
+}
+
 export enum QuestionTypeEnum {
-  MULTIPLE_CHOICE = "MULTIPLE_CHOICE",
   YES_NO = "YES_NO",
-  NUMBER = "NUMBER",
   TEXT = "TEXT",
+  NUMBER = "NUMBER",
   DATE = "DATE",
+  SINGLE_CHOICE = "SINGLE_CHOICE",
+  MULTIPLE_CHOICE = "MULTIPLE_CHOICE",
 }
 
 export const QUESTION_TYPE_LABEL: {
@@ -146,11 +153,11 @@ export const QUESTION_TYPE_LABEL: {
     label: "Yes/No",
   },
   {
-    code: QuestionTypeEnum.MULTIPLE_CHOICE,
-    label: "Multiple choice",
+    code: QuestionTypeEnum.SINGLE_CHOICE,
+    label: "Single choice",
   },
   {
-    code: QuestionTypeEnum.DATE,
-    label: "Date",
+    code: QuestionTypeEnum.MULTIPLE_CHOICE,
+    label: "Multiple choice",
   },
 ];

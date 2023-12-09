@@ -1,12 +1,17 @@
 "use client";
-import { Flex, Button, Form, Input, Modal, message, Select } from "antd";
+import { Flex, Form, Input, Modal, message, Select } from "antd";
 import { useState } from "react";
 import { PlusOutlined } from "@ant-design/icons";
 import { addQuestion } from "../../actions";
 import type { Questionnaire } from "@/types/questionnaire";
 import type { IQuestion } from "@/database/questionnaire";
 import { QuestionTypeEnum } from "@/common/constants";
-import { renderQuestionTypeSelection } from "./QuestionnaireTableQuestion";
+
+import {
+  renderAdditionQuestionForm,
+  renderQuestionTypeSelection,
+} from "./AdditionQuestionForm";
+import { MyButton } from "@/components/MyButton";
 
 const CreateQuestion = ({
   questionnaire,
@@ -15,6 +20,7 @@ const CreateQuestion = ({
 }): React.ReactElement => {
   const [form] = Form.useForm();
   const [openCreateQuestionModal, setOpenCreateQuestionModal] = useState(false);
+  const [questionType, setQuestionType] = useState<QuestionTypeEnum>();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   return (
@@ -41,14 +47,14 @@ const CreateQuestion = ({
               return addQuestion(values);
             })
             .then(() => {
+              form.resetFields();
+              setOpenCreateQuestionModal(false);
               message.success("Create Question success!");
             })
             .catch(() => {
               message.error("Create Question failed!");
             })
             .finally(() => {
-              form.resetFields();
-              setOpenCreateQuestionModal(false);
               setIsSubmitting(false);
             });
         }}
@@ -56,7 +62,7 @@ const CreateQuestion = ({
         <Form
           form={form}
           layout="vertical"
-          name="form_in_modal"
+          name="create-question-form-in-modal"
           disabled={isSubmitting}
           initialValues={{
             questionnaire: questionnaire.id,
@@ -83,23 +89,32 @@ const CreateQuestion = ({
             label="Type"
             rules={[{ required: true }]}
           >
-            <Select placeholder="Select a type" allowClear>
+            <Select
+              placeholder="Select a type"
+              allowClear
+              onChange={(selectedType: QuestionTypeEnum): void => {
+                setQuestionType(selectedType);
+              }}
+            >
               {renderQuestionTypeSelection()}
             </Select>
           </Form.Item>
+
+          {questionType && renderAdditionQuestionForm(questionType)}
         </Form>
       </Modal>
 
       <Flex justify="flex-start" align="center" style={{ marginBottom: 8 }}>
-        <Button
+        <MyButton
           type="primary"
+          color="success"
           icon={<PlusOutlined />}
           onClick={() => {
             setOpenCreateQuestionModal(true);
           }}
         >
-          New Question
-        </Button>
+          Create Question
+        </MyButton>
       </Flex>
     </div>
   );

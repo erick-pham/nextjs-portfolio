@@ -1,9 +1,10 @@
 "use client";
-import { Flex, Button, Form, Input, Modal, message } from "antd";
+import { Flex, Form, Input, Modal, message } from "antd";
 import { useState } from "react";
 import { PlusOutlined } from "@ant-design/icons";
 import { addQuestionnaire } from "../actions";
 import type { Questionnaire } from "@/types/questionnaire";
+import { MyButton } from "@/components/MyButton";
 
 const CreateQuestionnaire = (): React.ReactElement => {
   const [form] = Form.useForm();
@@ -81,15 +82,16 @@ const CreateQuestionnaire = (): React.ReactElement => {
       </Modal>
 
       <Flex justify={"flex-end"} align={"center"}>
-        <Button
+        <MyButton
           type="primary"
+          color="success"
           icon={<PlusOutlined />}
           onClick={() => {
             setOpenCreateQuestionnaireModal(true);
           }}
         >
           New Questionnaire
-        </Button>
+        </MyButton>
       </Flex>
     </div>
   );

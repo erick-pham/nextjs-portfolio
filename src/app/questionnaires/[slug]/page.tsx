@@ -3,7 +3,7 @@ import { Flex } from "antd";
 import type { PageProps } from "@/types/page";
 import { notFound } from "next/navigation";
 import { getQuestionnaireById } from "../actions";
-import QuestionnaireDetailPage from "./components/QuestionnaireDetailPage";
+import QuestionnaireDetailPage from "./components/QuestionnaireDetail";
 import QuestionnaireTableQuestion from "./components/QuestionnaireTableQuestion";
 
 const QuestionDetailPage: React.FC<PageProps> = async (props: PageProps) => {

@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import StyledComponentsRegistry from "../lib/AntdRegistry";
 import MainLayout from "@/components/MainLayout";
+import { ConfigProvider } from "antd";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,7 +18,15 @@ const RootLayout: React.FC<React.PropsWithChildren> = ({
   <html lang="en">
     <body className={inter.className}>
       <StyledComponentsRegistry>
-        <MainLayout>{children}</MainLayout>
+        <ConfigProvider
+          theme={{
+            token: {
+              colorPrimary: "rgb(23, 162, 184)",
+            },
+          }}
+        >
+          <MainLayout>{children}</MainLayout>
+        </ConfigProvider>
       </StyledComponentsRegistry>
     </body>
   </html>

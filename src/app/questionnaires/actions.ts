@@ -87,6 +87,7 @@ export const updateQuestionnaire = async (
   // revalidatePath("/questionnaires/[slug]");
 };
 
+/// Handle CRUD question
 export const addQuestion = async (questionObj: IQuestion): Promise<void> => {
   await connectToDatabase();
 
@@ -99,5 +100,19 @@ export const addQuestion = async (questionObj: IQuestion): Promise<void> => {
     await newRecord.save();
   }
 
-  revalidatePath("/questionnaires/[slug]");
+  revalidatePath("/questionnaires/[slug]", "page");
+};
+
+export const deleteQuestion = async (
+  questionnaireId: string,
+  questionId: string
+): Promise<void> => {
+  await connectToDatabase();
+
+  await QuestionModel.deleteOne({
+    id: questionId,
+    questionnaire: questionnaireId,
+  });
+
+  revalidatePath("/questionnaires/[slug]", "page");
 };

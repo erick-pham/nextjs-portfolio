@@ -1,9 +1,23 @@
 "use client";
-import { Form, Input, Modal, message, Radio, Rate } from "antd";
+import {
+  Form,
+  Input,
+  Modal,
+  message,
+  Radio,
+  Rate,
+  Select,
+  DatePicker,
+  Checkbox,
+} from "antd";
 import type { ReactElement } from "react";
 import { useState } from "react";
 import { PlayCircleOutlined } from "@ant-design/icons";
-import type { IQuestionnaire, IQuestion } from "@/types/questionnaire";
+import type {
+  IQuestionnaire,
+  IQuestion,
+  IQuestionChoice,
+} from "@/types/questionnaire";
 import { QuestionTypeEnum } from "@/common/constants";
 
 import { MyButton } from "@/components/MyButton";
@@ -11,7 +25,8 @@ import { waitFor } from "@/common/utils";
 
 const renderJourneyQuestion = (
   question: IQuestion,
-  onBlurSubmitAnswer: (questionId: string) => void
+  onSubmitAnswer: (questionId: string) => void,
+  isDisabled?: boolean
 ): ReactElement => {
   switch (question.questionType) {
     case QuestionTypeEnum.TEXT:
@@ -23,7 +38,7 @@ const renderJourneyQuestion = (
         >
           <Input
             onBlur={() => {
-              onBlurSubmitAnswer(question.id);
+              onSubmitAnswer(question.id);
             }}
           />
         </Form.Item>
@@ -36,8 +51,9 @@ const renderJourneyQuestion = (
           rules={[{ required: true }]}
         >
           <Rate
-            onBlur={() => {
-              onBlurSubmitAnswer(question.id);
+            disabled={isDisabled}
+            onChange={() => {
+              onSubmitAnswer(question.id);
             }}
           />
         </Form.Item>
@@ -50,8 +66,8 @@ const renderJourneyQuestion = (
           rules={[{ required: true }]}
         >
           <Radio.Group
-            onBlur={() => {
-              onBlurSubmitAnswer(question.id);
+            onChange={() => {
+              onSubmitAnswer(question.id);
             }}
           >
             <Radio value={true}>Yes</Radio>
@@ -59,6 +75,60 @@ const renderJourneyQuestion = (
           </Radio.Group>
         </Form.Item>
       );
+    case QuestionTypeEnum.SINGLE_CHOICE:
+      return (
+        <Form.Item
+          name={question.id}
+          label={question.name}
+          rules={[{ required: true }]}
+        >
+          <Select
+            onChange={() => {
+              onSubmitAnswer(question.id);
+            }}
+          >
+            {question.choices.map((questionChoice: IQuestionChoice) => (
+              <Select.Option
+                key={questionChoice.code}
+                value={questionChoice.code}
+              >
+                {questionChoice.text}
+              </Select.Option>
+            ))}
+          </Select>
+        </Form.Item>
+      );
+    case QuestionTypeEnum.MULTIPLE_CHOICE:
+      return (
+        <Form.Item
+          name={question.id}
+          label={question.name}
+          rules={[{ required: true }]}
+        >
+          <Checkbox.Group
+            // onChange={() => {
+            //   onSubmitAnswer(question.id);
+            // }}
+            options={question.choices.map((questionChoice: IQuestionChoice) => {
+              return {
+                label: questionChoice.text,
+                value: questionChoice.code,
+              };
+            })}
+          ></Checkbox.Group>
+        </Form.Item>
+      );
+    case QuestionTypeEnum.DATE:
+      return (
+        <Form.Item
+          name={question.id}
+          label={question.name}
+          rules={[{ required: true }]}
+        >
+          <DatePicker />
+        </Form.Item>
+      );
+
     default:
       return <></>;
   }
@@ -73,12 +143,26 @@ const PlayGroundJourney = ({
   const [openPlayQuestionModal, setOpenPlayQuestionModal] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const onBlurSubmitAnswer = (questionId: string): void => {
-    setIsSubmitting(true);
-    waitFor(2000).then(() => {
-      setIsSubmitting(false);
-      message.success("Saved:" + questionId);
-    });
+  const onSubmitAnswer = (questionId: string): void => {
+    form
+      .validateFields([questionId])
+      .then(async () => {
+        if (form.getFieldError(questionId).length === 0) {
+          setIsSubmitting(true);
+          await waitFor(2000);
+          message.success(
+            `Saved: [${questionId}]. Answer: [${form.getFieldValue(
+              questionId
+            )}]`
+          );
+        }
+      })
+      .catch((): void => {
+        return;
+      })
+      .finally(() => {
+        setIsSubmitting(false);
+      });
   };
 
   return (
@@ -108,9 +192,10 @@ const PlayGroundJourney = ({
           layout="vertical"
           name="create-question-form-in-modal"
           disabled={isSubmitting}
+          validateTrigger="onBlur"
         >
           {questionnaire.questions.map((question: IQuestion) =>
-            renderJourneyQuestion(question, onBlurSubmitAnswer)
+            renderJourneyQuestion(question, onSubmitAnswer, isSubmitting)
           )}
         </Form>
       </Modal>

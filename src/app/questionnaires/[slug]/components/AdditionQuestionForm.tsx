@@ -53,8 +53,6 @@ export const renderAdditionQuestionForm = (
                     rules={[
                       {
                         required: true,
-                        min: 2,
-                        max: 5,
                       },
                     ]}
                   >
@@ -79,8 +77,6 @@ export const renderAdditionQuestionForm = (
                       {
                         required: true,
                         whitespace: true,
-                        min: 1,
-                        max: 255,
                       },
                     ]}
                     noStyle

@@ -8,7 +8,7 @@ import mongoose from "mongoose";
 export const QuestionSchema = new mongoose.Schema<IQuestion>(
   {
     id: { type: String, default: (): string => generateKey(10, "base64url") },
-    choices: [{ type: [Object] }],
+    choices: [{ type: Object }],
     name: { type: String },
     questionType: { type: String },
     status: { type: String, default: QuestionStatusEnum.NEW },

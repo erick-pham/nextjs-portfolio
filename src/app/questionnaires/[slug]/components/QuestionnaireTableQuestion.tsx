@@ -2,14 +2,14 @@
 import { format as datefnsFormat } from "date-fns";
 import type { ReactElement } from "react";
 import React from "react";
-import { EditOutlined } from "@ant-design/icons";
 import type { TableColumnsType } from "antd";
 import { Badge, Card, Flex, Table } from "antd";
-import CreateQuestion from "./CreateQuestion";
-import type { IQuestion, IQuestionnaire } from "@/database/questionnaire";
-import { getBadgeStatus } from "@/common/utils";
+import CreateQuestion from "./CreateQuestionModal";
+import { getBadgeStatus, getLabelText } from "@/common/utils";
 import DeleteQuestionPopconfirm from "./DeleteQuestionPopconfirm.component";
-import { MyButton } from "@/components/MyButton";
+import EditQuestionModal from "./EditQuestionModal";
+import { QUESTION_TYPE_LABEL } from "@/common/constants";
+import type { IQuestion, IQuestionnaire } from "@/types/questionnaire";
 interface DataType extends IQuestion {
   key: string;
 }
@@ -22,12 +22,21 @@ const QuestionnaireTableQuestion = ({
   const columns: TableColumnsType<DataType> = [
     { title: "#", dataIndex: "id", key: "id" },
     { title: "Name", dataIndex: "name", key: "name" },
-    { title: "Question Type", dataIndex: "questionType", key: "questionType" },
+    {
+      title: "Question Type",
+      dataIndex: "questionType",
+      key: "questionType",
+      render: (_: unknown, record: DataType) =>
+        getLabelText(QUESTION_TYPE_LABEL, record.questionType as string),
+    },
     {
       title: "Status",
       key: "status",
       render: (_: unknown, record: DataType) => (
-        <Badge status={getBadgeStatus(record.status)} text={record.status} />
+        <Badge
+          color={getBadgeStatus(record.status as string)}
+          count={record.status as string}
+        />
       ),
     },
     {
@@ -42,9 +51,7 @@ const QuestionnaireTableQuestion = ({
       key: "operation",
       render: (_: unknown, record: DataType) => (
         <Flex gap={8}>
-          <MyButton type="primary" color="warning" icon={<EditOutlined />}>
-            Edit
-          </MyButton>
+          <EditQuestionModal question={record as IQuestion} />
           <DeleteQuestionPopconfirm
             questionnaireId={questionnaire.id}
             questionId={record.id}

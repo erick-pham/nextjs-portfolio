@@ -3,8 +3,7 @@ import { Flex, Form, Input, Modal, message, Select } from "antd";
 import { useState } from "react";
 import { PlusOutlined } from "@ant-design/icons";
 import { addQuestion } from "../../actions";
-import type { Questionnaire } from "@/types/questionnaire";
-import type { IQuestion } from "@/database/questionnaire";
+import type { IQuestionnaire, IQuestion } from "@/types/questionnaire";
 import { QuestionTypeEnum } from "@/common/constants";
 
 import {
@@ -16,7 +15,7 @@ import { MyButton } from "@/components/MyButton";
 const CreateQuestion = ({
   questionnaire,
 }: {
-  questionnaire: Questionnaire;
+  questionnaire: IQuestionnaire;
 }): React.ReactElement => {
   const [form] = Form.useForm();
   const [openCreateQuestionModal, setOpenCreateQuestionModal] = useState(false);
@@ -44,18 +43,20 @@ const CreateQuestion = ({
             .validateFields()
             .then(async (values: IQuestion) => {
               setIsSubmitting(true);
-              return addQuestion(values);
-            })
-            .then(() => {
-              form.resetFields();
-              setOpenCreateQuestionModal(false);
-              message.success("Create Question success!");
+
+              try {
+                await addQuestion(values);
+                form.resetFields();
+                setOpenCreateQuestionModal(false);
+                message.success("Create Question success!");
+              } catch (error) {
+                message.error("Create Question failed!");
+              }
+
+              setIsSubmitting(false);
             })
             .catch(() => {
-              message.error("Create Question failed!");
-            })
-            .finally(() => {
-              setIsSubmitting(false);
+              message.error("Form validation failed!");
             });
         }}
       >

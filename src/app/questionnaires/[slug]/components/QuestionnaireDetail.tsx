@@ -1,31 +1,25 @@
 "use client";
-import { Form, Input, Upload, Radio, message, Card } from "antd";
-import type { Questionnaire } from "@/types/questionnaire";
-import { PlusOutlined } from "@ant-design/icons";
+import { Form, Input, Radio, message, Card } from "antd";
+import type { IQuestionnaire } from "@/types/questionnaire";
 import React, { useState } from "react";
 import TextArea from "antd/es/input/TextArea";
 import { updateQuestionnaire } from "../../actions";
 import { MyButton } from "@/components/MyButton";
-
-// const normFile = (e: string): string[] | string => {
-//   if (Array.isArray(e)) {
-//     return e;
-//   }
-//   return e.fileList;
-// };
+import Image from "next/image";
 
 const QuestionnaireDetailPage = ({
   questionnaire,
 }: {
-  questionnaire: Questionnaire;
+  questionnaire: IQuestionnaire;
 }): React.ReactElement => {
   const [form] = Form.useForm();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const thumbnail = Form.useWatch<string>("thumbnail", form);
 
   const handleUpdateQuestionnaire = (): void => {
     form
       .validateFields()
-      .then(async (values: Questionnaire) => {
+      .then(async (values: IQuestionnaire) => {
         setIsSubmitting(true);
         return updateQuestionnaire(values);
       })
@@ -66,17 +60,27 @@ const QuestionnaireDetailPage = ({
           <TextArea rows={4} />
         </Form.Item>
         <Form.Item
-          label="Thumbnail"
           name="thumbnail"
-          valuePropName="thumbnail"
-          // getValueFromEvent={normFile}
+          label="Thumbnail"
+          rules={[
+            { type: "url" },
+            // { type: "string", min: 6, warningOnly: true },
+          ]}
         >
-          <Upload action="/upload.do" listType="picture-card">
-            <div>
-              <PlusOutlined />
-              <div style={{ marginTop: 8 }}>Upload</div>
-            </div>
-          </Upload>
+          <Input />
+        </Form.Item>
+        <Form.Item wrapperCol={{ offset: 2, span: 16 }}>
+          {thumbnail && form.getFieldError("thumbnail").length === 0 && (
+            <Image
+              alt="thumbnail invalid"
+              width={0}
+              height={0}
+              sizes="100vw"
+              style={{ width: "400px", height: "auto" }}
+              loading="lazy"
+              src={`${thumbnail}`}
+            />
+          )}
         </Form.Item>
         <Form.Item label="Status" name="status">
           <Radio.Group buttonStyle="solid" optionType="button">

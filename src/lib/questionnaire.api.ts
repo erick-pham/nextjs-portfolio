@@ -1,11 +1,11 @@
-import type { Questionnaire } from "@/types/questionnaire";
 import type { IListItem, ISearchParam } from "@/types/page";
+import type { IQuestionnaire } from "@/types/questionnaire";
 
 export const getListQuestionnaires = async ({
   limit,
   page,
   searchTerm,
-}: ISearchParam): Promise<IListItem<Questionnaire>> => {
+}: ISearchParam): Promise<IListItem<IQuestionnaire>> => {
   const data = await fetch(
     `${process.env.BE_HOST}/api/questionnaires?limit=${limit}&page=${page}&searchTerm=${searchTerm}`,
     {
@@ -17,5 +17,5 @@ export const getListQuestionnaires = async ({
     }
   );
 
-  return data.json() as Promise<IListItem<Questionnaire>>;
+  return data.json() as Promise<IListItem<IQuestionnaire>>;
 };

@@ -1,35 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unnecessary-condition */
 import { QuestionStatusEnum } from "@/common/constants";
-import type { QuestionTypeEnum } from "@/common/constants";
+import type { IQuestion, IQuestionnaire } from "@/types/questionnaire";
 import { generateKey } from "@/util/crypto";
 import type { Model } from "mongoose";
 import mongoose from "mongoose";
-
-export interface IQuestionChoice {
-  code: string;
-  text: string;
-}
-export interface IQuestion {
-  choices: IQuestionChoice[];
-  createdAt: Date | string;
-  id: string;
-  name: string;
-  questionType: QuestionTypeEnum;
-  questionnaire: string;
-  status: QuestionStatusEnum;
-  updatedAt: Date;
-}
-
-export interface IQuestionnaire {
-  createdAt: string;
-  description: string;
-  id: string;
-  name: string;
-  questions: IQuestion[];
-  status: QuestionStatusEnum;
-  thumbnail: string;
-  updatedAt: Date;
-}
 
 export const QuestionSchema = new mongoose.Schema<IQuestion>(
   {

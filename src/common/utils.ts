@@ -1,6 +1,5 @@
-import type { PresetStatusColorType } from "antd/es/_util/colors";
-import { QuestionStatusEnum } from "./constants";
 import type { ILabel } from "@/types/base";
+import type { PresetColorKey } from "antd/es/theme/interface";
 
 export const getStatusColor = (status: string): string => {
   switch (status) {
@@ -30,17 +29,15 @@ export const waitFor = async (seconds: number): Promise<void> =>
     }, seconds)
   );
 
-export const getBadgeStatus = (
-  status: QuestionStatusEnum
-): PresetStatusColorType => {
+export const getBadgeStatus = (status: string): PresetColorKey => {
   switch (status) {
-    case QuestionStatusEnum.NEW:
-      return "processing";
-    case QuestionStatusEnum.ACTIVE:
-      return "success";
-    case QuestionStatusEnum.INACTIVE:
-      return "default";
+    case "NEW":
+      return "purple";
+    case "ACTIVE":
+      return "green";
+    case "INACTIVE":
+      return "gold";
     default:
-      return "default";
+      return "gold";
   }
 };

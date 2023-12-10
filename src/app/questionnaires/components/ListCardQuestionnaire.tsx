@@ -2,7 +2,7 @@
 import { format as datefnsFormat } from "date-fns";
 import { Flex, Card, Col, Row, Typography } from "antd";
 
-import type { Questionnaire } from "@/types/questionnaire";
+import type { IQuestionnaire } from "@/types/questionnaire";
 import Meta from "antd/es/card/Meta";
 import Link from "next/link";
 import { ClockCircleOutlined } from "@ant-design/icons";
@@ -12,12 +12,12 @@ import React from "react";
 const TableQuestionnaire = ({
   listQuestionnaires,
 }: {
-  listQuestionnaires: Questionnaire[];
+  listQuestionnaires: IQuestionnaire[];
 }): React.ReactElement => {
   return (
     <Row gutter={[16, 16]}>
       {listQuestionnaires.map(
-        ({ name, id, description, thumbnail, createdAt }: Questionnaire) => {
+        ({ name, id, description, thumbnail, createdAt }: IQuestionnaire) => {
           return (
             <Col xs={24} sm={24} md={12} lg={8} xl={4} key={id}>
               <Link href={`/questionnaires/${id}`}>

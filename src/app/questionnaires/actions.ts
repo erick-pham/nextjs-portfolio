@@ -1,14 +1,13 @@
 "use server";
 
 import connectToDatabase from "@/database/db";
-import type { IQuestion, IQuestionnaire } from "@/database/questionnaire";
+import type { IQuestion, IQuestionnaire } from "@/types/questionnaire";
 import { QuestionnaireModel, QuestionModel } from "@/database/questionnaire";
 import type { IListItem, ISearchParam } from "@/types/page";
-import type { Questionnaire } from "@/types/questionnaire";
 import { revalidatePath } from "next/cache";
 
 export const addQuestionnaire = async (
-  formData: Questionnaire
+  formData: IQuestionnaire
 ): Promise<void> => {
   await connectToDatabase();
   const newModel = new QuestionnaireModel(formData);
@@ -21,10 +20,10 @@ export const addQuestionnaire = async (
 export const listQuestionnaire = async ({
   limit,
   page,
-}: ISearchParam): Promise<IListItem<Questionnaire>> => {
+}: ISearchParam): Promise<IListItem<IQuestionnaire>> => {
   await connectToDatabase();
 
-  const listProducts: Questionnaire[] = await QuestionnaireModel.find()
+  const listProducts: IQuestionnaire[] = await QuestionnaireModel.find()
     .select("-_id -__v")
     .limit(limit * 1)
     .skip((page - 1) * limit)
@@ -69,7 +68,7 @@ export const getQuestionnaireById = async (
 };
 
 export const updateQuestionnaire = async (
-  questionnaireObj: Questionnaire
+  questionnaireObj: IQuestionnaire
 ): Promise<void> => {
   await connectToDatabase();
 
@@ -79,6 +78,7 @@ export const updateQuestionnaire = async (
     },
     {
       ...questionnaireObj,
+      questions: undefined,
     }
   )
     .lean()
@@ -99,6 +99,20 @@ export const addQuestion = async (questionObj: IQuestion): Promise<void> => {
     const newRecord = new QuestionModel(questionObj);
     await newRecord.save();
   }
+
+  revalidatePath("/questionnaires/[slug]", "page");
+};
+
+export const updateQuestion = async (questionObj: IQuestion): Promise<void> => {
+  await connectToDatabase();
+
+  await QuestionModel.updateOne(
+    {
+      id: questionObj.id,
+      questionnaire: questionObj.questionnaire,
+    },
+    questionObj
+  );
 
   revalidatePath("/questionnaires/[slug]", "page");
 };

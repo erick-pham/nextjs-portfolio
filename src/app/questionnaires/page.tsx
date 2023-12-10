@@ -2,7 +2,7 @@ import * as React from "react";
 import CreateProduct from "./components/CreateQuestionnaire";
 import { Flex } from "antd";
 import type { PageProps } from "@/types/page";
-import TableQuestionnaire from "./components/TableQuestionnaire";
+import ListCardQuestionnaire from "./components/ListCardQuestionnaire";
 import { listQuestionnaire } from "./actions";
 
 const QuestionnairePage: React.FC<PageProps> = async (props: PageProps) => {
@@ -18,7 +18,7 @@ const QuestionnairePage: React.FC<PageProps> = async (props: PageProps) => {
   return (
     <Flex gap={8} justify="flex-start" vertical>
       <CreateProduct />
-      <TableQuestionnaire listQuestionnaires={listQuestionnairesRes.data} />
+      <ListCardQuestionnaire listQuestionnaires={listQuestionnairesRes.data} />
     </Flex>
   );
 };

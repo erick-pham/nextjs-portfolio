@@ -1,6 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import { waitFor } from "@/common/utils";
-import type { Questionnaire } from "@/types/questionnaire";
+import type { IQuestionnaire } from "@/types/questionnaire";
 import type { NextResponse } from "next/server";
 import { NextResponse as ServerNextResponse } from "next/server";
 
@@ -10,18 +10,18 @@ export const GET = async (req: Request): Promise<NextResponse> => {
     const page = Number(searchParams.get("page")) || 1;
     const limit = 10;
     const totalCount = 100;
-    const listProducts: Questionnaire[] = [];
+    const listProducts: IQuestionnaire[] = [];
 
     for (let i = 0; i < totalCount; i++) {
       listProducts.push({
         id: i.toString(),
         name: `Question ${i}`,
         createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
+        updatedAt: new Date(),
         status: "NEW",
         description: `description ${i}`,
         thumbnail: "",
-        questions: null,
+        questions: [],
       });
     }
 

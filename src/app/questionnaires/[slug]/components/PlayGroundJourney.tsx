@@ -22,6 +22,8 @@ import { QuestionTypeEnum } from "@/common/constants";
 
 import { MyButton } from "@/components/MyButton";
 import { waitFor } from "@/common/utils";
+import type { Dayjs } from "dayjs";
+import dayjs from "dayjs";
 
 const renderJourneyQuestion = (
   question: IQuestion,
@@ -106,9 +108,9 @@ const renderJourneyQuestion = (
           rules={[{ required: true }]}
         >
           <Checkbox.Group
-            // onChange={() => {
-            //   onSubmitAnswer(question.id);
-            // }}
+            onChange={() => {
+              onSubmitAnswer(question.id);
+            }}
             options={question.choices.map((questionChoice: IQuestionChoice) => {
               return {
                 label: questionChoice.text,
@@ -124,8 +126,19 @@ const renderJourneyQuestion = (
           name={question.id}
           label={question.name}
           rules={[{ required: true }]}
+          getValueFromEvent={(eventDate: Dayjs) =>
+            eventDate.format("YYYY-MM-DD")
+          }
+          getValueProps={(eventDateValue: string) => ({
+            value: eventDateValue ? dayjs(eventDateValue) : "",
+          })}
         >
-          <DatePicker />
+          <DatePicker
+            format="YYYY-MM-DD"
+            onChange={() => {
+              onSubmitAnswer(question.id);
+            }}
+          />
         </Form.Item>
       );
 

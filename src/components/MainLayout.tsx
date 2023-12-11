@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 
 import {
   DesktopOutlined,
@@ -71,7 +71,7 @@ const getBreadcrumb = (path: string): string => {
 const MainLayout: React.FC<React.PropsWithChildren> = ({
   children,
 }: React.PropsWithChildren) => {
-  const [collapsed, setCollapsed] = useState(false);
+  // const [collapsed, setCollapsed] = useState(false);
   const pathname = usePathname();
 
   const {
@@ -82,10 +82,12 @@ const MainLayout: React.FC<React.PropsWithChildren> = ({
     <Layout style={{ minHeight: "100vh" }}>
       <Sider
         collapsible
-        collapsed={collapsed}
-        onCollapse={(value: boolean) => {
-          setCollapsed(value);
-        }}
+        breakpoint="lg"
+        collapsedWidth="0"
+        // collapsed={collapsed}
+        // onCollapse={(value: boolean) => {
+        //   setCollapsed(value);
+        // }}
       >
         <Menu
           theme="dark"

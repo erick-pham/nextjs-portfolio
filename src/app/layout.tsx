@@ -18,11 +18,11 @@ const RootLayout: React.FC<React.PropsWithChildren> = ({
     <body className={inter.className}>
       <StyledComponentsRegistry>
         <ConfigProvider
-        // theme={{
-        //   token: {
-        //     colorPrimary: "rgb(23, 162, 184)",
-        //   },
-        // }}
+          theme={{
+            token: {
+              colorPrimary: "rgb(23, 162, 184)",
+            },
+          }}
         >
           {children}
         </ConfigProvider>

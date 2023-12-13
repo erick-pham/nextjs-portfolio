@@ -32,13 +32,13 @@ const TableQuestionnaire = ({
                       width={0}
                       height={0}
                       sizes="100vw"
-                      style={{ width: "100%", height: "auto" }}
+                      style={{
+                        width: "100%",
+                        height: "200px",
+                        //  h maxHeight: "200px",
+                      }}
                       loading="lazy"
-                      src={`${
-                        thumbnail
-                          ? thumbnail
-                          : "https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
-                      }`}
+                      src={`${thumbnail}`}
                     />
                   }
                   // actions={[

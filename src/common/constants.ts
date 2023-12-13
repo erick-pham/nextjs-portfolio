@@ -10,6 +10,7 @@ export enum QuestionTypeEnum {
   NUMBER = "NUMBER",
   DATE = "DATE",
   RATING = "RATING",
+  RADIO = "RADIO",
   SINGLE_CHOICE = "SINGLE_CHOICE",
   MULTIPLE_CHOICE = "MULTIPLE_CHOICE",
 }
@@ -37,6 +38,10 @@ export const QUESTION_TYPE_LABEL: {
   {
     code: QuestionTypeEnum.RATING,
     label: "Rating",
+  },
+  {
+    code: QuestionTypeEnum.RADIO,
+    label: "Radio",
   },
   {
     code: QuestionTypeEnum.SINGLE_CHOICE,

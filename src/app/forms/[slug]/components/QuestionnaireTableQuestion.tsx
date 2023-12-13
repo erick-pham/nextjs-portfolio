@@ -10,7 +10,10 @@ import DeleteQuestionPopconfirm from "./DeleteQuestionPopconfirm.component";
 import EditQuestionModal from "./EditQuestionModal";
 import { QUESTION_TYPE_LABEL } from "@/common/constants";
 import type { IQuestion, IQuestionnaire } from "@/types/questionnaire";
-import PlayGroundJourney from "./PlayGroundJourney";
+import { PlayCircleOutlined } from "@ant-design/icons";
+import { MyButton } from "@/components/MyButton";
+import Link from "next/link";
+
 interface DataType extends IQuestion {
   key: string;
 }
@@ -66,7 +69,12 @@ const QuestionnaireTableQuestion = ({
     <Card>
       <Flex gap={8} justify="flex-start">
         <CreateQuestion questionnaire={questionnaire} />
-        <PlayGroundJourney questionnaire={questionnaire} />
+
+        <MyButton type="primary" color="primary" icon={<PlayCircleOutlined />}>
+          <Link href={`/forms-submission/${questionnaire.id}`} target="_blank">
+            View Form
+          </Link>
+        </MyButton>
       </Flex>
 
       <Table

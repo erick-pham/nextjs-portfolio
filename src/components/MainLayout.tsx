@@ -36,11 +36,7 @@ const getItem = (
 
 const items: MenuItem[] = [
   getItem(<Link href="/">Home</Link>, "1", <PieChartOutlined />),
-  getItem(
-    <Link href="/questionnaires">Questionnaires</Link>,
-    "2",
-    <InboxOutlined />
-  ),
+  getItem(<Link href="/forms">Forms</Link>, "2", <InboxOutlined />),
   getItem(<Link href="/tasks">Tasks</Link>, "3", <DesktopOutlined />),
   getItem("User", "sub1", <UserOutlined />, [
     getItem("Tom", "sub1-1"),
@@ -57,7 +53,7 @@ const items: MenuItem[] = [
 const getBreadcrumb = (path: string): string => {
   if (!path) return "";
 
-  if (/\/questionnaires/.test(path)) {
+  if (/\/forms/.test(path)) {
     return "2";
   }
 

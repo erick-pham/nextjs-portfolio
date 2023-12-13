@@ -16,7 +16,7 @@ const CreateQuestionnaire = (): React.ReactElement => {
     <div>
       <Modal
         open={openCreateQuestionnaireModal}
-        title="Create a new Questionnaire"
+        title="Create a Form"
         okText="Create"
         okButtonProps={{
           loading: isSubmitting,
@@ -90,7 +90,7 @@ const CreateQuestionnaire = (): React.ReactElement => {
             setOpenCreateQuestionnaireModal(true);
           }}
         >
-          New Questionnaire
+          New Form
         </MyButton>
       </Flex>
     </div>

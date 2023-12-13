@@ -14,7 +14,7 @@ export const addQuestionnaire = async (
 
   await newModel.save();
 
-  revalidatePath("/questionnaires");
+  revalidatePath("/forms");
 };
 
 export const listQuestionnaire = async ({
@@ -84,7 +84,7 @@ export const updateQuestionnaire = async (
     .lean()
     .exec();
 
-  // revalidatePath("/questionnaires/[slug]");
+  // revalidatePath("/forms/[slug]");
 };
 
 /// Handle CRUD question
@@ -100,7 +100,7 @@ export const addQuestion = async (questionObj: IQuestion): Promise<void> => {
     await newRecord.save();
   }
 
-  revalidatePath("/questionnaires/[slug]", "page");
+  revalidatePath("/forms/[slug]", "page");
 };
 
 export const updateQuestion = async (questionObj: IQuestion): Promise<void> => {
@@ -114,7 +114,7 @@ export const updateQuestion = async (questionObj: IQuestion): Promise<void> => {
     questionObj
   );
 
-  revalidatePath("/questionnaires/[slug]", "page");
+  revalidatePath("/forms/[slug]", "page");
 };
 
 export const deleteQuestion = async (
@@ -128,5 +128,5 @@ export const deleteQuestion = async (
     questionnaire: questionnaireId,
   });
 
-  revalidatePath("/questionnaires/[slug]", "page");
+  revalidatePath("/forms/[slug]", "page");
 };

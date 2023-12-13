@@ -20,7 +20,7 @@ const TableQuestionnaire = ({
         ({ name, id, description, thumbnail, createdAt }: IQuestionnaire) => {
           return (
             <Col xs={24} sm={24} md={12} lg={8} xl={4} key={id}>
-              <Link href={`/questionnaires/${id}`}>
+              <Link href={`/forms/${id}`}>
                 <Card
                   hoverable
                   title={name}

@@ -21,6 +21,7 @@ export const renderAdditionQuestionForm = (
   questionType: QuestionTypeEnum
 ): ReactElement => {
   switch (questionType) {
+    case QuestionTypeEnum.RADIO:
     case QuestionTypeEnum.MULTIPLE_CHOICE:
     case QuestionTypeEnum.SINGLE_CHOICE:
       return (

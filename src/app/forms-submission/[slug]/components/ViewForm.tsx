@@ -2,17 +2,17 @@
 import {
   Form,
   Input,
-  Modal,
   message,
   Radio,
   Rate,
   Select,
   DatePicker,
   Checkbox,
+  Space,
+  Card,
 } from "antd";
 import type { ReactElement } from "react";
 import { useState } from "react";
-import { PlayCircleOutlined } from "@ant-design/icons";
 import type {
   IQuestionnaire,
   IQuestion,
@@ -108,16 +108,22 @@ const renderJourneyQuestion = (
           rules={[{ required: true }]}
         >
           <Checkbox.Group
+            style={{ display: "inline-block", marginRight: 10 }}
             onChange={() => {
               onSubmitAnswer(question.id);
             }}
-            options={question.choices.map((questionChoice: IQuestionChoice) => {
-              return {
-                label: questionChoice.text,
-                value: questionChoice.code,
-              };
-            })}
-          ></Checkbox.Group>
+          >
+            <Space direction="vertical">
+              {question.choices.map((questionChoice: IQuestionChoice) => (
+                <Checkbox
+                  key={`MULTIPLE_CHOICE_CHECKBOX_${questionChoice.code}`}
+                  value={`${questionChoice.code}`}
+                >
+                  {questionChoice.text}
+                </Checkbox>
+              ))}
+            </Space>
+          </Checkbox.Group>
         </Form.Item>
       );
     case QuestionTypeEnum.DATE:
@@ -141,19 +147,42 @@ const renderJourneyQuestion = (
           />
         </Form.Item>
       );
-
+    case QuestionTypeEnum.RADIO:
+      return (
+        <Form.Item
+          name={question.id}
+          label={question.name}
+          rules={[{ required: true }]}
+        >
+          <Radio.Group
+            onChange={() => {
+              onSubmitAnswer(question.id);
+            }}
+          >
+            <Space direction="vertical">
+              {question.choices.map((questionChoice: IQuestionChoice) => (
+                <Radio
+                  key={`RADIO_${questionChoice.code}`}
+                  value={`${questionChoice.code}`}
+                >
+                  {questionChoice.text}
+                </Radio>
+              ))}
+            </Space>
+          </Radio.Group>
+        </Form.Item>
+      );
     default:
       return <></>;
   }
 };
 
-const PlayGroundJourney = ({
+const ViewForm = ({
   questionnaire,
 }: {
   questionnaire: IQuestionnaire;
 }): React.ReactElement => {
   const [form] = Form.useForm();
-  const [openPlayQuestionModal, setOpenPlayQuestionModal] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const onSubmitAnswer = (questionId: string): void => {
@@ -179,52 +208,27 @@ const PlayGroundJourney = ({
   };
 
   return (
-    <div>
-      <Modal
-        centered
-        open={openPlayQuestionModal}
-        title="Play journey"
-        cancelText="Cancel"
-        okText="Complete"
-        onCancel={() => {
-          setOpenPlayQuestionModal(false);
-        }}
-        onOk={() => {
-          setOpenPlayQuestionModal(false);
-        }}
-        okButtonProps={{
-          loading: isSubmitting,
-        }}
-        cancelButtonProps={{
-          disabled: isSubmitting,
-        }}
-        style={{ margin: 50 }}
+    <Card title={questionnaire.name} bordered={false}>
+      <Form
+        form={form}
+        layout="vertical"
+        name="create-question-form-in-modal"
+        disabled={isSubmitting}
+        validateTrigger="onBlur"
       >
-        <Form
-          form={form}
-          layout="vertical"
-          name="create-question-form-in-modal"
-          disabled={isSubmitting}
-          validateTrigger="onBlur"
-        >
-          {questionnaire.questions.map((question: IQuestion) =>
-            renderJourneyQuestion(question, onSubmitAnswer, isSubmitting)
-          )}
-        </Form>
-      </Modal>
-
-      <MyButton
-        type="primary"
-        color="primary"
-        icon={<PlayCircleOutlined />}
-        onClick={() => {
-          setOpenPlayQuestionModal(true);
-        }}
-      >
-        Play Journey
-      </MyButton>
-    </div>
+        {questionnaire.questions.map((question: IQuestion) => (
+          <div key={question.id}>
+            {renderJourneyQuestion(question, onSubmitAnswer, isSubmitting)}
+          </div>
+        ))}
+        <Form.Item>
+          <MyButton type="primary" htmlType="submit">
+            Submit
+          </MyButton>
+        </Form.Item>
+      </Form>
+    </Card>
   );
 };
 
-export default PlayGroundJourney;
+export default ViewForm;

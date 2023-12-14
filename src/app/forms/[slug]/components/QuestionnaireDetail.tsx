@@ -69,14 +69,14 @@ const QuestionnaireDetailPage = ({
         >
           <Input />
         </Form.Item>
-        <Form.Item wrapperCol={{ offset: 2, span: 16 }}>
+        <Form.Item label="Preview">
           {thumbnail && form.getFieldError("thumbnail").length === 0 && (
             <Image
               alt="thumbnail invalid"
               width={0}
               height={0}
               sizes="100vw"
-              style={{ width: "400px", height: "auto" }}
+              style={{ marginLeft: "8px", width: "auto", height: "auto" }}
               loading="lazy"
               src={`${thumbnail}`}
             />

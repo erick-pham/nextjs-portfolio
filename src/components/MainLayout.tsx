@@ -106,7 +106,7 @@ const MainLayout: React.FC<React.PropsWithChildren> = ({
           <div
             style={{
               padding: 24,
-              minHeight: 360,
+              // minHeight: 360,
               background: colorBgContainer,
             }}
           >

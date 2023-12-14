@@ -3,7 +3,7 @@ import { Flex, Spin } from "antd";
 
 const AppLoading: React.FC = () => (
   <Flex gap="small" vertical>
-    <Spin size="large">
+    <Spin size="large" fullscreen={true} tip="Processing...">
       {/* <Alert
         message="Alert message title"
         description="Further details about the context of this alert."

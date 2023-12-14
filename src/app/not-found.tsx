@@ -29,7 +29,7 @@ const NotFoundPage: React.FC = () => (
         Oops! The page you are looking for isn’t here.
       </Typography.Title>
 
-      <NextLink href="/forms" passHref>
+      <NextLink href="/" passHref>
         <Button
           type="primary"
           icon={<ArrowLeftOutlined size={20} />}

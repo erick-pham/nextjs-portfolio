@@ -2,7 +2,7 @@ import React from "react";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import StyledComponentsRegistry from "../lib/AntdRegistry";
-import { ConfigProvider } from "antd";
+import { ConfigProvider, Layout } from "antd";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,7 +24,7 @@ const RootLayout: React.FC<React.PropsWithChildren> = ({
             },
           }}
         >
-          {children}
+          <Layout style={{ minHeight: "100vh" }}>{children}</Layout>
         </ConfigProvider>
       </StyledComponentsRegistry>
     </body>

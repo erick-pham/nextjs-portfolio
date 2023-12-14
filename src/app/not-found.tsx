@@ -14,6 +14,7 @@ const NotFoundPage: React.FC = () => (
         alignItems: "center",
         display: "flex",
         flexDirection: "column",
+        margin: "auto",
       }}
     >
       <Typography.Title
@@ -25,7 +26,14 @@ const NotFoundPage: React.FC = () => (
       >
         404: PAGE NOT FOUND
       </Typography.Title>
-      <Typography.Title type="success" level={2}>
+      <Typography.Title
+        style={{
+          alignItems: "center",
+          padding: "8px",
+        }}
+        type="success"
+        level={2}
+      >
         Oops! The page you are looking for isn’t here.
       </Typography.Title>
 

@@ -10,6 +10,9 @@ export const addQuestionnaire = async (
   formData: IQuestionnaire
 ): Promise<void> => {
   await connectToDatabase();
+  if (!formData.thumbnail) {
+    formData.thumbnail = "https://picsum.photos/300";
+  }
   const newModel = new QuestionnaireModel(formData);
 
   await newModel.save();

@@ -1,5 +1,4 @@
 import type { ILabel } from "@/types/base";
-import type { PresetColorKey } from "antd/es/theme/interface";
 
 export const getStatusColor = (status: string): string => {
   switch (status) {
@@ -29,7 +28,7 @@ export const waitFor = async (seconds: number): Promise<void> =>
     }, seconds)
   );
 
-export const getBadgeStatus = (status: string): PresetColorKey => {
+export const getBadgeStatus = (status: string): string => {
   switch (status) {
     case "NEW":
       return "purple";

@@ -2,22 +2,27 @@
 
 import connectToDatabase from "@/database/db";
 import type { IQuestion, IQuestionnaire } from "@/types/questionnaire";
-import { QuestionnaireModel, QuestionModel } from "@/database/questionnaire";
-import type { IListItem, ISearchParam } from "@/types/page";
-import { revalidatePath } from "next/cache";
+import { FormModel, QuestionModel } from "@/database/form";
+import type { IActionResponse } from "@/types/base";
+import type { IListItem, ISearchParam } from "@/types/base";
+import { revalidatePath, revalidateTag } from "next/cache";
+import { QuestionStatusEnum } from "@/common/constants";
+import { InternalResponse } from "@/common/InternalResponse";
 
 export const addQuestionnaire = async (
   formData: IQuestionnaire
-): Promise<void> => {
+): Promise<IActionResponse<null>> => {
   await connectToDatabase();
   if (!formData.thumbnail) {
     formData.thumbnail = "https://picsum.photos/300";
   }
-  const newModel = new QuestionnaireModel(formData);
+  const newModel = new FormModel(formData);
 
   await newModel.save();
 
-  revalidatePath("/forms");
+  revalidateTag("list-form");
+
+  return new InternalResponse<null>().toJSON();
 };
 
 export const listQuestionnaire = async ({
@@ -26,19 +31,23 @@ export const listQuestionnaire = async ({
 }: ISearchParam): Promise<IListItem<IQuestionnaire>> => {
   await connectToDatabase();
 
-  const listProducts: IQuestionnaire[] = await QuestionnaireModel.find()
+  const listProducts: IQuestionnaire[] = await FormModel.find()
     .select("-_id -__v")
+    .where({
+      status: [QuestionStatusEnum.DRAFT, QuestionStatusEnum.ACTIVE],
+    })
     .limit(limit * 1)
     .skip((page - 1) * limit)
     .sort({ updatedAt: -1 })
     .lean()
     .exec();
 
-  const countQuestionnaireDocuments = await QuestionnaireModel.countDocuments();
+  const countQuestionnaireDocuments = await FormModel.countDocuments();
 
   return {
     data: listProducts,
     totalCount: countQuestionnaireDocuments,
+    success: true,
   };
 };
 
@@ -47,13 +56,12 @@ export const getQuestionnaireById = async (
 ): Promise<IQuestionnaire | null> => {
   await connectToDatabase();
 
-  const questionnaireRecord: IQuestionnaire | null =
-    await QuestionnaireModel.findOne({
-      id: id,
-    })
-      .select("-_id -__v")
-      .lean()
-      .exec();
+  const questionnaireRecord: IQuestionnaire | null = await FormModel.findOne({
+    id: id,
+  })
+    .select("-_id -__v")
+    .lean()
+    .exec();
 
   const questions = await QuestionModel.find({
     questionnaire: id,
@@ -70,12 +78,12 @@ export const getQuestionnaireById = async (
     : null;
 };
 
-export const updateQuestionnaire = async (
+export const updateFormAction = async (
   questionnaireObj: IQuestionnaire
-): Promise<void> => {
+): Promise<IActionResponse<null>> => {
   await connectToDatabase();
 
-  await QuestionnaireModel.findOneAndUpdate(
+  await FormModel.findOneAndUpdate(
     {
       id: questionnaireObj.id,
     },
@@ -87,14 +95,18 @@ export const updateQuestionnaire = async (
     .lean()
     .exec();
 
-  // revalidatePath("/forms/[slug]");
+  // revalidatePath("/forms", "page");
+  revalidateTag("list-form");
+  return new InternalResponse<null>().toJSON();
 };
 
 /// Handle CRUD question
-export const addQuestion = async (questionObj: IQuestion): Promise<void> => {
+export const addQuestion = async (
+  questionObj: IQuestion
+): Promise<IActionResponse<null>> => {
   await connectToDatabase();
 
-  const questionnaireRecord = await QuestionnaireModel.findOne({
+  const questionnaireRecord = await FormModel.findOne({
     id: questionObj.questionnaire,
   });
 
@@ -104,9 +116,12 @@ export const addQuestion = async (questionObj: IQuestion): Promise<void> => {
   }
 
   revalidatePath("/forms/[slug]", "page");
+  return new InternalResponse<null>().toJSON();
 };
 
-export const updateQuestion = async (questionObj: IQuestion): Promise<void> => {
+export const updateQuestion = async (
+  questionObj: IQuestion
+): Promise<IActionResponse<null>> => {
   await connectToDatabase();
 
   await QuestionModel.updateOne(
@@ -118,12 +133,13 @@ export const updateQuestion = async (questionObj: IQuestion): Promise<void> => {
   );
 
   revalidatePath("/forms/[slug]", "page");
+  return new InternalResponse<null>().toJSON();
 };
 
 export const deleteQuestion = async (
   questionnaireId: string,
   questionId: string
-): Promise<void> => {
+): Promise<IActionResponse<null>> => {
   await connectToDatabase();
 
   await QuestionModel.deleteOne({
@@ -132,4 +148,6 @@ export const deleteQuestion = async (
   });
 
   revalidatePath("/forms/[slug]", "page");
+
+  return new InternalResponse<null>().toJSON();
 };

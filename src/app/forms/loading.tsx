@@ -1,6 +1,6 @@
 import AppLoading from "@/components/Loading";
-import React from "react";
+import type { ReactElement } from "react";
 
-export default function Loading(): React.ReactElement {
+export default function Loading(): ReactElement {
   return <AppLoading />;
 }

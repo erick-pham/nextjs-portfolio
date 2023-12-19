@@ -1,26 +1,19 @@
-import * as React from "react";
-import CreateForm from "./components/CreateQuestionnaire";
-import { Flex } from "antd";
-import type { PageProps } from "@/types/page";
-import ListCardQuestionnaire from "./components/ListCardQuestionnaire";
-import { listQuestionnaire } from "./actions";
+import type { ReactElement } from "react";
+import CreateForm from "./components/CreateForm.component";
+import type { PageProps } from "@/types/base";
+import ListCardForm from "./components/ListCardForm.component";
+import { Grid } from "@mui/material";
+import { getListForm } from "@/lib/forms.api";
 
-const QuestionnairePage: React.FC<PageProps> = async (props: PageProps) => {
-  const LIMIT = 10;
-  const currentPage = Number(props.searchParams.page || 1);
-
-  const listQuestionnairesRes = await listQuestionnaire({
-    limit: LIMIT,
-    page: currentPage,
-    searchTerm: "",
-  });
+const FormPage = async ({ searchParams }: PageProps): Promise<ReactElement> => {
+  const listForms = await getListForm(searchParams);
 
   return (
-    <Flex gap={8} justify="flex-start" vertical>
+    <Grid gap={8}>
       <CreateForm />
-      <ListCardQuestionnaire listQuestionnaires={listQuestionnairesRes.data} />
-    </Flex>
+      <ListCardForm listForms={listForms} />
+    </Grid>
   );
 };
 
-export default QuestionnairePage;
+export default FormPage;

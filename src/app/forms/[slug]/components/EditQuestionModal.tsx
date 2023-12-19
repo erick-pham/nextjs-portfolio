@@ -1,123 +1,145 @@
 "use client";
-import { Flex, Form, Input, Modal, message, Select } from "antd";
 import { useState } from "react";
-import { EditOutlined } from "@ant-design/icons";
+
 import { updateQuestion } from "../../actions";
 import type { IQuestion } from "@/types/questionnaire";
-import type { QuestionTypeEnum } from "@/common/constants";
+import { QUESTION_TYPE_LABEL, type QuestionTypeEnum } from "@/common/constants";
 
+import { RenderAdditionQuestionForm } from "./AdditionQuestionForm";
+import { EditOutlined } from "@mui/icons-material";
 import {
-  renderAdditionQuestionForm,
-  renderQuestionTypeSelection,
-} from "./AdditionQuestionForm";
-import { MyButton } from "@/components/MyButton";
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Grid,
+  IconButton,
+} from "@mui/material";
+import LoadingWrapper from "@/components/LoadingWrapper";
+import type { FieldValues } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
+import { FormInputText } from "@/components/Form/FormInputText";
+import { FormSelect } from "@/components/Form/FormSelect";
+import toast from "react-hot-toast";
 
 const EditQuestionModal = ({
   question,
 }: {
   question: IQuestion;
 }): React.ReactElement => {
-  const [form] = Form.useForm();
-  const [openCreateQuestionModal, setOpenCreateQuestionModal] = useState(false);
-  const [questionType, setQuestionType] = useState<QuestionTypeEnum>();
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [openEditQuestionModal, setOpenEditQuestionModal] = useState(false);
+  const [isSubmittingEditModal, setIsSubmittingEditModal] = useState(false);
+
+  const editFormQuestionMethod = useForm<FieldValues>({
+    mode: "all",
+    defaultValues: question,
+  });
+
+  const {
+    getValues,
+    watch,
+    formState: { isValid },
+    reset,
+  } = editFormQuestionMethod;
+  const questionTypeWatcher = watch("questionType") as string;
+
+  const handleCloseUpdateQuestionModal = (): void => {
+    setOpenEditQuestionModal(false);
+    reset();
+  };
+
+  const handleUpdateQuestion = (): void => {
+    new Promise((): void => {
+      (async (): Promise<void> => {
+        try {
+          setIsSubmittingEditModal(true);
+          const updateQuestionFormRes = await updateQuestion(
+            getValues() as IQuestion
+          );
+
+          toast.success(updateQuestionFormRes.message);
+          setOpenEditQuestionModal(false);
+        } catch (error) {
+          console.log(error);
+        } finally {
+          setIsSubmittingEditModal(false);
+        }
+      })();
+    });
+  };
 
   return (
-    <div>
-      <Modal
-        open={openCreateQuestionModal}
-        title="Update question"
-        okText="Update"
-        okButtonProps={{
-          loading: isSubmitting,
-        }}
-        cancelButtonProps={{
-          disabled: isSubmitting,
-        }}
-        cancelText="Cancel"
-        onCancel={() => {
-          setOpenCreateQuestionModal(false);
-        }}
-        onOk={() => {
-          form
-            .validateFields()
-            .then(async (values: IQuestion) => {
-              setIsSubmitting(true);
-
-              try {
-                await updateQuestion(values);
-                form.resetFields();
-                setOpenCreateQuestionModal(false);
-                message.success("Update Question success!");
-              } catch (error) {
-                message.error("Update Question failed!");
-              }
-
-              setIsSubmitting(false);
-            })
-            .catch(() => {
-              message.error("Form validation failed!");
-            });
+    <>
+      <IconButton
+        color="info"
+        onClick={() => {
+          setOpenEditQuestionModal(true);
         }}
       >
-        <Form
-          form={form}
-          layout="vertical"
-          name="create-question-form-in-modal"
-          disabled={isSubmitting}
-          initialValues={question}
-        >
-          <Form.Item name="id" hidden>
-            <Input />
-          </Form.Item>
-          <Form.Item name="questionnaire" hidden>
-            <Input />
-          </Form.Item>
-          <Form.Item
-            name="name"
-            label="Name"
-            rules={[
-              {
-                required: true,
-                message: "Please input the name!",
-              },
-            ]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            name="questionType"
-            label="Type"
-            rules={[{ required: true }]}
-          >
-            <Select
-              placeholder="Select a type"
-              allowClear
-              onChange={(selectedType: QuestionTypeEnum): void => {
-                setQuestionType(selectedType);
-              }}
+        <EditOutlined />
+      </IconButton>
+      <Dialog
+        open={openEditQuestionModal}
+        onClose={handleCloseUpdateQuestionModal}
+        fullWidth
+      >
+        <LoadingWrapper loading={isSubmittingEditModal}>
+          <DialogTitle>Update Form Question</DialogTitle>
+          <DialogContent dividers>
+            <FormProvider {...editFormQuestionMethod}>
+              <Grid container>
+                <Grid item xs={12}>
+                  <FormInputText
+                    multiline
+                    label="Name"
+                    fieldName="name"
+                    validation={{
+                      required: "This field required",
+                    }}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <FormSelect
+                    fieldName="questionType"
+                    label="Type"
+                    placeholder="Select a type"
+                    options={QUESTION_TYPE_LABEL}
+                    fullWidth={false}
+                  />
+                </Grid>
+
+                {questionTypeWatcher && (
+                  <Grid item xs={12} p={4}>
+                    <RenderAdditionQuestionForm
+                      questionType={questionTypeWatcher as QuestionTypeEnum}
+                    />
+                  </Grid>
+                )}
+              </Grid>
+            </FormProvider>
+          </DialogContent>
+          <DialogActions>
+            <Button
+              onClick={handleCloseUpdateQuestionModal}
+              variant="contained"
+              color="info"
             >
-              {renderQuestionTypeSelection()}
-            </Select>
-          </Form.Item>
-
-          {questionType && renderAdditionQuestionForm(questionType)}
-        </Form>
-      </Modal>
-
-      <Flex justify="flex-start" align="center" style={{ marginBottom: 8 }}>
-        <MyButton
-          type="primary"
-          color="primary"
-          icon={<EditOutlined />}
-          onClick={() => {
-            setOpenCreateQuestionModal(true);
-          }}
-        >
-          Edit
-        </MyButton>
-      </Flex>
-    </div>
+              Cancel
+            </Button>
+            <Button
+              onClick={handleUpdateQuestion}
+              autoFocus
+              variant="contained"
+              color="success"
+              disabled={!isValid}
+            >
+              Save
+            </Button>
+          </DialogActions>
+        </LoadingWrapper>
+      </Dialog>
+    </>
   );
 };
 

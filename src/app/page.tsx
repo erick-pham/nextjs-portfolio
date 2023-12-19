@@ -1,7 +1,6 @@
-import MainLayout from "@/components/MainLayout";
+import AdminRootLayout from "@/components/Admin/AdminRootLayout";
+import type { ReactNode } from "react";
 
-const HomePage: React.FC<React.PropsWithChildren> = ({
-  children,
-}: React.PropsWithChildren) => <MainLayout>{children}</MainLayout>;
+const HomePage = (): ReactNode => <AdminRootLayout>HomePage</AdminRootLayout>;
 
 export default HomePage;

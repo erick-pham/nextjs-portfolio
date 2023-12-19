@@ -1,4 +1,4 @@
-import type { IListItem, ISearchParam } from "@/types/page.interface";
+import type { IListItem, ISearchParam } from "@/types/base";
 import type { IQuestionnaire } from "@/types/questionnaire";
 
 export const getListForm = async (

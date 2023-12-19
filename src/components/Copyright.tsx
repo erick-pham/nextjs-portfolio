@@ -2,12 +2,12 @@ import Typography from "@mui/material/Typography";
 
 export default function Copyright(): React.ReactElement {
   return (
-    <Typography variant="body2" color="text.secondary" align="center">
+    <Typography variant="body2" color="text.secondary" align="center" m={2}>
       {"Copyright © By ErickPham"}
       {/* <MuiLink color="inherit" href="https://erickpham-nextjs.vercel.app">
         https://erickpham-nextjs.vercel.app
       </MuiLink> */}{" "}
-      {new Date().getFullYear()}.
+      {new Date().getFullYear()}
     </Typography>
   );
 }

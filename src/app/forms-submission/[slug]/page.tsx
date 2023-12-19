@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-redundant-type-constituents */
-import type { PageProps } from "@/types/page.interface";
+import type { PageProps } from "@/types/base";
 import { notFound } from "next/navigation";
 import { getQuestionnaireById } from "../../forms/actions";
 import { Grid } from "@mui/material";
@@ -19,7 +19,7 @@ const QuestionDetailPage = async (
 
   return (
     <Grid container spacing={2} justifyContent="center" alignItems="flex-start">
-      <Grid item sm={6} py={8}>
+      <Grid item xs={12} sm={12} md={6} m={4}>
         <ViewForm questionnaire={question}></ViewForm>
       </Grid>
     </Grid>

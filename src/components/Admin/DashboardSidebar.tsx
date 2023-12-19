@@ -98,8 +98,8 @@ export const DashboardSidebar = ({
               <NextImage
                 alt="logo"
                 src="/static/images/logo.png"
-                height={60}
-                width={80}
+                height={45}
+                width={160}
               ></NextImage>
             </NextLink>
           </Box>
@@ -118,19 +118,9 @@ export const DashboardSidebar = ({
             >
               <div>
                 <Typography color="inherit" variant="subtitle1">
-                  Acme Inc
-                </Typography>
-                <Typography color="neutral.400" variant="body2">
-                  Your tier : Premium
+                  Erick Pham
                 </Typography>
               </div>
-              {/* <SelectorIcon
-                sx={{
-                  color: "neutral.500",
-                  width: 14,
-                  height: 14,
-                }}
-              /> */}
             </Box>
           </Box>
         </div>
@@ -162,7 +152,7 @@ export const DashboardSidebar = ({
         open
         PaperProps={{
           sx: {
-            backgroundColor: "neutral.900",
+            backgroundColor: "grey.900",
             color: "#FFFFFF",
             width: 220,
           },
@@ -181,7 +171,7 @@ export const DashboardSidebar = ({
       open={open}
       PaperProps={{
         sx: {
-          backgroundColor: "neutral.900",
+          backgroundColor: "grey.900",
           color: "#FFFFFF",
           width: 220,
         },

@@ -3,8 +3,8 @@
 import connectToDatabase from "@/database/db";
 import type { IQuestion, IQuestionnaire } from "@/types/questionnaire";
 import { FormModel, QuestionModel } from "@/database/form";
-import type { IActionResponse } from "@/types/page.interface";
-import type { IListItem, ISearchParam } from "@/types/page.interface";
+import type { IActionResponse } from "@/types/base";
+import type { IListItem, ISearchParam } from "@/types/base";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { QuestionStatusEnum } from "@/common/constants";
 import { InternalResponse } from "@/common/InternalResponse";

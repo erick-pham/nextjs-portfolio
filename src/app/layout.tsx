@@ -1,6 +1,6 @@
 import React from "react";
 // import { Inter } from "next/font/google";
-// import "./globals.css";
+import "./globals.css";
 import ThemeRegistry from "@/components/ThemeRegistry/ThemeRegistry";
 import { Toaster } from "react-hot-toast";
 import Copyright from "@/components/Copyright";

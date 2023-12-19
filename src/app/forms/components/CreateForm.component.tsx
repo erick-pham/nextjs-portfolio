@@ -14,7 +14,7 @@ import LoadingWrapper from "@/components/LoadingWrapper";
 import { useForm, type FieldValues, FormProvider } from "react-hook-form";
 import { FormInputText } from "@/components/Form/FormInputText";
 import toast from "react-hot-toast";
-import type { IActionResponse } from "@/types/page.interface";
+import type { IActionResponse } from "@/types/base";
 
 const CreateForm = (): React.ReactElement => {
   const [openCreateQuestionnaireModal, setOpenCreateQuestionnaireModal] =

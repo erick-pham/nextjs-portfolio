@@ -1,6 +1,6 @@
 import type { ReactElement } from "react";
 import CreateForm from "./components/CreateForm.component";
-import type { PageProps } from "@/types/page.interface";
+import type { PageProps } from "@/types/base";
 import ListCardForm from "./components/ListCardForm.component";
 import { Grid } from "@mui/material";
 import { getListForm } from "@/lib/forms.api";

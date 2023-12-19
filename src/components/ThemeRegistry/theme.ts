@@ -140,17 +140,6 @@ export const themeLight = createTheme({
   },
   palette: {
     mode: "light",
-    // neutral: {
-    //   100: "#F3F4F6",
-    //   200: "#E5E7EB",
-    //   300: "#D1D5DB",
-    //   400: "#9CA3AF",
-    //   500: "#6B7280",
-    //   600: "#4B5563",
-    //   700: "#374151",
-    //   800: "#1F2937",
-    //   900: "#111827",
-    // },
     action: {
       active: "#6B7280",
       focus: "rgba(55, 65, 81, 0.12)",
@@ -441,17 +430,6 @@ export const themeDark = createTheme({
   },
   palette: {
     mode: "dark",
-    // neutral: {
-    //   100: "#F3F4F6",
-    //   200: "#E5E7EB",
-    //   300: "#D1D5DB",
-    //   400: "#9CA3AF",
-    //   500: "#6B7280",
-    //   600: "#4B5563",
-    //   700: "#374151",
-    //   800: "#1F2937",
-    //   900: "#111827",
-    // },
     action: {
       active: "#6B7280",
       focus: "rgba(55, 65, 81, 0.12)",
@@ -501,12 +479,12 @@ export const themeDark = createTheme({
       dark: "#922E2E",
       contrastText: "#FFFFFF",
     },
-    // text: {
-    //   // primary: "#121828",
-    //   // secondary: "#65748B",
-    //   // primaryRed: "rgba(254, 52, 100, 0.9)",
-    //   // disabled: "rgba(55, 65, 81, 0.48)",
-    // },
+    text: {
+      primary: "#FFFFFF",
+      secondary: "#E5E5F7",
+      // primaryRed: "rgba(254, 52, 100, 0.9)",
+      disabled: "rgb(237,237,237, 0.78)",
+    },
   },
   shape: {
     borderRadius: 8,

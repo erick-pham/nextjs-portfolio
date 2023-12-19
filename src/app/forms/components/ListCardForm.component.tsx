@@ -3,18 +3,18 @@ import Link from "next/link";
 import Image from "next/image";
 import React from "react";
 import {
+  Button,
   Card,
   CardActions,
   CardContent,
   CardHeader,
   CardMedia,
   Grid,
-  IconButton,
   Typography,
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import LaunchIcon from "@mui/icons-material/Launch";
-import type { IListItem } from "@/types/page.interface";
+import type { IListItem } from "@/types/base";
 import { formatDate } from "@/util/date";
 
 const ListCardForm = ({
@@ -52,14 +52,18 @@ const ListCardForm = ({
                 </CardContent>
                 <CardActions disableSpacing>
                   <Link href={`/forms/${id}`}>
-                    <IconButton title="Edit" size="small">
-                      <EditIcon />
-                    </IconButton>
+                    <Button title="Edit" size="small" startIcon={<EditIcon />}>
+                      Edit
+                    </Button>
                   </Link>
                   <Link href={`/forms-submission/${id}`}>
-                    <IconButton title="Launch Form" size="small">
-                      <LaunchIcon />
-                    </IconButton>
+                    <Button
+                      title="Launch Form"
+                      size="small"
+                      startIcon={<LaunchIcon />}
+                    >
+                      View
+                    </Button>
                   </Link>
                 </CardActions>
               </Card>

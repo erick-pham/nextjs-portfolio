@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-redundant-type-constituents */
 import * as React from "react";
-import type { PageProps } from "@/types/page.interface";
+import type { PageProps } from "@/types/base";
 import { notFound } from "next/navigation";
 import { getQuestionnaireById } from "../actions";
 import FormDetail from "./components/FormDetail";

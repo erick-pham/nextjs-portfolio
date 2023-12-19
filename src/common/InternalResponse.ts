@@ -1,4 +1,4 @@
-import type { IActionResponse } from "@/types/page.interface";
+import type { IActionResponse } from "@/types/base";
 
 export class InternalResponse<T> {
   constructor(data?: {

@@ -56,7 +56,7 @@ const ListCardForm = ({
                       Edit
                     </Button>
                   </Link>
-                  <Link href={`/forms-submission/${id}`}>
+                  <Link href={`/forms-submission/${id}`} target="_blank">
                     <Button
                       title="Launch Form"
                       size="small"

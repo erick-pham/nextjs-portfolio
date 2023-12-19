@@ -1,8 +1,3 @@
-import React from "react";
-import MainLayout from "@/components/MainLayout";
+import AdminRootLayout from "@/components/Admin/AdminRootLayout";
 
-const RootLayout: React.FC<React.PropsWithChildren> = ({
-  children,
-}: React.PropsWithChildren) => <MainLayout>{children}</MainLayout>;
-
-export default RootLayout;
+export default AdminRootLayout;

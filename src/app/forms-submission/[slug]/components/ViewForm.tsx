@@ -1,18 +1,6 @@
 "use client";
-import {
-  Form,
-  Input,
-  message,
-  Radio,
-  Rate,
-  Select,
-  DatePicker,
-  Checkbox,
-  Space,
-  Card,
-} from "antd";
+
 import type { ReactElement } from "react";
-import { useState } from "react";
 import type {
   IQuestionnaire,
   IQuestion,
@@ -20,157 +8,124 @@ import type {
 } from "@/types/questionnaire";
 import { QuestionTypeEnum } from "@/common/constants";
 
-import { MyButton } from "@/components/MyButton";
-import { waitFor } from "@/common/utils";
-import type { Dayjs } from "dayjs";
-import dayjs from "dayjs";
+import {
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  CardHeader,
+  Divider,
+  Grid,
+} from "@mui/material";
+import type { FieldValues } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
+import { FormInputText } from "@/components/Form/FormInputText";
+import { FormSelect } from "@/components/Form/FormSelect";
+import { FormRating } from "@/components/Form/FormRating";
+import { FormRadioGroup } from "@/components/Form/FormRadioGroup";
+import { FormInputMultiCheckbox } from "@/components/Form/FormInputMultiCheckbox";
+import { FormDatePicker } from "@/components/Form/FormDatePicker";
 
 const renderJourneyQuestion = (
   question: IQuestion,
-  onSubmitAnswer: (questionId: string) => void,
-  isDisabled?: boolean
+  onSubmitAnswer: <T>(questionId: string, answer?: T) => void
 ): ReactElement => {
   switch (question.questionType) {
     case QuestionTypeEnum.TEXT:
       return (
-        <Form.Item
-          name={question.id}
+        <FormInputText
+          fieldName={question.id}
           label={question.name}
-          rules={[{ required: true }]}
-        >
-          <Input
-            onBlur={() => {
-              onSubmitAnswer(question.id);
-            }}
-          />
-        </Form.Item>
+          validation={{
+            required: "This field required.",
+          }}
+          onBlur={(): void => {
+            onSubmitAnswer(question.id);
+          }}
+        />
       );
     case QuestionTypeEnum.RATING:
       return (
-        <Form.Item
-          name={question.id}
+        <FormRating
+          fieldName={question.id}
           label={question.name}
-          rules={[{ required: true }]}
-        >
-          <Rate
-            disabled={isDisabled}
-            onChange={() => {
-              onSubmitAnswer(question.id);
-            }}
-          />
-        </Form.Item>
+          validation={{
+            required: "This field required.",
+          }}
+          externalOnChange={(value: number | null): void => {
+            onSubmitAnswer<number | null>(question.id, value);
+          }}
+        />
       );
     case QuestionTypeEnum.YES_NO:
       return (
-        <Form.Item
-          name={question.id}
+        <FormRadioGroup
+          fieldName={question.id}
           label={question.name}
-          rules={[{ required: true }]}
-        >
-          <Radio.Group
-            onChange={() => {
-              onSubmitAnswer(question.id);
-            }}
-          >
-            <Radio value={true}>Yes</Radio>
-            <Radio value={false}>No</Radio>
-          </Radio.Group>
-        </Form.Item>
+          options={[
+            {
+              code: "true",
+              label: "Yes",
+            },
+            {
+              code: "false",
+              label: "No",
+            },
+          ]}
+          externalOnChange={(answer: string): void => {
+            onSubmitAnswer<boolean>(question.id, answer === "true");
+          }}
+        />
       );
     case QuestionTypeEnum.SINGLE_CHOICE:
       return (
-        <Form.Item
-          name={question.id}
+        <FormSelect
+          fieldName={question.id}
           label={question.name}
-          rules={[{ required: true }]}
-        >
-          <Select
-            onChange={() => {
-              onSubmitAnswer(question.id);
-            }}
-          >
-            {question.choices.map((questionChoice: IQuestionChoice) => (
-              <Select.Option
-                key={questionChoice.code}
-                value={questionChoice.code}
-              >
-                {questionChoice.text}
-              </Select.Option>
-            ))}
-          </Select>
-        </Form.Item>
+          options={question.choices.map((questionChoice: IQuestionChoice) => {
+            return {
+              code: questionChoice.code,
+              label: questionChoice.text,
+            };
+          })}
+          externalOnChange={(answer: string): void => {
+            onSubmitAnswer<string>(question.id, answer);
+          }}
+        />
       );
-    case QuestionTypeEnum.MULTIPLE_CHOICE:
+    case QuestionTypeEnum.MULTIPLE_CHECKBOX:
       return (
-        <Form.Item
-          name={question.id}
+        <FormInputMultiCheckbox
+          fieldName={question.id}
           label={question.name}
-          rules={[{ required: true }]}
-        >
-          <Checkbox.Group
-            style={{ display: "inline-block", marginRight: 10 }}
-            onChange={() => {
-              onSubmitAnswer(question.id);
-            }}
-          >
-            <Space direction="vertical">
-              {question.choices.map((questionChoice: IQuestionChoice) => (
-                <Checkbox
-                  key={`MULTIPLE_CHOICE_CHECKBOX_${questionChoice.code}`}
-                  value={`${questionChoice.code}`}
-                >
-                  {questionChoice.text}
-                </Checkbox>
-              ))}
-            </Space>
-          </Checkbox.Group>
-        </Form.Item>
+          options={question.choices.map((questionChoice: IQuestionChoice) => {
+            return {
+              code: questionChoice.code,
+              label: questionChoice.text,
+            };
+          })}
+          externalOnChange={(answers: string[]): void => {
+            onSubmitAnswer<string[]>(question.id, answers);
+          }}
+        />
       );
     case QuestionTypeEnum.DATE:
-      return (
-        <Form.Item
-          name={question.id}
-          label={question.name}
-          rules={[{ required: true }]}
-          getValueFromEvent={(eventDate: Dayjs) =>
-            eventDate.format("YYYY-MM-DD")
-          }
-          getValueProps={(eventDateValue: string) => ({
-            value: eventDateValue ? dayjs(eventDateValue) : "",
-          })}
-        >
-          <DatePicker
-            format="YYYY-MM-DD"
-            onChange={() => {
-              onSubmitAnswer(question.id);
-            }}
-          />
-        </Form.Item>
-      );
+      return <FormDatePicker fieldName={question.id} label={question.name} />;
     case QuestionTypeEnum.RADIO:
       return (
-        <Form.Item
-          name={question.id}
+        <FormRadioGroup
+          fieldName={question.id}
           label={question.name}
-          rules={[{ required: true }]}
-        >
-          <Radio.Group
-            onChange={() => {
-              onSubmitAnswer(question.id);
-            }}
-          >
-            <Space direction="vertical">
-              {question.choices.map((questionChoice: IQuestionChoice) => (
-                <Radio
-                  key={`RADIO_${questionChoice.code}`}
-                  value={`${questionChoice.code}`}
-                >
-                  {questionChoice.text}
-                </Radio>
-              ))}
-            </Space>
-          </Radio.Group>
-        </Form.Item>
+          options={question.choices.map((questionChoice: IQuestionChoice) => {
+            return {
+              code: questionChoice.code,
+              label: questionChoice.text,
+            };
+          })}
+          externalOnChange={(answer: string): void => {
+            onSubmitAnswer<string>(question.id, answer);
+          }}
+        />
       );
     default:
       return <></>;
@@ -182,51 +137,66 @@ const ViewForm = ({
 }: {
   questionnaire: IQuestionnaire;
 }): React.ReactElement => {
-  const [form] = Form.useForm();
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  // const [form] = Form.useForm();
+  const viewFormMethod = useForm<FieldValues>({
+    mode: "all",
+    reValidateMode: "onChange",
+  });
 
-  const onSubmitAnswer = (questionId: string): void => {
-    form
-      .validateFields([questionId])
-      .then(async () => {
-        if (form.getFieldError(questionId).length === 0) {
-          setIsSubmitting(true);
-          await waitFor(2000);
-          message.success(
-            `Saved: [${questionId}]. Answer: [${form.getFieldValue(
-              questionId
-            )}]`
-          );
-        }
-      })
-      .catch((): void => {
-        return;
-      })
-      .finally(() => {
-        setIsSubmitting(false);
-      });
+  // const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const onSubmitAnswer = <T,>(questionId: string, answer?: T): void => {
+    console.log("questionId", questionId, answer);
+    // form
+    //   .validateFields([questionId])
+    //   .then(async () => {
+    //     if (form.getFieldError(questionId).length === 0) {
+    //       setIsSubmitting(true);
+    //       await waitFor(2000);
+    //       message.success(
+    //         `Saved: [${questionId}]. Answer: [${form.getFieldValue(
+    //           questionId
+    //         )}]`
+    //       );
+    //     }
+    //   })
+    //   .catch((): void => {
+    //     return;
+    //   })
+    //   .finally(() => {
+    //     setIsSubmitting(false);
+    //   });
   };
 
   return (
-    <Card title={questionnaire.name} bordered={false}>
-      <Form
-        form={form}
-        layout="vertical"
-        name="create-question-form-in-modal"
-        disabled={isSubmitting}
-        validateTrigger="onBlur"
-      >
-        {questionnaire.questions.map((question: IQuestion) => (
-          <div key={question.id}>
-            {renderJourneyQuestion(question, onSubmitAnswer, isSubmitting)}
-          </div>
-        ))}
-        <Form.Item>
-          <MyButton type="primary" htmlType="submit">
-            Submit
-          </MyButton>
-        </Form.Item>
-      </Form>
+    <Card>
+      <CardHeader title={questionnaire.name} />
+      <Divider />
+      <CardContent>
+        <FormProvider {...viewFormMethod}>
+          {questionnaire.questions.map(
+            (question: IQuestion, questionIndex: number) => (
+              <div key={question.id}>
+                {renderJourneyQuestion(
+                  {
+                    ...question,
+                    name: `${questionIndex + 1}. ${question.name}`,
+                  },
+                  onSubmitAnswer
+                )}
+              </div>
+            )
+          )}
+
+          <CardActions>
+            <Grid mt={2}>
+              <Button color="primary" variant="contained" type="submit">
+                Submit
+              </Button>
+            </Grid>
+          </CardActions>
+        </FormProvider>
+      </CardContent>
     </Card>
   );
 };

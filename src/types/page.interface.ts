@@ -1,6 +1,6 @@
 export type PageProps = {
   params: Record<string, string>;
-  searchParams: Record<string, string>;
+  searchParams: ISearchParam;
 };
 
 export type ISearchParam = {
@@ -11,5 +11,12 @@ export type ISearchParam = {
 
 export type IListItem<T> = {
   data: T[];
+  success: boolean;
   totalCount: number;
+};
+
+export type IActionResponse<T> = {
+  message: string;
+  success: boolean;
+  data?: T | string;
 };

@@ -1,8 +1,9 @@
 "use client";
-import { RedoOutlined } from "@ant-design/icons";
-import { Typography, Space, Button } from "antd";
+
 import Head from "next/head";
 import type { ReactNode } from "react";
+import { Typography, Grid, Button } from "@mui/material";
+import SyncIcon from "@mui/icons-material/Sync";
 
 export default function Error({
   // error,
@@ -16,36 +17,27 @@ export default function Error({
       <Head>
         <title>404 - Page not found</title>
       </Head>
-      <Space
+      <Grid
         style={{
           alignItems: "center",
           display: "flex",
           flexDirection: "column",
         }}
       >
-        <Typography.Title
-          style={{
-            alignItems: "center",
-          }}
-          type="danger"
-          level={2}
-        >
-          500: SERVER ERROR
-        </Typography.Title>
-        <Typography.Title type="danger" level={2}>
-          Sorry.. there was an error
-        </Typography.Title>
+        <Typography variant="h1">500: SERVER ERROR</Typography>
+        <Typography variant="h4">Sorry.. there was an error</Typography>
 
         <Button
-          type="primary"
-          icon={<RedoOutlined size={20} />}
+          color="secondary"
+          variant="contained"
+          startIcon={<SyncIcon />}
           onClick={() => {
             reset();
           }}
         >
           Go back to home
         </Button>
-      </Space>
+      </Grid>
     </div>
   );
 }

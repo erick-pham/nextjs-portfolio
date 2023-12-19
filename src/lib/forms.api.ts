@@ -1,18 +1,18 @@
-import type { IListItem, ISearchParam } from "@/types/page";
+import type { IListItem, ISearchParam } from "@/types/page.interface";
 import type { IQuestionnaire } from "@/types/questionnaire";
 
-export const getListQuestionnaires = async ({
-  limit,
-  page,
-  searchTerm,
-}: ISearchParam): Promise<IListItem<IQuestionnaire>> => {
+export const getListForm = async (
+  listFormParams?: ISearchParam
+): Promise<IListItem<IQuestionnaire>> => {
+  const { limit = 1000000, page = 1, searchTerm = "" } = listFormParams || {};
+
   const data = await fetch(
     `${process.env.BE_HOST}/api/forms?limit=${limit}&page=${page}&searchTerm=${searchTerm}`,
     {
       method: "GET",
       cache: "no-cache",
       next: {
-        tags: ["list-products"],
+        tags: ["list-form"],
       },
     }
   );

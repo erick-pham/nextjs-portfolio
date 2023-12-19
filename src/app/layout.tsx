@@ -1,10 +1,10 @@
 import React from "react";
-import { Inter } from "next/font/google";
-import "./globals.css";
-import StyledComponentsRegistry from "../lib/AntdRegistry";
-import { ConfigProvider, Layout } from "antd";
-
-const inter = Inter({ subsets: ["latin"] });
+// import { Inter } from "next/font/google";
+// import "./globals.css";
+import ThemeRegistry from "@/components/ThemeRegistry/ThemeRegistry";
+import { Toaster } from "react-hot-toast";
+import Copyright from "@/components/Copyright";
+// const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
   title: "Erick Pham - App",
@@ -15,18 +15,12 @@ const RootLayout: React.FC<React.PropsWithChildren> = ({
   children,
 }: React.PropsWithChildren) => (
   <html lang="en">
-    <body className={inter.className}>
-      <StyledComponentsRegistry>
-        <ConfigProvider
-          theme={{
-            token: {
-              colorPrimary: "rgb(23, 162, 184)",
-            },
-          }}
-        >
-          <Layout style={{ minHeight: "100vh" }}>{children}</Layout>
-        </ConfigProvider>
-      </StyledComponentsRegistry>
+    <body>
+      <ThemeRegistry>
+        <Toaster position="bottom-center" />
+        {children}
+        <Copyright />
+      </ThemeRegistry>
     </body>
   </html>
 );

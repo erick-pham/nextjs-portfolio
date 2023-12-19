@@ -1,9 +1,18 @@
 "use client";
-import { Popconfirm, message } from "antd";
+
 import { useState } from "react";
-import { DeleteOutlined } from "@ant-design/icons";
 import { deleteQuestion } from "../../actions";
-import { MyButton } from "@/components/MyButton";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogTitle,
+  IconButton,
+} from "@mui/material";
+import { DeleteOutlined } from "@mui/icons-material";
+import React from "react";
+import toast from "react-hot-toast";
+import LoadingWrapper from "@/components/LoadingWrapper";
 
 type DeleteQuestionPopconfirmProp = {
   questionId: string;
@@ -15,48 +24,62 @@ const DeleteQuestionPopconfirm = ({
   questionnaireId,
 }: DeleteQuestionPopconfirmProp): React.ReactElement => {
   const [openPopconfirm, setOpenPopconfirm] = useState(false);
-  const [confirmLoading, setConfirmLoading] = useState(false);
+  const [isLoadingDeleteForm, setLoadingDeleteForm] = useState(false);
+
+  const handleClose = (): void => {
+    setOpenPopconfirm(false);
+  };
 
   const handleOk = (): void => {
-    setConfirmLoading(true);
-
-    deleteQuestion(questionnaireId, questionId)
-      .then(() => {
-        message.success("Delete Question success!");
-      })
-      .catch(() => {
-        message.error("Delete Question failed!");
-      })
-      .finally(() => {
-        setConfirmLoading(false);
-      });
+    new Promise((): void => {
+      (async (): Promise<void> => {
+        try {
+          setLoadingDeleteForm(true);
+          const deleteFormRes = await deleteQuestion(
+            questionnaireId,
+            questionId
+          );
+          toast.success(deleteFormRes.message);
+          setOpenPopconfirm(false);
+        } catch (error) {
+          console.log(error);
+        } finally {
+          setLoadingDeleteForm(false);
+        }
+      })();
+    });
   };
 
   return (
-    <Popconfirm
-      title="Delete item"
-      description="You cannot undo action!"
-      open={openPopconfirm}
-      onConfirm={handleOk}
-      disabled={confirmLoading}
-      okButtonProps={{ loading: confirmLoading }}
-      cancelButtonProps={{ disabled: confirmLoading }}
-      onCancel={() => {
-        setOpenPopconfirm(false);
-        setConfirmLoading(false);
-      }}
-    >
-      <MyButton
-        type="primary"
-        color="danger"
-        icon={<DeleteOutlined />}
-        onClick={(): void => {
+    <React.Fragment>
+      <IconButton
+        color="error"
+        onClick={() => {
           setOpenPopconfirm(true);
         }}
       >
-        Delete
-      </MyButton>
-    </Popconfirm>
+        <DeleteOutlined />
+      </IconButton>
+
+      <Dialog open={openPopconfirm} onClose={handleClose}>
+        <LoadingWrapper loading={isLoadingDeleteForm}>
+          <DialogTitle>Are you sure to delete this item?</DialogTitle>
+          <DialogActions>
+            <Button onClick={handleClose} variant="contained" color="info">
+              Cancel
+            </Button>
+            <Button
+              onClick={handleOk}
+              autoFocus
+              variant="contained"
+              color="error"
+            >
+              Agree
+            </Button>
+          </DialogActions>
+        </LoadingWrapper>
+      </Dialog>
+    </React.Fragment>
   );
 };
 

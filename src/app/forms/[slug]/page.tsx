@@ -1,12 +1,15 @@
+/* eslint-disable @typescript-eslint/no-redundant-type-constituents */
 import * as React from "react";
-import { Flex } from "antd";
-import type { PageProps } from "@/types/page";
+import type { PageProps } from "@/types/page.interface";
 import { notFound } from "next/navigation";
 import { getQuestionnaireById } from "../actions";
-import QuestionnaireDetailPage from "./components/QuestionnaireDetail";
-import QuestionnaireTableQuestion from "./components/QuestionnaireTableQuestion";
+import FormDetail from "./components/FormDetail";
+import FormTableQuestion from "./components/FormTableQuestion";
+import { Grid } from "@mui/material";
 
-const QuestionDetailPage: React.FC<PageProps> = async (props: PageProps) => {
+const FormDetailPage = async (
+  props: PageProps
+): Promise<React.ReactElement> => {
   const { slug } = props.params;
 
   const question = await getQuestionnaireById(slug);
@@ -16,15 +19,15 @@ const QuestionDetailPage: React.FC<PageProps> = async (props: PageProps) => {
   }
 
   return (
-    <Flex gap={8} justify="flex-start" vertical>
-      <QuestionnaireDetailPage
-        questionnaire={question}
-      ></QuestionnaireDetailPage>
-      <QuestionnaireTableQuestion
-        questionnaire={question}
-      ></QuestionnaireTableQuestion>
-    </Flex>
+    <Grid container spacing={4}>
+      <Grid item>
+        <FormDetail questionnaire={question} />
+      </Grid>
+      <Grid item>
+        <FormTableQuestion questionnaire={question} />
+      </Grid>
+    </Grid>
   );
 };
 
-export default QuestionDetailPage;
+export default FormDetailPage;

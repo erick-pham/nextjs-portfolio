@@ -1,16 +1,10 @@
 import React from "react";
-import { Flex, Spin } from "antd";
+import { Backdrop, CircularProgress } from "@mui/material";
 
 const AppLoading: React.FC = () => (
-  <Flex gap="small" vertical>
-    <Spin size="large" fullscreen={true} tip="Processing...">
-      {/* <Alert
-        message="Alert message title"
-        description="Further details about the context of this alert."
-        type="info"
-      /> */}
-    </Spin>
-  </Flex>
+  <Backdrop sx={{ color: "#fff", zIndex: 99999999 }} open={true}>
+    <CircularProgress color="secondary" />
+  </Backdrop>
 );
 
 export default AppLoading;

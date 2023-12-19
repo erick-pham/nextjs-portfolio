@@ -1,7 +1,7 @@
 export enum QuestionStatusEnum {
-  NEW = "NEW",
+  DRAFT = "DRAFT",
   ACTIVE = "ACTIVE",
-  INACTIVE = "INACTIVE",
+  ARCHIVE = "ARCHIVE",
 }
 
 export enum QuestionTypeEnum {
@@ -12,8 +12,28 @@ export enum QuestionTypeEnum {
   RATING = "RATING",
   RADIO = "RADIO",
   SINGLE_CHOICE = "SINGLE_CHOICE",
-  MULTIPLE_CHOICE = "MULTIPLE_CHOICE",
+  MULTIPLE_CHECKBOX = "MULTIPLE_CHECKBOX",
 }
+
+type StatusOption = {
+  code: QuestionStatusEnum;
+  label: string;
+};
+
+export const STATUS_OPTIONS: StatusOption[] = [
+  {
+    code: QuestionStatusEnum.DRAFT,
+    label: "Draft",
+  },
+  {
+    code: QuestionStatusEnum.ACTIVE,
+    label: "Active",
+  },
+  {
+    code: QuestionStatusEnum.ARCHIVE,
+    label: "Archive",
+  },
+];
 
 export const QUESTION_TYPE_LABEL: {
   code: QuestionTypeEnum;
@@ -48,7 +68,7 @@ export const QUESTION_TYPE_LABEL: {
     label: "Single choice",
   },
   {
-    code: QuestionTypeEnum.MULTIPLE_CHOICE,
-    label: "Multiple choice",
+    code: QuestionTypeEnum.MULTIPLE_CHECKBOX,
+    label: "Multiple checkbox",
   },
 ];

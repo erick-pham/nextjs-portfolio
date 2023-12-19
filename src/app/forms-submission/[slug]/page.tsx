@@ -1,11 +1,14 @@
-import * as React from "react";
-import { Col, Row } from "antd";
-import type { PageProps } from "@/types/page";
+/* eslint-disable @typescript-eslint/no-redundant-type-constituents */
+import type { PageProps } from "@/types/page.interface";
 import { notFound } from "next/navigation";
 import { getQuestionnaireById } from "../../forms/actions";
+import { Grid } from "@mui/material";
 import ViewForm from "./components/ViewForm";
+import type { ReactElement } from "react";
 
-const QuestionDetailPage: React.FC<PageProps> = async (props: PageProps) => {
+const QuestionDetailPage = async (
+  props: PageProps
+): Promise<ReactElement | never> => {
   const { slug } = props.params;
 
   const question = await getQuestionnaireById(slug);
@@ -15,13 +18,11 @@ const QuestionDetailPage: React.FC<PageProps> = async (props: PageProps) => {
   }
 
   return (
-    <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
-      <Col className="gutter-row" span={8} />
-      <Col className="gutter-row" span={8}>
+    <Grid container spacing={2} justifyContent="center" alignItems="flex-start">
+      <Grid item sm={6} py={8}>
         <ViewForm questionnaire={question}></ViewForm>
-      </Col>
-      <Col className="gutter-row" span={8} />
-    </Row>
+      </Grid>
+    </Grid>
   );
 };
 

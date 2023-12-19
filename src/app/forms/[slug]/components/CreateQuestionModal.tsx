@@ -1,123 +1,157 @@
 "use client";
-import { Flex, Form, Input, Modal, message, Select } from "antd";
 import { useState } from "react";
-import { PlusOutlined } from "@ant-design/icons";
 import { addQuestion } from "../../actions";
 import type { IQuestionnaire, IQuestion } from "@/types/questionnaire";
-import { QuestionTypeEnum } from "@/common/constants";
+import { QUESTION_TYPE_LABEL, QuestionTypeEnum } from "@/common/constants";
 
 import {
-  renderAdditionQuestionForm,
-  renderQuestionTypeSelection,
-} from "./AdditionQuestionForm";
-import { MyButton } from "@/components/MyButton";
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Grid,
+  IconButton,
+} from "@mui/material";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
+import type { FieldValues } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
+import toast from "react-hot-toast";
+import { FormSelect } from "@/components/Form/FormSelect";
+import { RenderAdditionQuestionForm } from "./AdditionQuestionForm";
+import { FormInputText } from "@/components/Form/FormInputText";
+import LoadingWrapper from "@/components/LoadingWrapper";
 
 const CreateQuestion = ({
   questionnaire,
 }: {
   questionnaire: IQuestionnaire;
 }): React.ReactElement => {
-  const [form] = Form.useForm();
   const [openCreateQuestionModal, setOpenCreateQuestionModal] = useState(false);
-  const [questionType, setQuestionType] = useState<QuestionTypeEnum>();
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isLoadingCreateQuestion, setIsLoadingCreateQuestion] = useState(false);
+
+  const addFormQuestionMethod = useForm<FieldValues>({
+    mode: "all",
+    defaultValues: {
+      questionnaire: questionnaire.id,
+      questionType: QuestionTypeEnum.TEXT,
+    },
+  });
+
+  const {
+    getValues,
+    watch,
+    formState: { isValid },
+    reset,
+  } = addFormQuestionMethod;
+
+  const questionTypeWatcher = watch("questionType") as string;
+
+  const handleCloseCreateQuestionModal = (): void => {
+    setOpenCreateQuestionModal(false);
+    reset();
+  };
+
+  const handleSaveNewQuestion = (): void => {
+    new Promise((): void => {
+      (async (): Promise<void> => {
+        try {
+          setIsLoadingCreateQuestion(true);
+          const addQuestionFormRes = await addQuestion(
+            getValues() as IQuestion
+          );
+
+          toast.success(addQuestionFormRes.message);
+          handleCloseCreateQuestionModal();
+        } catch (error) {
+          console.log(error);
+        } finally {
+          setIsLoadingCreateQuestion(false);
+        }
+      })();
+    });
+  };
 
   return (
-    <div>
-      <Modal
-        open={openCreateQuestionModal}
-        title="Create a new Question"
-        okText="Create"
-        okButtonProps={{
-          loading: isSubmitting,
-        }}
-        cancelButtonProps={{
-          disabled: isSubmitting,
-        }}
-        cancelText="Cancel"
-        onCancel={() => {
-          setOpenCreateQuestionModal(false);
-        }}
-        onOk={() => {
-          form
-            .validateFields()
-            .then(async (values: IQuestion) => {
-              setIsSubmitting(true);
-
-              try {
-                await addQuestion(values);
-                form.resetFields();
-                setOpenCreateQuestionModal(false);
-                message.success("Create Question success!");
-              } catch (error) {
-                message.error("Create Question failed!");
-              }
-
-              setIsSubmitting(false);
-            })
-            .catch(() => {
-              message.error("Form validation failed!");
-            });
+    <>
+      <IconButton
+        color="secondary"
+        onClick={() => {
+          setOpenCreateQuestionModal(true);
         }}
       >
-        <Form
-          form={form}
-          layout="vertical"
-          name="create-question-form-in-modal"
-          disabled={isSubmitting}
-          initialValues={{
-            questionnaire: questionnaire.id,
-            questionType: QuestionTypeEnum.TEXT,
-          }}
-        >
-          <Form.Item name="questionnaire" hidden>
-            <Input />
-          </Form.Item>
-          <Form.Item
-            name="name"
-            label="Name"
-            rules={[
-              {
-                required: true,
-                message: "Please input the name!",
-              },
-            ]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            name="questionType"
-            label="Type"
-            rules={[{ required: true }]}
-          >
-            <Select
-              placeholder="Select a type"
-              allowClear
-              onChange={(selectedType: QuestionTypeEnum): void => {
-                setQuestionType(selectedType);
-              }}
-            >
-              {renderQuestionTypeSelection()}
-            </Select>
-          </Form.Item>
+        <AddCircleIcon />
+      </IconButton>
+      <Dialog
+        open={openCreateQuestionModal}
+        onClose={setOpenCreateQuestionModal}
+        fullWidth
+      >
+        <LoadingWrapper loading={isLoadingCreateQuestion}>
+          <DialogTitle>Create a new Question</DialogTitle>
+          <DialogContent>
+            <DialogContent dividers>
+              <FormProvider {...addFormQuestionMethod}>
+                <Grid container>
+                  <Grid item xs={12}>
+                    <FormInputText hidden fieldName="questionnaire" />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <FormInputText
+                      multiline
+                      label="Name"
+                      fieldName="name"
+                      validation={{
+                        required: "This field required",
+                      }}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <FormSelect
+                      fieldName="questionType"
+                      label="Type"
+                      placeholder="Select a type"
+                      options={QUESTION_TYPE_LABEL}
+                      validation={{
+                        required: "This field required",
+                      }}
+                    />
+                  </Grid>
 
-          {questionType && renderAdditionQuestionForm(questionType)}
-        </Form>
-      </Modal>
-
-      <Flex justify="flex-start" align="center" style={{ marginBottom: 8 }}>
-        <MyButton
-          type="primary"
-          color="success"
-          icon={<PlusOutlined />}
-          onClick={() => {
-            setOpenCreateQuestionModal(true);
-          }}
-        >
-          Create Question
-        </MyButton>
-      </Flex>
-    </div>
+                  {questionTypeWatcher && (
+                    <Grid item xs={12} p={4}>
+                      <RenderAdditionQuestionForm
+                        questionType={questionTypeWatcher as QuestionTypeEnum}
+                      />
+                    </Grid>
+                  )}
+                </Grid>
+              </FormProvider>
+            </DialogContent>
+          </DialogContent>
+          <DialogActions>
+            <DialogActions>
+              <Button
+                onClick={handleCloseCreateQuestionModal}
+                variant="contained"
+                color="info"
+              >
+                Cancel
+              </Button>
+              <Button
+                onClick={handleSaveNewQuestion}
+                autoFocus
+                variant="contained"
+                color="success"
+                disabled={!isValid}
+              >
+                Save
+              </Button>
+            </DialogActions>
+          </DialogActions>
+        </LoadingWrapper>
+      </Dialog>
+    </>
   );
 };
 

@@ -1,3 +1,4 @@
+"use server";
 import Head from "next/head";
 import NextLink from "next/link";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";

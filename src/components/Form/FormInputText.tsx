@@ -9,7 +9,7 @@ import TextField from "@mui/material/TextField";
 import type { ReactElement } from "react";
 import { FormControl, FormLabel } from "@mui/material";
 
-export type FormOutputTextProps = FieldValues &
+export type FormInputTextProps = FieldValues &
   TextFieldProps & {
     fieldName: string;
     hidden?: boolean;
@@ -30,7 +30,7 @@ export const FormInputText = ({
   hidden,
   validation,
   ...rest
-}: FormOutputTextProps): ReactElement => {
+}: FormInputTextProps): ReactElement => {
   return (
     <Controller
       rules={validation}

@@ -1,8 +1,4 @@
-import type {
-  ControllerFieldState,
-  FieldValues,
-  UseControllerProps,
-} from "react-hook-form";
+import type { ControllerFieldState, FieldValues } from "react-hook-form";
 import { Controller } from "react-hook-form";
 import type { ReactElement } from "react";
 import {
@@ -11,6 +7,7 @@ import {
   FormLabel,
   RadioGroup,
   Radio,
+  Box,
 } from "@mui/material";
 
 type RadioGroupOptions = {
@@ -18,28 +15,29 @@ type RadioGroupOptions = {
   label: string;
 };
 
-export type FormRadioGroupProps = FieldValues &
-  Pick<UseControllerProps, "control"> & {
-    fieldName: string;
-    options: RadioGroupOptions[];
-    externalOnChange?: (value: string) => void;
-    hidden?: boolean;
-    label?: string;
-  };
+export type FormInputRadioGroupProps = FieldValues & {
+  fieldName: string;
+  options: RadioGroupOptions[];
+  externalOnChange?: (value: string) => void;
+  hidden?: boolean;
+  label?: string;
+  typeYesNo?: boolean;
+};
 
 type ControllerFieldType = {
   onChange: (value: string) => void;
   value: string;
 };
 
-export const FormRadioGroup = ({
+export const FormInputRadioGroup = ({
   fieldName,
   label,
   hidden,
   options,
   externalOnChange,
+  typeYesNo = false,
   ...rest
-}: FormRadioGroupProps): ReactElement => {
+}: FormInputRadioGroupProps): ReactElement => {
   const generateRadioOptions = (): ReactElement[] =>
     options.map((option: RadioGroupOptions) => {
       return (
@@ -64,11 +62,11 @@ export const FormRadioGroup = ({
         // formState: UseFormStateReturn;
       }) => (
         <FormControl
-          fullWidth
           sx={{ m: 1, display: hidden ? "none" : undefined }}
           variant="standard"
         >
           <FormLabel>{label}</FormLabel>
+
           <RadioGroup
             value={field.value}
             onChange={(
@@ -80,7 +78,19 @@ export const FormRadioGroup = ({
             }}
             {...rest}
           >
-            {generateRadioOptions()}
+            {typeYesNo ? (
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                }}
+                gap={2}
+              >
+                {generateRadioOptions()}
+              </Box>
+            ) : (
+              generateRadioOptions()
+            )}
           </RadioGroup>
         </FormControl>
       )}

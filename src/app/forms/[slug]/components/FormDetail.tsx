@@ -7,7 +7,7 @@ import Image from "next/image";
 import { Button, Card, CardContent, Grid } from "@mui/material";
 import { FormInputText } from "@/components/Form/FormInputText";
 import { FormProvider, useForm } from "react-hook-form";
-import { FormRadioGroup } from "@/components/Form/FormRadioGroup";
+import { FormInputRadioGroup } from "@/components/Form/FormInputRadioGroup";
 import { STATUS_OPTIONS } from "@/common/constants";
 import LoadingWrapper from "@/components/LoadingWrapper";
 import toast from "react-hot-toast";
@@ -63,7 +63,7 @@ const FormDetailPage = ({
                   }}
                 />
                 <FormInputText label="Thumbnail" fieldName="thumbnail" />
-                <FormRadioGroup
+                <FormInputRadioGroup
                   options={STATUS_OPTIONS}
                   label="Status"
                   fieldName="status"

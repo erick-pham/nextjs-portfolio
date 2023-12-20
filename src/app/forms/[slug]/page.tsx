@@ -20,10 +20,10 @@ const FormDetailPage = async (
 
   return (
     <Grid container spacing={4}>
-      <Grid item>
+      <Grid item sm={12}>
         <FormDetail questionnaire={question} />
       </Grid>
-      <Grid item>
+      <Grid item sm={12}>
         <FormTableQuestion questionnaire={question} />
       </Grid>
     </Grid>

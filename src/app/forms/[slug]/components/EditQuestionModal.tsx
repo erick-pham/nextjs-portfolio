@@ -20,7 +20,7 @@ import LoadingWrapper from "@/components/LoadingWrapper";
 import type { FieldValues } from "react-hook-form";
 import { FormProvider, useForm } from "react-hook-form";
 import { FormInputText } from "@/components/Form/FormInputText";
-import { FormSelect } from "@/components/Form/FormSelect";
+import { FormInputSelect } from "@/components/Form/FormInputSelect";
 import toast from "react-hot-toast";
 
 const EditQuestionModal = ({
@@ -100,7 +100,7 @@ const EditQuestionModal = ({
                   />
                 </Grid>
                 <Grid item xs={12}>
-                  <FormSelect
+                  <FormInputSelect
                     fieldName="questionType"
                     label="Type"
                     placeholder="Select a type"

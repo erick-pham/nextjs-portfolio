@@ -17,7 +17,7 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 import type { FieldValues } from "react-hook-form";
 import { FormProvider, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import { FormSelect } from "@/components/Form/FormSelect";
+import { FormInputSelect } from "@/components/Form/FormInputSelect";
 import { RenderAdditionQuestionForm } from "./AdditionQuestionForm";
 import { FormInputText } from "@/components/Form/FormInputText";
 import LoadingWrapper from "@/components/LoadingWrapper";
@@ -74,14 +74,18 @@ const CreateQuestion = ({
 
   return (
     <>
-      <IconButton
-        color="secondary"
+      <Button
         onClick={() => {
           setOpenCreateQuestionModal(true);
         }}
+        size="small"
+        variant="contained"
+        startIcon={<AddCircleIcon />}
+        color="secondary"
       >
-        <AddCircleIcon />
-      </IconButton>
+        Add more Question
+      </Button>
+
       <Dialog
         open={openCreateQuestionModal}
         onClose={setOpenCreateQuestionModal}
@@ -107,7 +111,7 @@ const CreateQuestion = ({
                     />
                   </Grid>
                   <Grid item xs={12}>
-                    <FormSelect
+                    <FormInputSelect
                       fieldName="questionType"
                       label="Type"
                       placeholder="Select a type"

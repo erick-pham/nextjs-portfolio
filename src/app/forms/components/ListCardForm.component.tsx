@@ -28,7 +28,7 @@ const ListCardForm = ({
         ({ name, id, description, thumbnail, createdAt }: IQuestionnaire) => {
           return (
             <Grid item xs={12} sm={6} md={4} lg={3} xl={2} key={id}>
-              <Card key={"id"}>
+              <Card>
                 <CardHeader title={name} subheader={formatDate(createdAt)} />
                 <CardMedia>
                   <Image

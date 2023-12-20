@@ -39,7 +39,6 @@ FormCheckboxGroupProps): ReactElement => {
       name={fieldName}
       render={() => (
         <FormControl
-          fullWidth
           sx={{ m: 1, display: hidden ? "none" : undefined }}
           variant="standard"
         >

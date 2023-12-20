@@ -1,7 +1,7 @@
 "use client";
 import type { ReactElement } from "react";
 import React from "react";
-
+import Link from "next/link";
 import CreateQuestion from "./CreateQuestionModal";
 import { getLabelText } from "@/common/utils";
 import DeleteQuestionPopconfirm from "./DeleteQuestionPopconfirm.component";
@@ -9,12 +9,14 @@ import EditQuestionModal from "./EditQuestionModal";
 import { QUESTION_TYPE_LABEL } from "@/common/constants";
 import type { IQuestion, IQuestionnaire } from "@/types/questionnaire";
 import TableCell, { tableCellClasses } from "@mui/material/TableCell";
-
+import LaunchIcon from "@mui/icons-material/Launch";
 import type { Theme } from "@mui/material";
 import {
   Box,
+  Button,
   Card,
   CardContent,
+  IconButton,
   Paper,
   Table,
   TableBody,
@@ -52,27 +54,36 @@ const FormTableQuestion = ({
   return (
     <Card>
       <CardContent>
-        <CreateQuestion questionnaire={questionnaire} />
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            mb: 4,
+          }}
+          gap={2}
+        >
+          <CreateQuestion questionnaire={questionnaire} />
+          <Link href={`/forms-submission/${questionnaire.id}`} target="_blank">
+            <Button
+              size="small"
+              startIcon={<LaunchIcon />}
+              color="info"
+              variant="contained"
+            >
+              View Form
+            </Button>
+          </Link>
+        </Box>
+
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }}>
             <TableHead>
               <TableRow>
-                <StyledTableCell style={{ width: "10%" }}>#</StyledTableCell>
-                <StyledTableCell align="center" style={{ width: "45%" }}>
-                  Name
-                </StyledTableCell>
-                <StyledTableCell align="center" style={{ width: "15%" }}>
-                  Question Type
-                </StyledTableCell>
-                <StyledTableCell align="center" style={{ width: "10%" }}>
-                  Status
-                </StyledTableCell>
-                <StyledTableCell align="center" style={{ width: "10%" }}>
-                  Last Update
-                </StyledTableCell>
-                <StyledTableCell align="center" style={{ width: "10%" }}>
-                  Action
-                </StyledTableCell>
+                <StyledTableCell align="left">#</StyledTableCell>
+                <StyledTableCell align="center">Name</StyledTableCell>
+                <StyledTableCell align="center">Question Type</StyledTableCell>
+                <StyledTableCell align="center">Last Update</StyledTableCell>
+                <StyledTableCell align="center">Action</StyledTableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -87,9 +98,6 @@ const FormTableQuestion = ({
                       QUESTION_TYPE_LABEL,
                       question.questionType as string
                     )}
-                  </StyledTableCell>
-                  <StyledTableCell align="center">
-                    {question.status}
                   </StyledTableCell>
                   <StyledTableCell align="center">
                     {formatDate(question.updatedAt)}

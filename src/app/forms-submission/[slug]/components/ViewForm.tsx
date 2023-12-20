@@ -20,11 +20,11 @@ import {
 import type { FieldValues } from "react-hook-form";
 import { FormProvider, useForm } from "react-hook-form";
 import { FormInputText } from "@/components/Form/FormInputText";
-import { FormSelect } from "@/components/Form/FormSelect";
-import { FormRating } from "@/components/Form/FormRating";
-import { FormRadioGroup } from "@/components/Form/FormRadioGroup";
+import { FormInputSelect } from "@/components/Form/FormInputSelect";
+import { FormInputRating } from "@/components/Form/FormInputRating";
+import { FormInputRadioGroup } from "@/components/Form/FormInputRadioGroup";
 import { FormInputMultiCheckbox } from "@/components/Form/FormInputMultiCheckbox";
-import { FormDatePicker } from "@/components/Form/FormDatePicker";
+import { FormInputDatePicker } from "@/components/Form/FormInputDatePicker";
 
 const renderJourneyQuestion = (
   question: IQuestion,
@@ -46,7 +46,7 @@ const renderJourneyQuestion = (
       );
     case QuestionTypeEnum.RATING:
       return (
-        <FormRating
+        <FormInputRating
           fieldName={question.id}
           label={question.name}
           validation={{
@@ -59,7 +59,7 @@ const renderJourneyQuestion = (
       );
     case QuestionTypeEnum.YES_NO:
       return (
-        <FormRadioGroup
+        <FormInputRadioGroup
           fieldName={question.id}
           label={question.name}
           options={[
@@ -75,11 +75,12 @@ const renderJourneyQuestion = (
           externalOnChange={(answer: string): void => {
             onSubmitAnswer<boolean>(question.id, answer === "true");
           }}
+          typeYesNo
         />
       );
     case QuestionTypeEnum.SINGLE_CHOICE:
       return (
-        <FormSelect
+        <FormInputSelect
           fieldName={question.id}
           label={question.name}
           options={question.choices.map((questionChoice: IQuestionChoice) => {
@@ -110,10 +111,12 @@ const renderJourneyQuestion = (
         />
       );
     case QuestionTypeEnum.DATE:
-      return <FormDatePicker fieldName={question.id} label={question.name} />;
+      return (
+        <FormInputDatePicker fieldName={question.id} label={question.name} />
+      );
     case QuestionTypeEnum.RADIO:
       return (
-        <FormRadioGroup
+        <FormInputRadioGroup
           fieldName={question.id}
           label={question.name}
           options={question.choices.map((questionChoice: IQuestionChoice) => {

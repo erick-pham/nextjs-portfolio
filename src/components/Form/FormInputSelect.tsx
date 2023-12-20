@@ -15,7 +15,7 @@ type SelectGroupOptions = {
   label: string;
 };
 
-export type FormSelectProps = SelectProps & {
+export type FormInputSelectProps = SelectProps & {
   fieldName: string;
   options: SelectGroupOptions[];
   externalOnChange?: (formSelectedOption: string) => void;
@@ -29,7 +29,7 @@ type ControllerFieldType = {
   value: string;
 };
 
-export const FormSelect = ({
+export const FormInputSelect = ({
   fieldName,
   label,
   hidden,
@@ -37,7 +37,7 @@ export const FormSelect = ({
   externalOnChange,
   validation,
   ...rest
-}: FormSelectProps): ReactElement => {
+}: FormInputSelectProps): ReactElement => {
   return (
     <Controller
       rules={validation}

@@ -4,7 +4,7 @@ import { Controller } from "react-hook-form";
 import type { ReactElement } from "react";
 import { Box, FormControl, FormLabel, Rating } from "@mui/material";
 
-export type FormRatingProps = {
+export type FormInputRatingProps = {
   fieldName: string;
   externalOnChange?: (value: number | null) => void;
   hidden?: boolean;
@@ -17,14 +17,14 @@ type ControllerFieldType = {
   value: number | null;
 };
 
-export const FormRating = ({
+export const FormInputRating = ({
   fieldName,
   label,
   hidden,
   validation,
   externalOnChange,
   ...rest
-}: FormRatingProps): ReactElement => {
+}: FormInputRatingProps): ReactElement => {
   return (
     <Controller
       rules={validation}

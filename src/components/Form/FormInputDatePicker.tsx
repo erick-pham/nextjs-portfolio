@@ -5,20 +5,20 @@ import { FormControl, FormLabel } from "@mui/material";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 
-export type FormDatePickerProps = FieldValues & {
+export type FormInputDatePickerProps = FieldValues & {
   fieldName: string;
   hidden?: boolean;
   label?: string;
   validation?: RegisterOptions;
 };
 
-export const FormDatePicker = ({
+export const FormInputDatePicker = ({
   fieldName,
   label,
   hidden,
   validation,
   ...rest
-}: FormDatePickerProps): ReactElement => {
+}: FormInputDatePickerProps): ReactElement => {
   return (
     <Controller
       rules={validation}

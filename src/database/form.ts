@@ -1,6 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unnecessary-condition */
 import { QuestionStatusEnum } from "@/common/constants";
-import type { IQuestion, IQuestionnaire } from "@/types/questionnaire";
+import type {
+  IQuestion,
+  IQuestionnaire,
+  IQuestionnaireSubmission,
+} from "@/types/questionnaire";
 import { generateKey } from "@/util/crypto";
 import type { Model } from "mongoose";
 import mongoose from "mongoose";
@@ -29,8 +33,24 @@ export const FormSchema = new mongoose.Schema<IQuestionnaire>(
   { timestamps: true }
 );
 
+export const FormSubmissionSchema =
+  new mongoose.Schema<IQuestionnaireSubmission>(
+    {
+      id: { type: String, default: (): string => generateKey(10, "base64url") },
+      answers: [{ type: Object }],
+      questionnaire: { ref: "questionnaire", type: String },
+    },
+    { timestamps: true }
+  );
+
 export const QuestionModel = (mongoose.models["question"] ||
   mongoose.model("question", FormQuestionSchema)) as Model<IQuestion>;
 
 export const FormModel = (mongoose.models["questionnaire"] ||
   mongoose.model("questionnaire", FormSchema)) as Model<IQuestionnaire>;
+
+export const FormSubmissionModel = (mongoose.models["form-submission"] ||
+  mongoose.model(
+    "form-submission",
+    FormSubmissionSchema
+  )) as Model<IQuestionnaireSubmission>;

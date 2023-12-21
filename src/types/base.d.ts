@@ -7,7 +7,7 @@ export interface ILabel {
 
 export type PageProps = {
   params: Record<string, string>;
-  searchParams: ISearchParam;
+  searchParams: ISearchParam & Record<string, string>;
 };
 
 export type ISearchParam = {

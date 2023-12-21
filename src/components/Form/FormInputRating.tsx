@@ -2,9 +2,16 @@ import type { ControllerFieldState, RegisterOptions } from "react-hook-form";
 import { Controller } from "react-hook-form";
 
 import type { ReactElement } from "react";
-import { Box, FormControl, FormLabel, Rating } from "@mui/material";
+import type { RatingProps } from "@mui/material";
+import {
+  Box,
+  FormControl,
+  FormHelperText,
+  FormLabel,
+  Rating,
+} from "@mui/material";
 
-export type FormInputRatingProps = {
+export type FormInputRatingProps = RatingProps & {
   fieldName: string;
   externalOnChange?: (value: number | null) => void;
   hidden?: boolean;
@@ -31,11 +38,10 @@ export const FormInputRating = ({
       name={fieldName}
       render={({
         field,
-      }: // formState,
-      {
+        fieldState: { error },
+      }: {
         field: ControllerFieldType;
         fieldState: ControllerFieldState;
-        // formState: UseFormStateReturn;
       }) => (
         <FormControl
           fullWidth
@@ -45,6 +51,7 @@ export const FormInputRating = ({
           <FormLabel>{label}</FormLabel>
           <Box>
             <Rating
+              size="small"
               hidden={hidden}
               value={Number(field.value)}
               onChange={(
@@ -57,6 +64,7 @@ export const FormInputRating = ({
               {...rest}
             />
           </Box>
+          {error && <FormHelperText error>{error.message}</FormHelperText>}
         </FormControl>
       )}
     />

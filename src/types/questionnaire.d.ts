@@ -24,3 +24,20 @@ export interface IQuestionnaire {
   thumbnail: string;
   updatedAt: Date;
 }
+
+type IAnswerData = Record<
+  string,
+  string[] | boolean | number | object | string | null
+> | null;
+
+type ISubmissionAnswer = IQuestion & {
+  answer: string[] | boolean | number | object | string | null;
+};
+
+export interface IQuestionnaireSubmission {
+  answers: ISubmissionAnswer[];
+  createdAt: string;
+  id: string;
+  questionnaire: string;
+  updatedAt: Date;
+}

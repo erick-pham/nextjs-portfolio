@@ -8,6 +8,7 @@ import {
   RadioGroup,
   Radio,
   Box,
+  FormHelperText,
 } from "@mui/material";
 
 type RadioGroupOptions = {
@@ -18,6 +19,7 @@ type RadioGroupOptions = {
 export type FormInputRadioGroupProps = FieldValues & {
   fieldName: string;
   options: RadioGroupOptions[];
+  disabled?: boolean;
   externalOnChange?: (value: string) => void;
   hidden?: boolean;
   label?: string;
@@ -36,6 +38,7 @@ export const FormInputRadioGroup = ({
   options,
   externalOnChange,
   typeYesNo = false,
+  disabled,
   ...rest
 }: FormInputRadioGroupProps): ReactElement => {
   const generateRadioOptions = (): ReactElement[] =>
@@ -44,7 +47,7 @@ export const FormInputRadioGroup = ({
         <FormControlLabel
           key={option.code}
           value={option.code}
-          control={<Radio color="success" />}
+          control={<Radio color="success" size="small" />}
           label={option.label}
         />
       );
@@ -55,15 +58,15 @@ export const FormInputRadioGroup = ({
       name={fieldName}
       render={({
         field,
-      }: // formState,
-      {
+        fieldState: { error },
+      }: {
         field: ControllerFieldType;
         fieldState: ControllerFieldState;
-        // formState: UseFormStateReturn;
       }) => (
         <FormControl
           sx={{ m: 1, display: hidden ? "none" : undefined }}
           variant="standard"
+          disabled={disabled}
         >
           <FormLabel>{label}</FormLabel>
 
@@ -92,6 +95,7 @@ export const FormInputRadioGroup = ({
               generateRadioOptions()
             )}
           </RadioGroup>
+          {error && <FormHelperText error>{error.message}</FormHelperText>}
         </FormControl>
       )}
     />

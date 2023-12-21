@@ -1,7 +1,11 @@
-import type { FieldValues, RegisterOptions } from "react-hook-form";
+import type {
+  ControllerFieldState,
+  FieldValues,
+  RegisterOptions,
+} from "react-hook-form";
 import { Controller } from "react-hook-form";
 import type { ReactElement } from "react";
-import { FormControl, FormLabel } from "@mui/material";
+import { FormControl, FormHelperText, FormLabel } from "@mui/material";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 
@@ -23,7 +27,11 @@ export const FormInputDatePicker = ({
     <Controller
       rules={validation}
       name={fieldName}
-      render={() => (
+      render={({
+        fieldState: { error },
+      }: {
+        fieldState: ControllerFieldState;
+      }) => (
         <FormControl
           fullWidth
           sx={{ m: 1, display: hidden ? "none" : undefined }}
@@ -33,6 +41,7 @@ export const FormInputDatePicker = ({
           <LocalizationProvider dateAdapter={AdapterDateFns}>
             <DatePicker {...rest} />
           </LocalizationProvider>
+          {error && <FormHelperText error>{error.message}</FormHelperText>}
         </FormControl>
       )}
     />

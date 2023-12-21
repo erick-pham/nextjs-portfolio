@@ -66,6 +66,9 @@ export const FormInputSelect = ({
               field.onChange(event as SelectChangeEvent<string>);
             }}
             {...rest}
+            error={!!error}
+            size="small"
+            variant="standard"
           >
             {options.map((option: SelectGroupOptions) => {
               return (

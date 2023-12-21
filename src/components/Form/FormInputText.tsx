@@ -7,7 +7,7 @@ import { Controller } from "react-hook-form";
 import type { TextFieldProps } from "@mui/material/TextField";
 import TextField from "@mui/material/TextField";
 import type { ReactElement } from "react";
-import { FormControl, FormLabel } from "@mui/material";
+import { FormControl, FormHelperText, FormLabel } from "@mui/material";
 
 export type FormInputTextProps = FieldValues &
   TextFieldProps & {
@@ -38,31 +38,30 @@ export const FormInputText = ({
       render={({
         field,
         fieldState: { error },
-      }: // formState,
-      {
+      }: {
         field: ControllerFieldType;
         fieldState: ControllerFieldState;
-        // formState: UseFormStateReturn;
-      }) => (
-        <FormControl
-          fullWidth
-          sx={{ m: 1, display: hidden ? "none" : undefined }}
-          variant="standard"
-        >
-          <FormLabel>{label}</FormLabel>
-          <TextField
-            {...field}
-            {...rest}
-            helperText={error ? error.message : null}
-            size="small"
-            error={!!error}
+      }) => {
+        return (
+          <FormControl
             fullWidth
-            hidden={hidden}
-            // label={label}
-            variant="outlined"
-          />
-        </FormControl>
-      )}
+            sx={{ m: 1, display: hidden ? "none" : undefined }}
+            variant="standard"
+          >
+            <FormLabel>{label}</FormLabel>
+            <TextField
+              {...field}
+              {...rest}
+              size="small"
+              error={!!error}
+              fullWidth
+              hidden={hidden}
+              variant="outlined"
+            />
+            {error && <FormHelperText error>{error.message}</FormHelperText>}
+          </FormControl>
+        );
+      }}
     />
   );
 };

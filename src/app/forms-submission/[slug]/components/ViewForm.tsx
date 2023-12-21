@@ -1,10 +1,11 @@
 "use client";
 
-import type { ReactElement } from "react";
+import { useState, type ReactElement } from "react";
 import type {
   IQuestionnaire,
   IQuestion,
   IQuestionChoice,
+  IAnswerData,
 } from "@/types/questionnaire";
 import { QuestionTypeEnum } from "@/common/constants";
 
@@ -16,6 +17,7 @@ import {
   CardHeader,
   Divider,
   Grid,
+  Typography,
 } from "@mui/material";
 import type { FieldValues } from "react-hook-form";
 import { FormProvider, useForm } from "react-hook-form";
@@ -25,11 +27,11 @@ import { FormInputRating } from "@/components/Form/FormInputRating";
 import { FormInputRadioGroup } from "@/components/Form/FormInputRadioGroup";
 import { FormInputMultiCheckbox } from "@/components/Form/FormInputMultiCheckbox";
 import { FormInputDatePicker } from "@/components/Form/FormInputDatePicker";
+import { submitForm } from "../actions";
 
-const renderJourneyQuestion = (
-  question: IQuestion,
-  onSubmitAnswer: <T>(questionId: string, answer?: T) => void
-): ReactElement => {
+import LoadingWrapper from "@/components/LoadingWrapper";
+
+const renderJourneyQuestion = (question: IQuestion): ReactElement => {
   switch (question.questionType) {
     case QuestionTypeEnum.TEXT:
       return (
@@ -38,9 +40,6 @@ const renderJourneyQuestion = (
           label={question.name}
           validation={{
             required: "This field required.",
-          }}
-          onBlur={(): void => {
-            onSubmitAnswer(question.id);
           }}
         />
       );
@@ -52,9 +51,9 @@ const renderJourneyQuestion = (
           validation={{
             required: "This field required.",
           }}
-          externalOnChange={(value: number | null): void => {
-            onSubmitAnswer<number | null>(question.id, value);
-          }}
+          // externalOnChange={(value: number | null): void => {
+          //   onSubmitAnswer<number | null>(question.id, value);
+          // }}
         />
       );
     case QuestionTypeEnum.YES_NO:
@@ -72,9 +71,12 @@ const renderJourneyQuestion = (
               label: "No",
             },
           ]}
-          externalOnChange={(answer: string): void => {
-            onSubmitAnswer<boolean>(question.id, answer === "true");
+          validation={{
+            required: "This field required.",
           }}
+          // externalOnChange={(answer: string): void => {
+          //   onSubmitAnswer<boolean>(question.id, answer === "true");
+          // }}
           typeYesNo
         />
       );
@@ -89,8 +91,11 @@ const renderJourneyQuestion = (
               label: questionChoice.text,
             };
           })}
-          externalOnChange={(answer: string): void => {
-            onSubmitAnswer<string>(question.id, answer);
+          // externalOnChange={(answer: string): void => {
+          //   onSubmitAnswer<string>(question.id, answer);
+          // }}
+          validation={{
+            required: "This field required.",
           }}
         />
       );
@@ -105,14 +110,23 @@ const renderJourneyQuestion = (
               label: questionChoice.text,
             };
           })}
-          externalOnChange={(answers: string[]): void => {
-            onSubmitAnswer<string[]>(question.id, answers);
+          // externalOnChange={(answers: string[]): void => {
+          //   onSubmitAnswer<string[]>(question.id, answers);
+          // }}
+          validation={{
+            required: "This field required.",
           }}
         />
       );
     case QuestionTypeEnum.DATE:
       return (
-        <FormInputDatePicker fieldName={question.id} label={question.name} />
+        <FormInputDatePicker
+          fieldName={question.id}
+          label={question.name}
+          // validation={{
+          //   required: "This field required.",
+          // }}
+        />
       );
     case QuestionTypeEnum.RADIO:
       return (
@@ -125,8 +139,11 @@ const renderJourneyQuestion = (
               label: questionChoice.text,
             };
           })}
-          externalOnChange={(answer: string): void => {
-            onSubmitAnswer<string>(question.id, answer);
+          // externalOnChange={(answer: string): void => {
+          //   onSubmitAnswer<string>(question.id, answer);
+          // }}
+          validation={{
+            required: "This field required.",
           }}
         />
       );
@@ -137,68 +154,81 @@ const renderJourneyQuestion = (
 
 const ViewForm = ({
   questionnaire,
+  answers,
 }: {
+  answers: IAnswerData;
   questionnaire: IQuestionnaire;
 }): React.ReactElement => {
-  // const [form] = Form.useForm();
   const viewFormMethod = useForm<FieldValues>({
     mode: "all",
-    reValidateMode: "onChange",
+    defaultValues: {
+      questionnaire: questionnaire.id,
+      ...answers,
+    },
   });
 
-  // const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const isSubmittedForm = Boolean(answers);
 
-  const onSubmitAnswer = <T,>(questionId: string, answer?: T): void => {
-    console.log("questionId", questionId, answer);
-    // form
-    //   .validateFields([questionId])
-    //   .then(async () => {
-    //     if (form.getFieldError(questionId).length === 0) {
-    //       setIsSubmitting(true);
-    //       await waitFor(2000);
-    //       message.success(
-    //         `Saved: [${questionId}]. Answer: [${form.getFieldValue(
-    //           questionId
-    //         )}]`
-    //       );
-    //     }
-    //   })
-    //   .catch((): void => {
-    //     return;
-    //   })
-    //   .finally(() => {
-    //     setIsSubmitting(false);
-    //   });
+  const {
+    formState: { isValid },
+  } = viewFormMethod;
+
+  const onSubmitForm = (): void => {
+    setIsSubmitting(true);
+    submitForm(viewFormMethod.getValues() as FieldValues).finally(() => {
+      setIsSubmitting(false);
+    });
   };
 
   return (
     <Card>
-      <CardHeader title={questionnaire.name} />
+      <CardHeader
+        title={
+          <>
+            <Typography variant="h2">Subject: {questionnaire.name}</Typography>
+            {isSubmittedForm && (
+              <Typography variant="h4">Your submission</Typography>
+            )}
+          </>
+        }
+      />
       <Divider />
-      <CardContent>
-        <FormProvider {...viewFormMethod}>
-          {questionnaire.questions.map(
-            (question: IQuestion, questionIndex: number) => (
-              <div key={question.id}>
-                {renderJourneyQuestion(
-                  {
+      <CardContent
+        sx={{
+          pointerEvents: isSubmittedForm ? "none" : undefined,
+        }}
+      >
+        <LoadingWrapper loading={isSubmitting}>
+          <FormProvider {...viewFormMethod}>
+            {questionnaire.questions.map(
+              (question: IQuestion, questionIndex: number) => (
+                <div key={question.id}>
+                  {renderJourneyQuestion({
                     ...question,
                     name: `${questionIndex + 1}. ${question.name}`,
-                  },
-                  onSubmitAnswer
-                )}
-              </div>
-            )
-          )}
+                  })}
+                </div>
+              )
+            )}
 
-          <CardActions>
-            <Grid mt={2}>
-              <Button color="primary" variant="contained" type="submit">
-                Submit
-              </Button>
-            </Grid>
-          </CardActions>
-        </FormProvider>
+            {!isSubmittedForm && (
+              <CardActions>
+                <Grid mt={2}>
+                  <Button
+                    color="primary"
+                    variant="contained"
+                    type="submit"
+                    onClick={onSubmitForm}
+                    disabled={!isValid}
+                  >
+                    Submit
+                  </Button>
+                </Grid>
+              </CardActions>
+            )}
+          </FormProvider>
+        </LoadingWrapper>
       </CardContent>
     </Card>
   );

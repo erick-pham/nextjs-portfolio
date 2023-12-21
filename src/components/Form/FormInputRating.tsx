@@ -51,7 +51,7 @@ export const FormInputRating = ({
           <FormLabel>{label}</FormLabel>
           <Box>
             <Rating
-              size="small"
+              size="large"
               hidden={hidden}
               value={Number(field.value)}
               onChange={(

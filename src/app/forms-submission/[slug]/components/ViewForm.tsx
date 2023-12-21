@@ -43,6 +43,17 @@ const renderJourneyQuestion = (question: IQuestion): ReactElement => {
           }}
         />
       );
+    case QuestionTypeEnum.NUMBER:
+      return (
+        <FormInputText
+          fieldName={question.id}
+          label={question.name}
+          validation={{
+            required: "This field required.",
+          }}
+          type="number"
+        />
+      );
     case QuestionTypeEnum.RATING:
       return (
         <FormInputRating

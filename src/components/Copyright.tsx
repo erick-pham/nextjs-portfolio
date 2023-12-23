@@ -1,6 +1,6 @@
 import Typography from "@mui/material/Typography";
 
-export default function Copyright(): React.ReactElement {
+export default function MyCopyright(): React.ReactElement {
   return (
     <Typography variant="body2" color="text.secondary" align="center" m={2}>
       {"Copyright © By ErickPham"}

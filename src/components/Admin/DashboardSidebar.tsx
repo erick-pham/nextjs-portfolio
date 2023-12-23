@@ -152,7 +152,7 @@ export const DashboardSidebar = ({
         open
         PaperProps={{
           sx: {
-            backgroundColor: "grey.900",
+            backgroundColor: "#0E1217",
             color: "#FFFFFF",
             width: 220,
           },
@@ -171,7 +171,7 @@ export const DashboardSidebar = ({
       open={open}
       PaperProps={{
         sx: {
-          backgroundColor: "grey.900",
+          backgroundColor: "#0E1217",
           color: "#FFFFFF",
           width: 220,
         },

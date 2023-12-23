@@ -31,6 +31,7 @@ export const DashboardNavbar = ({
             lg: "calc(100% - 220px)",
           },
           backgroundColor: (theme: Theme) => theme.palette.background.paper,
+          backgroundImage: "none",
           boxShadow: (theme: Theme) => theme.shadows[3],
         }}
       >

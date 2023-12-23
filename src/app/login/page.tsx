@@ -7,8 +7,14 @@ import { LoginBox } from "./components/LoginBox";
 
 const LoginPage = async (): Promise<ReactElement> => {
   return (
-    <Grid container>
-      <Grid item sm={1} md={4}></Grid>
+    <Grid
+      container
+      spacing={2}
+      direction="row"
+      justifyContent="center"
+      alignItems="center"
+    >
+      <Grid item sm={1} md={4} />
       <Grid item sm={10} md={4}>
         <LoginBox />
       </Grid>

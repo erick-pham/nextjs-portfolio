@@ -12,7 +12,6 @@ export const LoginBox = (): ReactElement => {
   return (
     <Box
       sx={{
-        m: 4,
         my: 4,
         borderRadius: "20px",
         boxShadow: "0 0 10px 10px #0EE",
@@ -21,8 +20,6 @@ export const LoginBox = (): ReactElement => {
       <Box
         bgcolor="#00eeeea3"
         sx={{
-          display: "flex",
-          flexDirection: "column",
           height: "50px",
           justifyContent: "center",
           borderTopLeftRadius: "20px",
@@ -34,8 +31,8 @@ export const LoginBox = (): ReactElement => {
         <Typography
           variant="h5"
           sx={{
-            display: "flex",
             color: "white",
+            display: "flex",
             justifyContent: "center",
           }}
         >

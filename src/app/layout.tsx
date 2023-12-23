@@ -3,7 +3,6 @@ import React from "react";
 import "./globals.css";
 import ThemeRegistry from "@/components/ThemeRegistry/ThemeRegistry";
 import { Toaster } from "react-hot-toast";
-import MyCopyright from "@/components/Copyright";
 // const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
@@ -21,7 +20,6 @@ const RootLayout = ({
       <ThemeRegistry>
         <Toaster position="bottom-center" />
         {children}
-        <MyCopyright />
       </ThemeRegistry>
     </body>
   </html>

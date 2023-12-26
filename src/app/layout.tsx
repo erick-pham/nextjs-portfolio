@@ -3,6 +3,7 @@ import React from "react";
 import "./globals.css";
 import ThemeRegistry from "@/components/ThemeRegistry/ThemeRegistry";
 import { Toaster } from "react-hot-toast";
+import { SessionProvider } from "next-auth/react";
 // const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
@@ -19,7 +20,7 @@ const RootLayout = ({
     <body>
       <ThemeRegistry>
         <Toaster position="bottom-center" />
-        {children}
+        <SessionProvider>{children}</SessionProvider>
       </ThemeRegistry>
     </body>
   </html>

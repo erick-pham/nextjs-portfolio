@@ -5,6 +5,8 @@ import Link from "@/components/Link";
 import { Box, Button, Typography } from "@mui/material";
 import type { ReactElement } from "react";
 import { FormProvider, useForm } from "react-hook-form";
+import { signIn } from "next-auth/react";
+import { authConfig } from "../../../auth";
 
 interface SignInProps {
   isSignInMode: boolean;
@@ -58,7 +60,7 @@ export const SignInForm = ({
           color="error"
           fullWidth
           startIcon={<GoogleIcon />}
-          // onClick={async () => signIn(providers.google.id)}
+          onClick={async () => signIn("google")}
           variant="contained"
           sx={{
             mt: 1,

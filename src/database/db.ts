@@ -8,7 +8,7 @@ const connectionOptions: ConnectOptions = {
 };
 
 const connectToDatabase = async (): Promise<void> => {
-  await waitFor(3000);
+  // await waitFor(3000);
   if (mongoose.connection.readyState !== ConnectionStates.connected) {
     await mongoose.connect(process.env.MONGO_URI as string, connectionOptions);
   }

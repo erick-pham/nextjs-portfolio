@@ -1,6 +1,5 @@
-import AdminRootLayout from "@/components/Admin/AdminRootLayout";
 import type { ReactNode } from "react";
 
-const HomePage = (): ReactNode => <AdminRootLayout>HomePage</AdminRootLayout>;
+const HomePage = (): ReactNode => <>HomePage</>;
 
 export default HomePage;

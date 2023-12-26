@@ -12,7 +12,7 @@ import { NavItem } from "./NavItem";
 
 const items = [
   {
-    href: "/admin",
+    href: "/dashboard",
     icon: <StackedBarChartIcon fontSize="small" />,
     title: "Dashboard",
   },
@@ -43,7 +43,7 @@ const items = [
   // },
 
   {
-    href: "/sign-out",
+    href: "",
     icon: <LogoutIcon fontSize="small" />,
     title: "SignOut",
   },

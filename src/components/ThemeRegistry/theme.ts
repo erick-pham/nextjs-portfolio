@@ -480,7 +480,7 @@ export const themeDark = createTheme({
       default: "#121212",
       paper: "#0E1217",
     },
-    divider: "#E6E8F0",
+    divider: "#FFFFFF",
     primary: {
       main: "#5048E5",
       light: "#828DF8",

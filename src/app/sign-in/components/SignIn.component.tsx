@@ -2,7 +2,7 @@
 import { FormInputText } from "@/components/Form/FormInputText";
 import { GoogleIcon } from "@/components/Icons";
 import Link from "@/components/Link";
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button, Divider, Typography } from "@mui/material";
 import type { ReactElement } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { signIn } from "next-auth/react";
@@ -55,7 +55,7 @@ export const SignInForm = ({
         >
           Sign In
         </Button>
-
+        <Divider>or</Divider>
         <Button
           color="error"
           fullWidth

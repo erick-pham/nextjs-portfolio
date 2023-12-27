@@ -1,3 +1,4 @@
+import type { Session } from "@auth/core/types";
 export type Maybe<T> = T | null | undefined;
 export type Nullable<T> = T | null;
 export interface ILabel {
@@ -27,3 +28,21 @@ export type IActionResponse<T> = {
   success: boolean;
   data?: T | string;
 };
+
+export interface NextAuthRequest extends NextRequest {
+  auth: Session | null;
+}
+
+import type { DefaultSession } from "next-auth";
+
+declare module "next-auth" {
+  /**
+   * Returned by `useSession`, `getSession` and received as a prop on the `SessionProvider` React Context
+   */
+  interface Session {
+    user: DefaultSession["user"] & {
+      /** The user's postal address. */
+      address: string;
+    };
+  }
+}

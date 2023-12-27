@@ -1,7 +1,19 @@
 import NextAuth from "next-auth";
-import type { NextAuthConfig, Session } from "next-auth";
+import type { NextAuthConfig, Session, DefaultSession } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import type { NextRequest } from "next/server";
+
+declare module "next-auth" {
+  /**
+   * Returned by `useSession`, `getSession` and received as a prop on the `SessionProvider` React Context
+   */
+  interface Session {
+    user: DefaultSession["user"] & {
+      /** The user's postal address. */
+      address: string;
+    };
+  }
+}
 
 type AuthorizedProp = {
   auth: Session | null;

@@ -2,9 +2,12 @@
 import NextLink from "next/link";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { Button, Grid, Typography } from "@mui/material";
+import { auth } from "@/auth";
 
-const DashboardPage: React.FC = () => (
-  <>
+const DashboardPage: React.FC = async () => {
+  const session = await auth();
+
+  return (
     <Grid
       style={{
         alignItems: "center",
@@ -13,6 +16,7 @@ const DashboardPage: React.FC = () => (
         margin: "auto",
       }}
     >
+      <Typography variant="h6">Hi {session?.user.name}</Typography>
       <Typography variant="h1">Coming soon</Typography>
 
       <NextLink href="/" passHref>
@@ -21,7 +25,7 @@ const DashboardPage: React.FC = () => (
         </Button>
       </NextLink>
     </Grid>
-  </>
-);
+  );
+};
 
 export default DashboardPage;

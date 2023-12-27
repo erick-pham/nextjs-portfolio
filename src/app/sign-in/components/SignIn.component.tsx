@@ -6,7 +6,6 @@ import { Box, Button, Typography } from "@mui/material";
 import type { ReactElement } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { signIn } from "next-auth/react";
-import { authConfig } from "../../../auth";
 
 interface SignInProps {
   isSignInMode: boolean;
@@ -56,10 +55,12 @@ export const SignInForm = ({
         >
           Sign In
         </Button>
+
         <Button
           color="error"
           fullWidth
           startIcon={<GoogleIcon />}
+          // eslint-disable-next-line @typescript-eslint/no-misused-promises
           onClick={async () => signIn("google")}
           variant="contained"
           sx={{

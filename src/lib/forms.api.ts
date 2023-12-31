@@ -2,7 +2,7 @@ import type { IListItem, ISearchParam } from "@/types/base";
 import type { IQuestionnaire } from "@/types/questionnaire";
 
 export const getListForm = async (
-  listFormParams?: ISearchParam
+  listFormParams?: ISearchParam,
 ): Promise<IListItem<IQuestionnaire>> => {
   const { limit = 1000000, page = 1, searchTerm = "" } = listFormParams || {};
 
@@ -14,7 +14,7 @@ export const getListForm = async (
       next: {
         tags: ["list-form"],
       },
-    }
+    },
   );
 
   return data.json() as Promise<IListItem<IQuestionnaire>>;

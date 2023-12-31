@@ -5,16 +5,16 @@ const nextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: 'https',
-        hostname: 'source.unsplash.com',
-        port: '',
-        pathname: '/random',
+        protocol: "https",
+        hostname: "source.unsplash.com",
+        port: "",
+        pathname: "/random",
       },
       {
-        protocol: 'https',
-        hostname: 'gw.alipayobjects.com',
-        port: '',
-        pathname: '/**',
+        protocol: "https",
+        hostname: "gw.alipayobjects.com",
+        port: "",
+        pathname: "/**",
       },
       {
         protocol: "https",

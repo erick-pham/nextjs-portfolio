@@ -67,7 +67,7 @@ export const SignUpForm = ({
               setSignInMode(!isSignInMode);
             }}
           >
-            Have you an account? Login now!
+            Have an account? Sign In now!
           </Typography>
         </Box>
 

@@ -10,7 +10,7 @@ const defaultSnackMessageLength = 100;
 
 const trimMessage = (
   msg: string,
-  length: number = defaultSnackMessageLength
+  length: number = defaultSnackMessageLength,
 ): string => {
   return msg.substring(0, length);
 };

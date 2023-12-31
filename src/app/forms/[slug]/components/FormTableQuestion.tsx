@@ -95,7 +95,7 @@ const FormTableQuestion = ({
                   <StyledTableCell align="center">
                     {getLabelText(
                       QUESTION_TYPE_LABEL,
-                      question.questionType as string
+                      question.questionType as string,
                     )}
                   </StyledTableCell>
                   <StyledTableCell align="center">

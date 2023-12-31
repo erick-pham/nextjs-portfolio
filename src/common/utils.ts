@@ -25,7 +25,7 @@ export const waitFor = async (seconds: number): Promise<void> =>
   new Promise((resolve: () => void) =>
     setTimeout(() => {
       resolve();
-    }, seconds)
+    }, seconds),
   );
 
 export const getBadgeStatus = (status: string): string => {

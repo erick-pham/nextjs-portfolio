@@ -220,7 +220,7 @@ const ViewForm = ({
                     name: `${questionIndex + 1}. ${question.name}`,
                   })}
                 </div>
-              )
+              ),
             )}
 
             {!isSubmittedForm && (

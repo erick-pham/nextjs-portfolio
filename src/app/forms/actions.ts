@@ -10,7 +10,7 @@ import { QuestionStatusEnum } from "@/common/constants";
 import { InternalResponse } from "@/common/InternalResponse";
 
 export const addQuestionnaire = async (
-  formData: IQuestionnaire
+  formData: IQuestionnaire,
 ): Promise<IActionResponse<null>> => {
   await connectToDatabase();
   if (!formData.thumbnail) {
@@ -52,7 +52,7 @@ export const listQuestionnaire = async ({
 };
 
 export const getQuestionnaireById = async (
-  id: string
+  id: string,
 ): Promise<IQuestionnaire | null> => {
   await connectToDatabase();
 
@@ -79,7 +79,7 @@ export const getQuestionnaireById = async (
 };
 
 export const updateFormAction = async (
-  questionnaireObj: IQuestionnaire
+  questionnaireObj: IQuestionnaire,
 ): Promise<IActionResponse<null>> => {
   await connectToDatabase();
 
@@ -90,7 +90,7 @@ export const updateFormAction = async (
     {
       ...questionnaireObj,
       questions: undefined,
-    }
+    },
   )
     .lean()
     .exec();
@@ -102,7 +102,7 @@ export const updateFormAction = async (
 
 /// Handle CRUD question
 export const addQuestion = async (
-  questionObj: IQuestion
+  questionObj: IQuestion,
 ): Promise<IActionResponse<null>> => {
   await connectToDatabase();
 
@@ -120,7 +120,7 @@ export const addQuestion = async (
 };
 
 export const updateQuestion = async (
-  questionObj: IQuestion
+  questionObj: IQuestion,
 ): Promise<IActionResponse<null>> => {
   await connectToDatabase();
 
@@ -129,7 +129,7 @@ export const updateQuestion = async (
       id: questionObj.id,
       questionnaire: questionObj.questionnaire,
     },
-    questionObj
+    questionObj,
   );
 
   revalidatePath("/forms/[slug]", "page");
@@ -138,7 +138,7 @@ export const updateQuestion = async (
 
 export const deleteQuestion = async (
   questionnaireId: string,
-  questionId: string
+  questionId: string,
 ): Promise<IActionResponse<null>> => {
   await connectToDatabase();
 

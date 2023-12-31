@@ -8,7 +8,7 @@ import FormTableQuestion from "./components/FormTableQuestion";
 import { Grid } from "@mui/material";
 
 const FormDetailPage = async (
-  props: PageProps
+  props: PageProps,
 ): Promise<React.ReactElement> => {
   const { slug } = props.params;
 

@@ -11,7 +11,7 @@ export const GET = auth((req: NextAuthRequest): NextResponse => {
 
   return ServerNextResponse.json(
     { message: "Not authenticated" },
-    { status: 401 }
+    { status: 401 },
   );
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
 }) as any;

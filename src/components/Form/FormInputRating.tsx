@@ -56,7 +56,7 @@ export const FormInputRating = ({
               value={Number(field.value)}
               onChange={(
                 event: React.SyntheticEvent,
-                ratingValue: number | null
+                ratingValue: number | null,
               ): void => {
                 externalOnChange?.(ratingValue);
                 field.onChange(ratingValue);

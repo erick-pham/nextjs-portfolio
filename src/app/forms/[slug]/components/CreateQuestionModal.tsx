@@ -57,7 +57,7 @@ const CreateQuestion = ({
         try {
           setIsLoadingCreateQuestion(true);
           const addQuestionFormRes = await addQuestion(
-            getValues() as IQuestion
+            getValues() as IQuestion,
           );
 
           toast.success(addQuestionFormRes.message);

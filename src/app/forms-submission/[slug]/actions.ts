@@ -9,7 +9,7 @@ import { redirect } from "next/navigation";
 
 const formatAnswerValue = (
   formData: Record<string, object | undefined>,
-  questionItem: IQuestion
+  questionItem: IQuestion,
 ): string[] | boolean | number | object | string | null => {
   if (formData[questionItem.id] === undefined) return null;
 
@@ -24,7 +24,7 @@ const formatAnswerValue = (
 };
 
 export const submitForm = async (
-  formData: Record<string, object | undefined>
+  formData: Record<string, object | undefined>,
 ): Promise<void> => {
   await connectToDatabase();
 
@@ -53,6 +53,6 @@ export const submitForm = async (
   await newFormSubmissionModel.save();
 
   redirect(
-    `/forms-submission/${questionnaire}?result_id=${newFormSubmissionModel.id}`
+    `/forms-submission/${questionnaire}?result_id=${newFormSubmissionModel.id}`,
   );
 };

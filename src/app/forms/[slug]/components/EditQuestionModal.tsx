@@ -55,7 +55,7 @@ const EditQuestionModal = ({
         try {
           setIsSubmittingEditModal(true);
           const updateQuestionFormRes = await updateQuestion(
-            getValues() as IQuestion
+            getValues() as IQuestion,
           );
 
           toast.success(updateQuestionFormRes.message);

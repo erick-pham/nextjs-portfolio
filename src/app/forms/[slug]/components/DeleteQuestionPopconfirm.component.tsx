@@ -37,7 +37,7 @@ const DeleteQuestionPopconfirm = ({
           setLoadingDeleteForm(true);
           const deleteFormRes = await deleteQuestion(
             questionnaireId,
-            questionId
+            questionId,
           );
           toast.success(deleteFormRes.message);
           setOpenPopconfirm(false);

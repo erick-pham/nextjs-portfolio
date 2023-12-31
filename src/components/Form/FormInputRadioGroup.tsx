@@ -74,7 +74,7 @@ export const FormInputRadioGroup = ({
             value={field.value}
             onChange={(
               event: React.SyntheticEvent,
-              radioValue: string
+              radioValue: string,
             ): void => {
               externalOnChange?.(radioValue);
               field.onChange(radioValue);

@@ -9,7 +9,7 @@ import { FormSubmissionModel } from "@/database/form";
 import type { IAnswerData } from "@/types/questionnaire";
 
 const QuestionDetailPage = async (
-  props: PageProps
+  props: PageProps,
 ): Promise<ReactElement | never> => {
   const { slug } = props.params;
   const result_id = props.searchParams.result_id;

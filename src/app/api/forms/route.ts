@@ -35,7 +35,7 @@ export const GET = async (req: Request): Promise<NextResponse> => {
       },
       {
         status: 200,
-      }
+      },
     );
   } catch (error) {
     return ServerNextResponse.json(
@@ -45,7 +45,7 @@ export const GET = async (req: Request): Promise<NextResponse> => {
       },
       {
         status: 500,
-      }
+      },
     );
   }
 };

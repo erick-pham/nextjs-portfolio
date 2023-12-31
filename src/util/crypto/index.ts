@@ -2,7 +2,7 @@ import { randomBytes, scryptSync, timingSafeEqual } from "crypto";
 
 export const generateKey = (
   size: number = 16,
-  format: BufferEncoding = "hex"
+  format: BufferEncoding = "hex",
 ): string => {
   return randomBytes(size).toString(format);
 };
@@ -15,7 +15,7 @@ export const generateSecretHash = (key: string): string => {
 
 export const compareKeys = (
   storedKey: string,
-  suppliedKey: string
+  suppliedKey: string,
 ): boolean => {
   const [hashedPassword, salt] = storedKey.split(".");
 

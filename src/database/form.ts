@@ -18,7 +18,7 @@ export const FormQuestionSchema = new mongoose.Schema<IQuestion>(
     status: { type: String, default: QuestionStatusEnum.DRAFT },
     questionnaire: { ref: "questionnaire", type: String },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 export const FormSchema = new mongoose.Schema<IQuestionnaire>(
@@ -30,7 +30,7 @@ export const FormSchema = new mongoose.Schema<IQuestionnaire>(
     status: { type: String, default: QuestionStatusEnum.DRAFT },
     questions: [{ ref: "question", type: String }],
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 export const FormSubmissionSchema =
@@ -40,7 +40,7 @@ export const FormSubmissionSchema =
       answers: [{ type: Object }],
       questionnaire: { ref: "questionnaire", type: String },
     },
-    { timestamps: true }
+    { timestamps: true },
   );
 
 export const QuestionModel = (mongoose.models["question"] ||
@@ -52,5 +52,42 @@ export const FormModel = (mongoose.models["questionnaire"] ||
 export const FormSubmissionModel = (mongoose.models["form-submission"] ||
   mongoose.model(
     "form-submission",
-    FormSubmissionSchema
+    FormSubmissionSchema,
   )) as Model<IQuestionnaireSubmission>;
+
+export interface IUser extends Document {
+  email: string;
+  name: string;
+  password: string;
+  toJSON(): object;
+  twoFactorEnabled: boolean;
+  twoFactorSecret?: string;
+}
+
+const userSchema = new mongoose.Schema<IUser>(
+  {
+    name: { type: String, required: true },
+    email: { type: String, required: true },
+    password: { type: String, required: true },
+    twoFactorEnabled: { type: Boolean, required: false, default: false },
+    twoFactorSecret: { type: String, required: false },
+  },
+  {
+    toObject: {
+      transform: function (doc: Document, ret: Record<string, object>): object {
+        delete ret._id;
+        return ret;
+      },
+    },
+    toJSON: {
+      transform: function (doc: Document, ret: Record<string, object>): object {
+        delete ret._id;
+        return ret;
+      },
+    },
+  },
+);
+
+// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+export const UserModel = (mongoose.models["user"] ||
+  mongoose.model("user", userSchema)) as Model<IUser>;

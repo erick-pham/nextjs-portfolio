@@ -69,7 +69,7 @@ const ListCardForm = ({
               </Card>
             </Grid>
           );
-        }
+        },
       )}
     </Grid>
   );

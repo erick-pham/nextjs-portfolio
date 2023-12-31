@@ -1,9 +1,14 @@
 "use client";
 
-import Head from "next/head";
 import type { ReactNode } from "react";
 import { Typography, Grid, Button } from "@mui/material";
 import SyncIcon from "@mui/icons-material/Sync";
+
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "500 - SERVER ERROR",
+};
 
 export default function Error({
   // error,
@@ -14,9 +19,6 @@ export default function Error({
 }): ReactNode {
   return (
     <div>
-      <Head>
-        <title>404 - Page not found</title>
-      </Head>
       <Grid
         style={{
           alignItems: "center",

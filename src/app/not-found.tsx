@@ -1,14 +1,14 @@
-"use server";
-import Head from "next/head";
 import NextLink from "next/link";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { Button, Grid, Typography } from "@mui/material";
+import type { Metadata } from "next";
 
-const NotFoundPage: React.FC = () => (
+export const metadata: Metadata = {
+  title: "404 - Page not found",
+};
+
+const NotFoundPage: React.FC = async () => (
   <>
-    <Head>
-      <title>404 - Page not found</title>
-    </Head>
     <Grid
       style={{
         alignItems: "center",

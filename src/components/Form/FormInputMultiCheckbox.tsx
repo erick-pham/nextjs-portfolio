@@ -69,13 +69,13 @@ export const FormInputMultiCheckbox = ({
                     checked={checkboxValues.includes(option.code)}
                     onChange={(
                       event: React.ChangeEvent<HTMLInputElement>,
-                      checked: boolean
+                      checked: boolean,
                     ): void => {
                       const newCheckboxValues = checked
                         ? [...checkboxValues, options[index].code]
                         : checkboxValues.filter(
                             (checkboxItemValue: string) =>
-                              checkboxItemValue !== options[index].code
+                              checkboxItemValue !== options[index].code,
                           );
 
                       field.onChange(newCheckboxValues);

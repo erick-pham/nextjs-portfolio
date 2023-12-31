@@ -27,11 +27,6 @@ export const SignUpForm = ({
         if (addUserRes.userExists) {
           toast.error(addUserRes.message);
         } else {
-          // setEmailInvalid(false);
-          // setName("");
-          // setEmail("");
-          // setPassword("");
-          // props.setSignInMode(true);
           toast.success(addUserRes.message);
         }
       })

@@ -3,10 +3,15 @@ import { FormInputText } from "@/components/Form/FormInputText";
 import { GoogleIcon } from "@/components/Icons";
 import Link from "@/components/Link";
 import { Box, Button, Divider, Typography } from "@mui/material";
-import type { ReactElement } from "react";
+import { useState, type ReactElement } from "react";
 import { FormProvider, useForm } from "react-hook-form";
+import type { SignInResponse } from "next-auth/react";
 import { signIn } from "next-auth/react";
-
+import toast from "react-hot-toast";
+import { ErrorCode } from "@/common/errorCode";
+import type { Credential } from "@/types/auth";
+import { useRouter } from "next/navigation";
+import { MuiOtpInput } from "mui-one-time-password-input";
 interface SignInProps {
   isSignInMode: boolean;
   setSignInMode: (value: boolean) => void;
@@ -17,6 +22,46 @@ export const SignInForm = ({
   setSignInMode,
 }: SignInProps): ReactElement => {
   const signInMethod = useForm();
+  const router = useRouter();
+
+  const [otp, setOtp] = useState<string>("");
+  const [showOTP, setShowOTP] = useState<boolean>(false);
+
+  const handleChangeOTP = (newValue: string): void => {
+    setOtp(newValue);
+  };
+
+  const handleSignIn = (e: React.SyntheticEvent): void => {
+    e.preventDefault();
+
+    const singInInput = signInMethod.getValues() as Credential;
+    console.log("Email: ", singInInput.email);
+    signIn("credentials", {
+      redirect: false,
+      ...singInInput,
+    })
+      .then((response: SignInResponse | undefined) => {
+        console.log("response", response);
+        if (response?.ok) {
+          router.replace("/profile");
+          return;
+        }
+
+        switch (response?.error) {
+          case ErrorCode.IncorrectPassword:
+            toast.error("Invalid credentials");
+            return;
+          case ErrorCode.SecondFactorRequired:
+            setShowOTP(true);
+            return;
+          default:
+            return;
+        }
+      })
+      .catch(() => {
+        toast.error("Sorry something went wrong");
+      });
+  };
 
   return (
     <FormProvider {...signInMethod}>
@@ -44,6 +89,8 @@ export const SignInForm = ({
           label="Password"
           type="password"
         />
+
+        {showOTP && <MuiOtpInput value={otp} onChange={handleChangeOTP} />}
         <Button
           type="submit"
           fullWidth
@@ -52,6 +99,7 @@ export const SignInForm = ({
             mt: 1,
             mb: 1,
           }}
+          onClick={handleSignIn}
         >
           Sign In
         </Button>

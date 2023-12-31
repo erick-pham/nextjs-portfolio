@@ -9,13 +9,7 @@ import { authenticator } from "otplib";
 import type { IUser } from "./types/user";
 // import type { IUser } from "./database/form";
 // import { sql } from "@vercel/postgres";
-
-type Credential = {
-  email: string;
-  password: string;
-  otpCode?: string;
-};
-
+import type { Credential } from "@/types/auth";
 declare module "next-auth" {
   /**
    * Returned by `useSession`, `getSession` and received as a prop on the `SessionProvider` React Context
@@ -111,7 +105,7 @@ export const authConfig = {
         // Validate password
         const isPasswordMatch = await isPasswordValid(
           credentials.password,
-          user.password
+          user.password,
         );
 
         if (!isPasswordMatch) {
@@ -125,25 +119,25 @@ export const authConfig = {
 
           if (!user.twoFactorSecret) {
             console.error(
-              `Two factor is enabled for user ${user.email} but they have no secret`
+              `Two factor is enabled for user ${user.email} but they have no secret`,
             );
             throw new Error(ErrorCode.InternalServerError);
           }
 
           if (!process.env.ENCRYPTION_KEY) {
             console.error(
-              `"Missing encryption key; cannot proceed with two factor login."`
+              `"Missing encryption key; cannot proceed with two factor login."`,
             );
             throw new Error(ErrorCode.InternalServerError);
           }
 
           const secret = symmetricDecrypt(
             user.twoFactorSecret!,
-            process.env.ENCRYPTION_KEY!
+            process.env.ENCRYPTION_KEY!,
           );
           if (secret.length !== 32) {
             console.error(
-              `Two factor secret decryption failed. Expected key with length 32 but got ${secret.length}`
+              `Two factor secret decryption failed. Expected key with length 32 but got ${secret.length}`,
             );
             throw new Error(ErrorCode.InternalServerError);
           }
@@ -153,17 +147,11 @@ export const authConfig = {
             throw new Error(ErrorCode.IncorrectTwoFactorCode);
           }
         }
-
         return {
           id: user.id,
           name: user.name,
           email: user.email,
         };
-
-        // const user = await getUser(credentials.email);
-        // if (!user) return null;
-
-        // return null;
       },
     }),
     GoogleProvider({

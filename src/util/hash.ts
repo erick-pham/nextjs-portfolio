@@ -8,9 +8,9 @@ export const hashPassword = async (password: string): Promise<string> => {
 
 export const isPasswordValid = async (
   password: string,
-  hashedPassword: string
+  hashedPassword: string | null | undefined,
 ): Promise<boolean> => {
-  const isValid: boolean = await compare(password, hashedPassword);
+  const isValid: boolean = await compare(password, hashedPassword || "");
   return isValid;
 };
 

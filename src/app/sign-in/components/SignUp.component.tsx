@@ -1,9 +1,12 @@
 "use client";
+import type { INewUser, INewUserResponse } from "@/app/api/auth/signup/route";
 import { FormInputText } from "@/components/Form/FormInputText";
 import Link from "@/components/Link";
+import { signUp } from "@/lib/auth.api";
 import { Box, Button, Typography } from "@mui/material";
 import type { ReactElement } from "react";
 import { FormProvider, useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 
 interface SignUpProps {
   isSignInMode: boolean;
@@ -15,6 +18,27 @@ export const SignUpForm = ({
   setSignInMode,
 }: SignUpProps): ReactElement => {
   const SignUpMethod = useForm();
+
+  const handleSignUp = (e: React.SyntheticEvent): void => {
+    e.preventDefault();
+    // setIsPending(true);
+    signUp(SignUpMethod.getValues() as INewUser)
+      .then((addUserRes: INewUserResponse) => {
+        if (addUserRes.userExists) {
+          toast.error(addUserRes.message);
+        } else {
+          // setEmailInvalid(false);
+          // setName("");
+          // setEmail("");
+          // setPassword("");
+          // props.setSignInMode(true);
+          toast.success(addUserRes.message);
+        }
+      })
+      .finally(() => {
+        // setIsPending(false);
+      });
+  };
 
   return (
     <FormProvider {...SignUpMethod}>
@@ -50,6 +74,7 @@ export const SignUpForm = ({
             mt: 1,
             mb: 1,
           }}
+          onClick={handleSignUp}
         >
           Sign Up
         </Button>

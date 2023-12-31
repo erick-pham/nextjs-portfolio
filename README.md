@@ -14,6 +14,11 @@ pnpm dev
 # or
 bun dev
 ```
+##
+npx prisma db push
+
+Random next auth secret
+openssl rand -base64 32
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 

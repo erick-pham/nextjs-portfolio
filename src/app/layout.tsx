@@ -19,7 +19,12 @@ const RootLayout = ({
   <html lang="en">
     <body>
       <ThemeRegistry>
-        <Toaster position="bottom-center" />
+        <Toaster
+          position="bottom-center"
+          toastOptions={{
+            duration: 3000,
+          }}
+        />
         <SessionProvider>{children}</SessionProvider>
       </ThemeRegistry>
     </body>

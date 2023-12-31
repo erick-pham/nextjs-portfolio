@@ -1,3 +1,23 @@
+export type RefOption = {
+  code: string;
+  label: string;
+};
+
+export const GENDERS: RefOption[] = [
+  {
+    code: "",
+    label: "NONE",
+  },
+  {
+    code: "MALE",
+    label: "Nam",
+  },
+  {
+    code: "Female",
+    label: "Nữ",
+  },
+];
+
 export enum QuestionStatusEnum {
   DRAFT = "DRAFT",
   ACTIVE = "ACTIVE",

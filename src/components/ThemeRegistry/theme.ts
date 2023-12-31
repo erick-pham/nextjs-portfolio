@@ -1,5 +1,5 @@
 // import { Roboto } from "next/font/google";
-import { alpha, createTheme, darken } from "@mui/material/styles";
+import { createTheme } from "@mui/material/styles";
 
 // const roboto = Roboto({
 //   weight: ["300", "400", "500", "700"],
@@ -18,19 +18,19 @@ export const themeLight = createTheme({
     },
   },
   components: {
-    MuiBackdrop: {
-      styleOverrides: {
-        root: {
-          backgroundColor: alpha(darken("#000C57", 0.4), 0.2),
-          backdropFilter: "blur(2px)",
+    // MuiBackdrop: {
+    //   styleOverrides: {
+    //     root: {
+    //       backgroundColor: alpha(darken("#000C57", 0.4), 0.2),
+    //       backdropFilter: "blur(2px)",
 
-          "&.MuiBackdrop-invisible": {
-            backgroundColor: "transparent",
-            backdropFilter: "blur(2px)",
-          },
-        },
-      },
-    },
+    //       "&.MuiBackdrop-invisible": {
+    //         backgroundColor: "transparent",
+    //         backdropFilter: "blur(2px)",
+    //       },
+    //     },
+    //   },
+    // },
     MuiFormHelperText: {
       styleOverrides: {
         root: {
@@ -480,7 +480,7 @@ export const themeDark = createTheme({
       default: "#121212",
       paper: "#0E1217",
     },
-    divider: "#FFFFFF",
+    divider: "#2D3748",
     primary: {
       main: "#5048E5",
       light: "#828DF8",

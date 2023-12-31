@@ -4,13 +4,14 @@ import PropTypes from "prop-types";
 import LogoutIcon from "@mui/icons-material/Logout";
 import StackedBarChartIcon from "@mui/icons-material/StackedBarChart";
 import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
+import PersonIcon from "@mui/icons-material/Person";
 import type { Theme } from "@mui/material";
 import { Box, Divider, Drawer, Typography, useMediaQuery } from "@mui/material";
 import NextImage from "next/image";
 import type { NavItemProp } from "./NavItem";
 import { NavItem } from "./NavItem";
 
-const items = [
+const AdminMenuItems = [
   {
     href: "/dashboard",
     icon: <StackedBarChartIcon fontSize="small" />,
@@ -37,17 +38,6 @@ const items = [
   //   title: "Products Items",
   // },
   // {
-  //   href: "/admin/account",
-  //   icon: <PersonIcon fontSize="small" />,
-  //   title: "Account",
-  // },
-
-  {
-    href: "",
-    icon: <LogoutIcon fontSize="small" />,
-    title: "SignOut",
-  },
-  // {
   //   href: '/settings',
   //   icon: (<CogIcon fontSize="small" />),
   //   title: 'Settings'
@@ -67,6 +57,19 @@ const items = [
   //   icon: (<XCircleIcon fontSize="small" />),
   //   title: 'Error'
   // }
+];
+
+const UserMenuItems = [
+  {
+    href: "/user-profile",
+    icon: <PersonIcon fontSize="small" />,
+    title: "Profile",
+  },
+  {
+    href: "",
+    icon: <LogoutIcon fontSize="small" />,
+    title: "SignOut",
+  },
 ];
 
 type DashboardSidebarProp = {
@@ -126,12 +129,20 @@ export const DashboardSidebar = ({
         </div>
         <Divider
           sx={{
-            borderColor: "#2D3748",
             my: 3,
           }}
         />
         <Box sx={{ flexGrow: 1 }}>
-          {items.map((item: NavItemProp) => (
+          {AdminMenuItems.map((item: NavItemProp) => (
+            <NavItem
+              key={item.title}
+              icon={item.icon}
+              href={item.href}
+              title={item.title}
+            />
+          ))}
+          <Divider sx={{ my: 3 }} />
+          {UserMenuItems.map((item: NavItemProp) => (
             <NavItem
               key={item.title}
               icon={item.icon}
@@ -140,7 +151,6 @@ export const DashboardSidebar = ({
             />
           ))}
         </Box>
-        <Divider sx={{ borderColor: "#2D3748" }} />
       </Box>
     </>
   );

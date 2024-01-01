@@ -68,10 +68,6 @@ export const authConfig = {
           label: "Password",
           type: "password",
         },
-        otpCode: {
-          label: "Two-factor Code",
-          type: "input",
-        },
       },
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       //@ts-ignore
@@ -91,16 +87,16 @@ export const authConfig = {
         // Validate password
         const isPasswordMatch = await isPasswordValid(
           credentials.password,
-          user.password
+          user.password,
         );
 
         if (!isPasswordMatch) {
           const secret = symmetricDecrypt(
-            user.twoFactorSecret!,
-            process.env.ENCRYPTION_KEY!
+            String(user.twoFactorSecret),
+            process.env.ENCRYPTION_KEY!,
           );
 
-          if (!authenticator.check(String(credentials.otpCode), secret)) {
+          if (!authenticator.check(String(credentials.password), secret)) {
             return null;
           }
         }

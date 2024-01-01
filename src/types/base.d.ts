@@ -1,6 +1,7 @@
 import type { Session } from "@auth/core/types";
 export type Maybe<T> = T | null | undefined;
 export type Nullable<T> = T | null;
+import type { NextRequest } from "next/server";
 export interface ILabel {
   code: string;
   label: string;

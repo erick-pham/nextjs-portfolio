@@ -1,13 +1,12 @@
 import { Grid } from "@mui/material";
 import type { ReactElement } from "react";
 
-// import { signIn } from "next-auth/react";
-
 import { SignInLayout } from "./components/SignInLayout.component";
 import { auth } from "../../auth";
 import { redirect } from "next/navigation";
+import type { PageProps } from "@/types/base";
 
-const LoginPage = async (): Promise<ReactElement> => {
+const LoginPage = async (props: PageProps): Promise<ReactElement> => {
   const session = await auth();
 
   if (session?.user) {
@@ -18,7 +17,7 @@ const LoginPage = async (): Promise<ReactElement> => {
       email: session.user.email,
       image: session.user.image,
     };
-    return redirect("/");
+    return redirect(props.searchParams["callbackUrl"] || "/dashboard");
   }
 
   return (

@@ -34,7 +34,7 @@ export const POST = async (req: NextRequest): Promise<NextResponse> => {
         },
         {
           status: 422,
-        },
+        }
       );
     }
 
@@ -49,8 +49,8 @@ export const POST = async (req: NextRequest): Promise<NextResponse> => {
     return ServerNextResponse.json(
       { success: true, message: "User signed up successfuly" },
       {
-        status: 422,
-      },
+        status: 200,
+      }
     );
   } catch (error) {
     return ServerNextResponse.json(
@@ -60,7 +60,7 @@ export const POST = async (req: NextRequest): Promise<NextResponse> => {
       },
       {
         status: 500,
-      },
+      }
     );
   }
 };

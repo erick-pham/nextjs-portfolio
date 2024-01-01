@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "prisma generate && next dev",
-    "build": "prisma generate && next build",
+    "build": "prisma generate && prisma db push && next build",
     "start": "next start",
     "lint": "next lint",
     "format": "prettier --write ./src/**/*.{ts,tsx}"
@@ -19,7 +19,6 @@
     "@mui/material-nextjs": "^5.15.0",
     "@mui/x-date-pickers": "^6.18.5",
     "@prisma/client": "^5.7.1",
-    "@vercel/postgres": "^0.5.1",
     "bcryptjs": "^2.4.3",
     "crypto-js": "^4.2.0",
     "date-fns": "^2.30.0",

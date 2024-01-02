@@ -1,7 +1,5 @@
 import type { ReactElement } from "react";
 import NextLink from "next/link";
-import PropTypes from "prop-types";
-import LogoutIcon from "@mui/icons-material/Logout";
 import StackedBarChartIcon from "@mui/icons-material/StackedBarChart";
 import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 import PersonIcon from "@mui/icons-material/Person";
@@ -64,11 +62,6 @@ const UserMenuItems = [
     href: "/user-profile",
     icon: <PersonIcon fontSize="small" />,
     title: "Profile",
-  },
-  {
-    href: "",
-    icon: <LogoutIcon fontSize="small" />,
-    title: "SignOut",
   },
 ];
 
@@ -192,11 +185,6 @@ export const DashboardSidebar = ({
       {content}
     </Drawer>
   );
-};
-
-DashboardSidebar.propTypes = {
-  onClose: PropTypes.func,
-  open: PropTypes.bool,
 };
 
 export default DashboardSidebar;

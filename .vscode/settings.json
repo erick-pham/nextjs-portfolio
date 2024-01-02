@@ -1,5 +1,12 @@
 {
-  "cSpell.words": ["hoverable", "nocheck", "Popconfirm", "Sider", "subnav"],
+  "cSpell.words": [
+    "heroicons",
+    "hoverable",
+    "nocheck",
+    "Popconfirm",
+    "Sider",
+    "subnav"
+  ],
   "[javascript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.formatOnSave": true,

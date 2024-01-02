@@ -8,6 +8,7 @@ import { notFound } from "next/navigation";
 
 const UserProfilePage = async (): Promise<ReactElement> => {
   const session = await auth();
+
   const prisma = new PrismaClient();
   const userProfile = await prisma.user.findUnique({
     where: {

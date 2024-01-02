@@ -9,12 +9,14 @@ import {
   DialogContent,
   DialogTitle,
   Grid,
+  SvgIcon,
 } from "@mui/material";
 import LoadingWrapper from "@/components/LoadingWrapper";
 import { useForm, type FieldValues, FormProvider } from "react-hook-form";
 import { FormInputText } from "@/components/Form/FormInputText";
 import toast from "react-hot-toast";
 import type { IActionResponse } from "@/types/base";
+import { PlusIcon } from "@heroicons/react/16/solid";
 
 const CreateForm = (): React.ReactElement => {
   const [openCreateQuestionnaireModal, setOpenCreateQuestionnaireModal] =
@@ -92,13 +94,17 @@ const CreateForm = (): React.ReactElement => {
 
       <Grid mb={2}>
         <Button
-          color="success"
+          startIcon={
+            <SvgIcon fontSize="small">
+              <PlusIcon />
+            </SvgIcon>
+          }
           variant="contained"
           onClick={() => {
             setOpenCreateQuestionnaireModal(true);
           }}
         >
-          New Form
+          Add
         </Button>
       </Grid>
     </div>

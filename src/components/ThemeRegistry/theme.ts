@@ -1,5 +1,8 @@
 // import { Roboto } from "next/font/google";
-import { createTheme } from "@mui/material/styles";
+import { alpha, createTheme } from "@mui/material/styles";
+import { neutral } from "./color";
+import { createShadows } from "./create-shadows";
+import { createTypography } from "./create-typography";
 
 // const roboto = Roboto({
 //   weight: ["300", "400", "500", "700"],
@@ -172,12 +175,12 @@ export const themeLight = createTheme({
   palette: {
     mode: "light",
     action: {
-      active: "#6B7280",
-      focus: "rgba(55, 65, 81, 0.12)",
-      hover: "rgba(55, 65, 81, 0.04)",
-      selected: "rgba(55, 65, 81, 0.08)",
-      disabledBackground: "rgba(55, 65, 81, 0.12)",
-      disabled: "rgba(55, 65, 81, 0.26)",
+      active: neutral[500],
+      disabled: alpha(neutral[900], 0.38),
+      disabledBackground: alpha(neutral[900], 0.12),
+      focus: alpha(neutral[900], 0.16),
+      hover: alpha(neutral[900], 0.04),
+      selected: alpha(neutral[900], 0.12),
     },
     background: {
       default: "#F9FAFC",
@@ -230,102 +233,8 @@ export const themeLight = createTheme({
   shape: {
     borderRadius: 8,
   },
-  shadows: [
-    "none",
-    "0px 1px 1px rgba(100, 116, 139, 0.06), 0px 1px 2px rgba(100, 116, 139, 0.1)",
-    "0px 1px 2px rgba(100, 116, 139, 0.12)",
-    "0px 1px 4px rgba(100, 116, 139, 0.12)",
-    "0px 1px 5px rgba(100, 116, 139, 0.12)",
-    "0px 1px 6px rgba(100, 116, 139, 0.12)",
-    "0px 2px 6px rgba(100, 116, 139, 0.12)",
-    "0px 3px 6px rgba(100, 116, 139, 0.12)",
-    "0px 2px 4px rgba(31, 41, 55, 0.06), 0px 4px 6px rgba(100, 116, 139, 0.12)",
-    "0px 5px 12px rgba(100, 116, 139, 0.12)",
-    "0px 5px 14px rgba(100, 116, 139, 0.12)",
-    "0px 5px 15px rgba(100, 116, 139, 0.12)",
-    "0px 6px 15px rgba(100, 116, 139, 0.12)",
-    "0px 7px 15px rgba(100, 116, 139, 0.12)",
-    "0px 8px 15px rgba(100, 116, 139, 0.12)",
-    "0px 9px 15px rgba(100, 116, 139, 0.12)",
-    "0px 10px 15px rgba(100, 116, 139, 0.12)",
-    "0px 12px 22px -8px rgba(100, 116, 139, 0.25)",
-    "0px 13px 22px -8px rgba(100, 116, 139, 0.25)",
-    "0px 14px 24px -8px rgba(100, 116, 139, 0.25)",
-    "0px 10px 10px rgba(31, 41, 55, 0.04), 0px 20px 25px rgba(31, 41, 55, 0.1)",
-    "0px 25px 50px rgba(100, 116, 139, 0.25)",
-    "0px 25px 50px rgba(100, 116, 139, 0.25)",
-    "0px 25px 50px rgba(100, 116, 139, 0.25)",
-    "0px 25px 50px rgba(100, 116, 139, 0.25)",
-  ],
-  typography: {
-    button: {
-      fontWeight: 600,
-    },
-    fontFamily:
-      '"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji"',
-    body1: {
-      fontSize: "1rem",
-      fontWeight: 400,
-      lineHeight: 1.5,
-    },
-    body2: {
-      fontSize: "0.875rem",
-      fontWeight: 400,
-      lineHeight: 1.57,
-    },
-    subtitle1: {
-      fontSize: "1rem",
-      fontWeight: 500,
-      lineHeight: 1.75,
-    },
-    subtitle2: {
-      fontSize: "0.875rem",
-      fontWeight: 500,
-      lineHeight: 1.57,
-    },
-    overline: {
-      fontSize: "0.75rem",
-      fontWeight: 600,
-      letterSpacing: "0.5px",
-      lineHeight: 2.5,
-      textTransform: "uppercase",
-    },
-    caption: {
-      fontSize: "0.75rem",
-      fontWeight: 400,
-      lineHeight: 1.66,
-    },
-    h1: {
-      fontWeight: 700,
-      fontSize: "3.5rem",
-      lineHeight: 1.375,
-    },
-    h2: {
-      fontWeight: 700,
-      fontSize: "3rem",
-      lineHeight: 1.375,
-    },
-    h3: {
-      fontWeight: 700,
-      fontSize: "2.25rem",
-      lineHeight: 1.375,
-    },
-    h4: {
-      fontWeight: 700,
-      fontSize: "2rem",
-      lineHeight: 1.375,
-    },
-    h5: {
-      fontWeight: 600,
-      fontSize: "1.5rem",
-      lineHeight: 1.375,
-    },
-    h6: {
-      fontWeight: 600,
-      fontSize: "1.125rem",
-      lineHeight: 1.375,
-    },
-  },
+  shadows: createShadows(),
+  typography: createTypography(),
 });
 
 export const themeDark = createTheme({
@@ -527,102 +436,8 @@ export const themeDark = createTheme({
   shape: {
     borderRadius: 8,
   },
-  shadows: [
-    "none",
-    "0px 1px 1px rgba(100, 116, 139, 0.06), 0px 1px 2px rgba(100, 116, 139, 0.1)",
-    "0px 1px 2px rgba(100, 116, 139, 0.12)",
-    "0px 1px 4px rgba(100, 116, 139, 0.12)",
-    "0px 1px 5px rgba(100, 116, 139, 0.12)",
-    "0px 1px 6px rgba(100, 116, 139, 0.12)",
-    "0px 2px 6px rgba(100, 116, 139, 0.12)",
-    "0px 3px 6px rgba(100, 116, 139, 0.12)",
-    "0px 2px 4px rgba(31, 41, 55, 0.06), 0px 4px 6px rgba(100, 116, 139, 0.12)",
-    "0px 5px 12px rgba(100, 116, 139, 0.12)",
-    "0px 5px 14px rgba(100, 116, 139, 0.12)",
-    "0px 5px 15px rgba(100, 116, 139, 0.12)",
-    "0px 6px 15px rgba(100, 116, 139, 0.12)",
-    "0px 7px 15px rgba(100, 116, 139, 0.12)",
-    "0px 8px 15px rgba(100, 116, 139, 0.12)",
-    "0px 9px 15px rgba(100, 116, 139, 0.12)",
-    "0px 10px 15px rgba(100, 116, 139, 0.12)",
-    "0px 12px 22px -8px rgba(100, 116, 139, 0.25)",
-    "0px 13px 22px -8px rgba(100, 116, 139, 0.25)",
-    "0px 14px 24px -8px rgba(100, 116, 139, 0.25)",
-    "0px 10px 10px rgba(31, 41, 55, 0.04), 0px 20px 25px rgba(31, 41, 55, 0.1)",
-    "0px 25px 50px rgba(100, 116, 139, 0.25)",
-    "0px 25px 50px rgba(100, 116, 139, 0.25)",
-    "0px 25px 50px rgba(100, 116, 139, 0.25)",
-    "0px 25px 50px rgba(100, 116, 139, 0.25)",
-  ],
-  typography: {
-    button: {
-      fontWeight: 600,
-    },
-    fontFamily:
-      '"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji"',
-    body1: {
-      fontSize: "1rem",
-      fontWeight: 400,
-      lineHeight: 1.5,
-    },
-    body2: {
-      fontSize: "0.875rem",
-      fontWeight: 400,
-      lineHeight: 1.57,
-    },
-    subtitle1: {
-      fontSize: "1rem",
-      fontWeight: 500,
-      lineHeight: 1.75,
-    },
-    subtitle2: {
-      fontSize: "0.875rem",
-      fontWeight: 500,
-      lineHeight: 1.57,
-    },
-    overline: {
-      fontSize: "0.75rem",
-      fontWeight: 600,
-      letterSpacing: "0.5px",
-      lineHeight: 2.5,
-      textTransform: "uppercase",
-    },
-    caption: {
-      fontSize: "0.75rem",
-      fontWeight: 400,
-      lineHeight: 1.66,
-    },
-    h1: {
-      fontWeight: 700,
-      fontSize: "3.5rem",
-      lineHeight: 1.375,
-    },
-    h2: {
-      fontWeight: 700,
-      fontSize: "3rem",
-      lineHeight: 1.375,
-    },
-    h3: {
-      fontWeight: 700,
-      fontSize: "2.25rem",
-      lineHeight: 1.375,
-    },
-    h4: {
-      fontWeight: 700,
-      fontSize: "2rem",
-      lineHeight: 1.375,
-    },
-    h5: {
-      fontWeight: 600,
-      fontSize: "1.5rem",
-      lineHeight: 1.375,
-    },
-    h6: {
-      fontWeight: 600,
-      fontSize: "1.125rem",
-      lineHeight: 1.375,
-    },
-  },
+  shadows: createShadows(),
+  typography: createTypography(),
 });
 
 export default themeDark;

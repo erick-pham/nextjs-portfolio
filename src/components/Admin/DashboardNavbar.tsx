@@ -2,7 +2,6 @@ import React from "react";
 import type { Theme } from "@mui/material";
 import {
   AppBar,
-  Avatar,
   Badge,
   Box,
   IconButton,
@@ -13,6 +12,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 import { BellIcon, UsersIcon } from "./icons";
 import type { ReactElement } from "react";
+import { AccountPopover } from "./AccountPopover";
 
 type DashboardNavbarProps = {
   onSidebarOpen: () => void;
@@ -72,16 +72,7 @@ export const DashboardNavbar = ({
               </Badge>
             </IconButton>
           </Tooltip>
-          <Avatar
-            sx={{
-              height: 40,
-              width: 40,
-              ml: 1,
-            }}
-            src={""}
-          >
-            U
-          </Avatar>
+          <AccountPopover />
         </Toolbar>
       </AppBar>
     </>

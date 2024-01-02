@@ -2,9 +2,17 @@ import type { ReactElement } from "react";
 import NextLink from "next/link";
 import StackedBarChartIcon from "@mui/icons-material/StackedBarChart";
 import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
-import PersonIcon from "@mui/icons-material/Person";
+import CogIcon from "@heroicons/react/24/solid/CogIcon";
+import UserIcon from "@heroicons/react/24/solid/UserIcon";
 import type { Theme } from "@mui/material";
-import { Box, Divider, Drawer, Typography, useMediaQuery } from "@mui/material";
+import {
+  Box,
+  Divider,
+  Drawer,
+  SvgIcon,
+  Typography,
+  useMediaQuery,
+} from "@mui/material";
 import NextImage from "next/image";
 import type { NavItemProp } from "./NavItem";
 import { NavItem } from "./NavItem";
@@ -60,8 +68,21 @@ const AdminMenuItems = [
 const UserMenuItems = [
   {
     href: "/user-profile",
-    icon: <PersonIcon fontSize="small" />,
+    icon: (
+      <SvgIcon fontSize="small">
+        <UserIcon />
+      </SvgIcon>
+    ),
     title: "Profile",
+  },
+  {
+    href: "/settings",
+    icon: (
+      <SvgIcon fontSize="small">
+        <CogIcon />
+      </SvgIcon>
+    ),
+    title: "Settings",
   },
 ];
 

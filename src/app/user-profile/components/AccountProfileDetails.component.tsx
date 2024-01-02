@@ -17,6 +17,7 @@ import {
   DialogContent,
   DialogTitle,
   Typography,
+  FormControl,
 } from "@mui/material";
 import { useState, type ReactElement } from "react";
 import type { RefOption } from "@/common/constants";
@@ -239,19 +240,21 @@ export const AccountProfileDetails = ({
               </Grid>
             </Grid>
             <Grid item md={6} xs={12}>
-              <FormControlLabel
-                value={""}
-                control={
-                  <Switch
-                    color="primary"
-                    onChange={handleSetup}
-                    value={""}
-                    checked={Boolean(userProfile.twoFactorEnabled)}
-                  />
-                }
-                label="Login with 2FA"
-                labelPlacement="start"
-              />
+              <FormControl>
+                <FormControlLabel
+                  value={""}
+                  control={
+                    <Switch
+                      color="primary"
+                      onChange={handleSetup}
+                      value={""}
+                      checked={Boolean(userProfile.twoFactorEnabled)}
+                    />
+                  }
+                  label="Login with 2FA"
+                  labelPlacement="start"
+                />
+              </FormControl>
             </Grid>
           </CardContent>
           <Divider />

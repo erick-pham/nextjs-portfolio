@@ -8,10 +8,12 @@ import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import Logout from "@mui/icons-material/Logout";
 import type { ReactElement } from "react";
-import { Fragment, useState } from "react";
-import { useSession } from "next-auth/react";
+import { useState } from "react";
+import { useSession, signOut } from "next-auth/react";
+import LoadingWrapper from "../LoadingWrapper";
 
 export const AccountPopover = (): ReactElement => {
+  const [onSignOut, setOnSignOut] = useState<boolean>(false);
   const userSession = useSession();
   const currentUser = userSession.data?.user;
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
@@ -22,8 +24,16 @@ export const AccountPopover = (): ReactElement => {
   const handleClose = (): void => {
     setAnchorEl(null);
   };
+
+  const handleSignOut = (): void => {
+    setOnSignOut(true);
+    signOut().finally(() => {
+      setOnSignOut(false);
+    });
+  };
+
   return (
-    <Fragment>
+    <LoadingWrapper loading={onSignOut}>
       <Box sx={{ display: "flex", alignItems: "center", textAlign: "center" }}>
         <Tooltip title="Account settings">
           <IconButton
@@ -81,13 +91,13 @@ export const AccountPopover = (): ReactElement => {
         <MenuItem>Hello {currentUser?.name}</MenuItem>
         <Divider />
 
-        <MenuItem onClick={handleClose}>
+        <MenuItem onClick={handleSignOut}>
           <ListItemIcon>
             <Logout fontSize="small" />
           </ListItemIcon>
           Logout
         </MenuItem>
       </Menu>
-    </Fragment>
+    </LoadingWrapper>
   );
 };

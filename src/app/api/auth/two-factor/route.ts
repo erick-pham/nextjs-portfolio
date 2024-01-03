@@ -29,7 +29,7 @@ export const POST = auth(
     if (!req.auth) {
       return ServerNextResponse.json(
         { message: "Not authenticated" },
-        { status: 401 },
+        { status: 401 }
       );
     }
     const TwoFactorReq = (await req.json()) as TwoFactor;
@@ -42,7 +42,7 @@ export const POST = auth(
     if (!userExists) {
       return ServerNextResponse.json(
         { message: "Not authenticated" },
-        { status: 401 },
+        { status: 401 }
       );
     }
 
@@ -75,52 +75,52 @@ export const POST = auth(
             twoFactorEnabled: false,
             twoFactorSecret: symmetricEncrypt(
               secret,
-              String(process.env.ENCRYPTION_KEY),
+              String(process.env.ENCRYPTION_KEY)
             ),
           },
         });
         revalidatePath("/user-profile", "page");
-        return ServerNextResponse.json({ secret, keyUri, dataUri });
+        return ServerNextResponse.json({ dataUri });
       }
       case "enable": {
         if (userExists.twoFactorEnabled) {
           return ServerNextResponse.json(
             { message: ErrorCode.TwoFactorAlreadyEnabled, error: true },
-            { status: 400 },
+            { status: 400 }
           );
         }
 
         if (!userExists.twoFactorSecret) {
           return ServerNextResponse.json(
             { message: ErrorCode.TwoFactorSetupRequired, error: true },
-            { status: 400 },
+            { status: 400 }
           );
         }
 
         const secret = symmetricDecrypt(
           userExists.twoFactorSecret,
-          String(process.env.ENCRYPTION_KEY),
+          String(process.env.ENCRYPTION_KEY)
         );
 
         if (secret.length !== 32) {
           console.error(
-            `Two factor secret decryption failed. Expected key with length 32 but got ${secret.length}`,
+            `Two factor secret decryption failed. Expected key with length 32 but got ${secret.length}`
           );
           return ServerNextResponse.json(
             { message: ErrorCode.InternalServerError, error: true },
-            { status: 400 },
+            { status: 400 }
           );
         }
 
         const isValidToken = authenticator.check(
           TwoFactorReq.otpCode || "",
-          secret,
+          secret
         );
 
         if (!isValidToken) {
           return ServerNextResponse.json(
             { message: ErrorCode.IncorrectTwoFactorCode, error: true },
-            { status: 400 },
+            { status: 400 }
           );
         }
 
@@ -139,6 +139,6 @@ export const POST = auth(
       default:
         return ServerNextResponse.json({ message: "Success" });
     }
-  },
+  }
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
 ) as any;

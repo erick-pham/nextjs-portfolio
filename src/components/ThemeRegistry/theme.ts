@@ -440,4 +440,4 @@ export const themeDark = createTheme({
   typography: createTypography(),
 });
 
-export default themeLight;
+export default themeDark;

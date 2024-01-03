@@ -1,5 +1,11 @@
 html,
 body {
+  background-image: url('../../public/static/images/jason-blackeye-edu_UJYxJBA-unsplash.jpg');
+  background-repeat: no-repeat;
+  background-size: auto;
+  background-attachment: fixed;
+  background-position: center;
+  background-size: cover;
   padding: 0;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Lato, Rubik, Montserrat

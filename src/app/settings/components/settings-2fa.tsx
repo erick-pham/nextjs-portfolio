@@ -20,7 +20,7 @@ import {
 import { MuiOtpInput } from "mui-one-time-password-input";
 import toast from "react-hot-toast";
 import Image from "next/image";
-import { setup2FAAction } from "../action";
+import { setup2FAAction } from "../actions";
 import LoadingWrapper from "@/components/LoadingWrapper";
 
 const AntSwitch = styled(Switch)(({ theme }: { theme: Theme }) => ({

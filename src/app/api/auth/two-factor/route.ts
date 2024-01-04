@@ -28,7 +28,7 @@ export const POST = auth(
   async (req: NextAuthRequest): Promise<NextResponse> => {
     if (!req.auth) {
       return ServerNextResponse.json(
-        { message: "Not authenticated" },
+        { message: "Not authenticated", error: true },
         { status: 401 }
       );
     }
@@ -41,7 +41,7 @@ export const POST = auth(
 
     if (!userExists) {
       return ServerNextResponse.json(
-        { message: "Not authenticated" },
+        { message: "Not authenticated", error: true },
         { status: 401 }
       );
     }
@@ -57,7 +57,7 @@ export const POST = auth(
             twoFactorSecret: null,
           },
         });
-
+        revalidatePath("/settings", "page");
         return ServerNextResponse.json({
           message: "Success",
         });
@@ -133,7 +133,7 @@ export const POST = auth(
           },
         });
 
-        revalidatePath("/user-profile", "page");
+        revalidatePath("/settings", "page");
         return ServerNextResponse.json({ message: "Success" });
       }
       default:

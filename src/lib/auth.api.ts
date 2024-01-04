@@ -1,4 +1,8 @@
 import type { INewUser, INewUserResponse } from "@/app/api/auth/signup/route";
+import type {
+  TwoFactor,
+  TwoFactorSetupResponse,
+} from "@/app/api/auth/two-factor/route";
 
 export const signUp = async (newUsers: INewUser): Promise<INewUserResponse> => {
   const data = await fetch(`/api/auth/signup`, {
@@ -10,4 +14,21 @@ export const signUp = async (newUsers: INewUser): Promise<INewUserResponse> => {
   });
 
   return data.json() as Promise<INewUserResponse>;
+};
+
+export const setup2FA = async (
+  twoFactor: TwoFactor
+): Promise<TwoFactorSetupResponse> => {
+  // const currentUer = getCurrentUserAction();
+  const data = await fetch(`/api/auth/two-factor`, {
+    method: "POST",
+    body: JSON.stringify(twoFactor),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  const setup2FARes = (await data.json()) as TwoFactorSetupResponse;
+
+  return setup2FARes;
 };

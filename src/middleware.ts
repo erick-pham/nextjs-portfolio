@@ -5,5 +5,5 @@ export default NextAuth(authConfig).auth;
 
 export const config = {
   // https://nextjs.org/docs/app/building-your-application/routing/middleware#matcher
-  matcher: ["/forms/:path*", "/user-profile", "/dashboard"],
+  matcher: ["/forms/:path*", "/user-profile", "/dashboard", "/settings"],
 };

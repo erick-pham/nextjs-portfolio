@@ -1,3 +1,6 @@
+"use server";
+
+import { revalidatePath } from "next/cache";
 import type {
   TwoFactor,
   TwoFactorSetupResponse,
@@ -6,7 +9,8 @@ import type {
 export const setup2FAAction = async (
   twoFactor: TwoFactor
 ): Promise<TwoFactorSetupResponse> => {
-  const data = await fetch(`/api/auth/two-factor`, {
+  // const currentUer = getCurrentUserAction();
+  const data = await fetch(`${process.env.BE_HOST}/api/auth/two-factor`, {
     method: "POST",
     body: JSON.stringify(twoFactor),
     headers: {
@@ -16,12 +20,12 @@ export const setup2FAAction = async (
 
   const setup2FARes = (await data.json()) as TwoFactorSetupResponse;
 
-  // if (
-  //   !setup2FARes.error &&
-  //   (twoFactor.type === "disable" || twoFactor.type === "enable")
-  // ) {
-  //   revalidatePath("/settings", "page");
-  // }
+  if (
+    !setup2FARes.error &&
+    (twoFactor.type === "disable" || twoFactor.type === "enable")
+  ) {
+    revalidatePath("/settings", "page");
+  }
 
   return setup2FARes;
 };

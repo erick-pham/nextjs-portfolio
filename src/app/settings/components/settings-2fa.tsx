@@ -22,6 +22,7 @@ import toast from "react-hot-toast";
 import Image from "next/image";
 import { setup2FAAction } from "../actions";
 import LoadingWrapper from "@/components/LoadingWrapper";
+import { setup2FA } from "@/lib/auth.api";
 
 const AntSwitch = styled(Switch)(({ theme }: { theme: Theme }) => ({
   width: 28,
@@ -90,7 +91,7 @@ export const Settings2FA = ({
     setIsSubmitting(true);
 
     try {
-      const twoFASetupRes = await setup2FAAction({
+      const twoFASetupRes = await setup2FA({
         type: checked ? "setup" : "disable",
         otpCode: otpCode,
       });
@@ -135,49 +136,58 @@ export const Settings2FA = ({
     }
   };
 
+  const handleCleanUp = (): void => {
+    setStep(SetupStep.Start);
+    setDataUri("");
+    setOtpCode("");
+  };
+
   return (
     <LoadingWrapper loading={isSubmitting}>
       <Dialog open={step === SetupStep.DisplayQrCode}>
         <DialogTitle
           sx={{
             display: "flex",
-            justifyItems: "center",
             justifyContent: "center",
-            alignContent: "center",
-            alignItems: "center",
           }}
         >
           OTP Verification
         </DialogTitle>
         <DialogContent>
-          <DialogContent dividers>
-            <Typography>
-              Scan the following QR code with your authenticator app then enter
-              the OTP
-            </Typography>
-            <Image
-              src={dataUri}
-              alt="2fa-qr-code"
-              width={0}
-              height={0}
-              sizes="100vw"
-              style={{ width: "auto", height: "auto", borderRadius: 8 }}
-              loading="lazy"
-            />
-            <MuiOtpInput
-              value={otpCode}
-              onChange={setOtpCode}
-              length={6}
-              autoFocus
-            />
+          <DialogContent>
+            <Stack
+              direction="column"
+              justifyContent="center"
+              alignItems="center"
+              spacing={3}
+            >
+              <Typography color="text.secondary">
+                Scan the following QR code with your authenticator app then
+                enter the OTP
+              </Typography>
+
+              <Image
+                src={dataUri}
+                alt="2fa-qr-code"
+                width={0}
+                height={0}
+                sizes="100vw"
+                style={{ width: "auto", height: "auto", borderRadius: 8 }}
+                loading="lazy"
+              />
+              <MuiOtpInput
+                value={otpCode}
+                onChange={setOtpCode}
+                length={6}
+                autoFocus
+              />
+            </Stack>
           </DialogContent>
         </DialogContent>
         <DialogActions>
           <DialogActions>
             <Button
-              onClick={() => {
-                setStep(SetupStep.Start);
-              }}
+              onClick={handleCleanUp}
               autoFocus
               variant="contained"
               color="error"
@@ -195,32 +205,30 @@ export const Settings2FA = ({
           </DialogActions>
         </DialogActions>
       </Dialog>
-      <form>
-        <Card>
-          <CardHeader
-            title="2FA setup"
-            subheader="By enable this feature allow you login with 2fa code instead of password"
-          />
-          <Divider />
-          <CardContent>
-            <Stack spacing={3} sx={{ maxWidth: 400 }}>
-              <FormGroup>
-                <Stack direction="row" spacing={1} alignItems="center">
-                  <Typography>Off</Typography>
-                  <AntSwitch
-                    defaultChecked={false}
-                    onChange={handleSetup}
-                    inputProps={{ "aria-label": "ant design" }}
-                    checked={Boolean(twoFactorEnabled)}
-                  />
-                  <Typography>On</Typography>
-                </Stack>
-              </FormGroup>
-            </Stack>
-          </CardContent>
-          <Divider />
-        </Card>
-      </form>
+      <Card>
+        <CardHeader
+          title="2FA setup"
+          subheader="By enable this feature allow you login with 2fa code instead of password"
+        />
+        <Divider />
+        <CardContent>
+          <Stack spacing={3} sx={{ maxWidth: 400 }}>
+            <FormGroup>
+              <Stack direction="row" spacing={1} alignItems="center">
+                <Typography>Off</Typography>
+                <AntSwitch
+                  defaultChecked={false}
+                  onChange={handleSetup}
+                  inputProps={{ "aria-label": "ant design" }}
+                  checked={Boolean(twoFactorEnabled)}
+                />
+                <Typography>On</Typography>
+              </Stack>
+            </FormGroup>
+          </Stack>
+        </CardContent>
+        <Divider />
+      </Card>
     </LoadingWrapper>
   );
 };

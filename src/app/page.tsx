@@ -1,7 +1,7 @@
 import HomeNavBar from "@/components/HomeNavBar";
 import { Avatar, Box, Container, Grid, Typography } from "@mui/material";
 import type { ReactNode } from "react";
-
+import Image from "next/image";
 const HomePage = (): ReactNode => (
   <Box
     sx={{
@@ -17,7 +17,7 @@ const HomePage = (): ReactNode => (
         mt: 20,
       }}
     >
-      <Grid container>
+      <Grid container spacing={2}>
         <Grid item xs={12} sm={6}>
           {/* <Box
             sx={{
@@ -43,26 +43,30 @@ const HomePage = (): ReactNode => (
               alignItems: "center",
               alignContent: "center",
               justifyContent: "center",
-              // borderRadius: "40px",
-              // overflow: "hidden",
+              display: "flex",
             }}
           >
-            <Avatar
-              src="/static/images/my-avatar2.jpg"
+            {/* <Avatar
+              // src="/static/images/my-avatar2.jpg"
               sx={{
                 height: 400,
                 width: 400,
               }}
-            />
-            {/* <Image
+            >
+             
+            </Avatar> */}
+            <Image
               alt="avatar"
               src="/static/images/my-avatar2.jpg"
-              layout="responsive"
-              width={200}
-              height={200}
+              // layout="responsive"
+              width={300}
+              height={300}
               objectFit="contain"
-            
-            /> */}
+              style={{
+                // borderRadius: "40px",
+                borderRadius: "50%",
+              }}
+            />
           </Box>
         </Grid>
         <Grid item xs={12} sm={6}>

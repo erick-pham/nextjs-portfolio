@@ -21,16 +21,16 @@ export const HomeNavBar = (): ReactElement => {
               <Link href={`/`}>
                 <Button sx={{ color: "#fff" }}>Home</Button>
               </Link>
-              <Link href={`/dashboard`}>
+              {/* <Link href={`/dashboard`}>
                 <Button sx={{ color: "#fff" }}>Dashboard</Button>
-              </Link>
+              </Link> */}
               <Link href={`/contact`}>
                 <Button sx={{ color: "#fff" }}>Contact</Button>
               </Link>
-              <Link href={`/about`}>
+              {/* <Link href={`/about`}>
                 <Button sx={{ color: "#fff" }}>About</Button>
-              </Link>
-              <Button
+              </Link> */}
+              {/* <Button
                 size="small"
                 sx={{
                   color: "black",
@@ -38,7 +38,7 @@ export const HomeNavBar = (): ReactElement => {
                 }}
               >
                 Sign In
-              </Button>
+              </Button> */}
             </Box>
           </Toolbar>
         </Container>

@@ -1,6 +1,6 @@
 import NextLink from "next/link";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { Button, Grid, Typography } from "@mui/material";
+import { Button, Grid, Typography, Container } from "@mui/material";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 };
 
 const NotFoundPage: React.FC = async () => (
-  <>
+  <Container>
     <Grid
       style={{
         alignItems: "center",
@@ -28,7 +28,7 @@ const NotFoundPage: React.FC = async () => (
         </Button>
       </NextLink>
     </Grid>
-  </>
+  </Container>
 );
 
 export default NotFoundPage;

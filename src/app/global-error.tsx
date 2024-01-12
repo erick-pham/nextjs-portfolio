@@ -1,7 +1,7 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { Typography, Grid, Button } from "@mui/material";
+import { Typography, Grid, Button, Container } from "@mui/material";
 import SyncIcon from "@mui/icons-material/Sync";
 
 import type { Metadata } from "next";
@@ -18,7 +18,7 @@ export default function Error({
   reset: () => void;
 }): ReactNode {
   return (
-    <div>
+    <Container>
       <Grid
         style={{
           alignItems: "center",
@@ -40,6 +40,6 @@ export default function Error({
           Go back to home
         </Button>
       </Grid>
-    </div>
+    </Container>
   );
 }

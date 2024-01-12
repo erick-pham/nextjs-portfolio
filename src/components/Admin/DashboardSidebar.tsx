@@ -4,6 +4,8 @@ import StackedBarChartIcon from "@mui/icons-material/StackedBarChart";
 import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 import CogIcon from "@heroicons/react/24/solid/CogIcon";
 import UserIcon from "@heroicons/react/24/solid/UserIcon";
+import ArrowLeftEndOnRectangleIcon from "@heroicons/react/24/solid/ArrowLeftEndOnRectangleIcon";
+
 import type { Theme } from "@mui/material";
 import {
   Box,
@@ -83,6 +85,15 @@ const UserMenuItems = [
       </SvgIcon>
     ),
     title: "Settings",
+  },
+  {
+    href: "/",
+    icon: (
+      <SvgIcon fontSize="small">
+        <ArrowLeftEndOnRectangleIcon />
+      </SvgIcon>
+    ),
+    title: "Exit",
   },
 ];
 

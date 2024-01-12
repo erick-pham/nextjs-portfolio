@@ -49,7 +49,7 @@ export type NavItemProp = {
 export const NavItem = (props: NavItemProp): ReactElement => {
   const { href, icon, title, ...others } = props;
   const pathname = usePathname();
-  const active = href ? pathname.startsWith(href) : false;
+  const active = href && href !== "/" ? pathname.startsWith(href) : false;
 
   const handleSignOut = (): void => {
     if (title === "SignOut") {

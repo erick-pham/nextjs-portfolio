@@ -1,7 +1,11 @@
+"use server";
 import HomeNavBar from "@/components/HomeNavBar";
-import { Avatar, Box, Container, Grid, Typography } from "@mui/material";
+import { Box, Container, Grid, Typography } from "@mui/material";
 import type { ReactNode } from "react";
 import Image from "next/image";
+import { HomePortfolio } from "@/components/HomePortfolio";
+import MyCopyright from "@/components/Copyright";
+
 const HomePage = (): ReactNode => (
   <Box
     sx={{
@@ -80,6 +84,15 @@ const HomePage = (): ReactNode => (
         </Grid>
       </Grid>
     </Container>
+    <Container
+      sx={{
+        mt: 20,
+        mb: 20,
+      }}
+    >
+      <HomePortfolio />
+    </Container>
+    <MyCopyright />
   </Box>
 );
 

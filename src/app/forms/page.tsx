@@ -17,7 +17,6 @@ import {
   ArrowDownOnSquareIcon,
 } from "@heroicons/react/16/solid";
 import { FormCard } from "./components/FormCard";
-import { FormSearch } from "./components/FormSearch";
 import type { Metadata } from "next";
 import type { IQuestionnaire } from "@/types/questionnaire";
 
@@ -66,7 +65,7 @@ const FormPage = async ({ searchParams }: PageProps): Promise<ReactElement> => {
             </Stack>
             <CreateForm />
           </Stack>
-          <FormSearch />
+          {/* <FormSearch /> */}
           <Grid container spacing={3}>
             {listForms.data.map((company: IQuestionnaire) => (
               <Grid item xs={12} md={6} lg={4} key={company.id}>

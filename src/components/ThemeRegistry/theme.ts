@@ -386,7 +386,8 @@ export const themeDark = createTheme({
       disabled: "rgba(55, 65, 81, 0.26)",
     },
     background: {
-      default: "#121212",
+      // default: "#121212",
+      default: "#14141F",
       paper: "#0E1217",
     },
     divider: "#2D3748",

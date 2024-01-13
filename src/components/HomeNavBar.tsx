@@ -7,7 +7,12 @@ import Link from "next/link";
 export const HomeNavBar = (): ReactElement => {
   return (
     <>
-      <AppBar style={{ backgroundColor: "rgba(0, 0, 0, 0.40)" }}>
+      <AppBar
+        style={{
+          backgroundColor: "rgba(0, 0, 0, 0.40)",
+          backgroundImage: "none",
+        }}
+      >
         <Container>
           <Toolbar
             disableGutters
@@ -19,13 +24,31 @@ export const HomeNavBar = (): ReactElement => {
             <Box sx={{ flexGrow: 1 }} />
             <Box>
               <Link href={`/`}>
-                <Button sx={{ color: "#fff" }}>Home</Button>
+                <Button
+                  sx={{
+                    color: "#fff",
+                    "&:hover": {
+                      backgroundColor: "transparent",
+                    },
+                  }}
+                >
+                  Home
+                </Button>
               </Link>
               {/* <Link href={`/dashboard`}>
                 <Button sx={{ color: "#fff" }}>Dashboard</Button>
               </Link> */}
               <Link href={`/contact`}>
-                <Button sx={{ color: "#fff" }}>Contact</Button>
+                <Button
+                  sx={{
+                    color: "#fff",
+                    "&:hover": {
+                      backgroundColor: "transparent",
+                    },
+                  }}
+                >
+                  Contact
+                </Button>
               </Link>
               {/* <Link href={`/about`}>
                 <Button sx={{ color: "#fff" }}>About</Button>

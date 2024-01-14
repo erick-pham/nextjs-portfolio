@@ -52,7 +52,7 @@ export const AccountProfileDetails = ({
                       <MenuItem key={option.code} value={option.code}>
                         {option.label}
                       </MenuItem>
-                    )
+                    ),
                   )}
                 </TextField>
               </Grid>

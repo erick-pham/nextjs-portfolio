@@ -92,3 +92,10 @@ export const QUESTION_TYPE_LABEL: {
     label: "Multiple checkbox",
   },
 ];
+
+export enum RuleFactorTypeEnum {
+  STRING = "STRING",
+  NUMBER = "NUMBER",
+  ARRAY = "ARRAY",
+  OBJECT = "OBJECT",
+}

@@ -1,20 +1,14 @@
 import type { ReactElement } from "react";
 import NextLink from "next/link";
-import StackedBarChartIcon from "@mui/icons-material/StackedBarChart";
-import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
-import CogIcon from "@heroicons/react/24/solid/CogIcon";
-import UserIcon from "@heroicons/react/24/solid/UserIcon";
-import ArrowLeftEndOnRectangleIcon from "@heroicons/react/24/solid/ArrowLeftEndOnRectangleIcon";
+import DashboardIcon from "@mui/icons-material/Dashboard";
+import DynamicFormIcon from "@mui/icons-material/DynamicForm";
+import GridViewIcon from "@mui/icons-material/GridView";
+import Person4Icon from "@mui/icons-material/Person4";
+import SettingsIcon from "@mui/icons-material/Settings";
+import TurnLeftIcon from "@mui/icons-material/TurnLeft";
 
 import type { Theme } from "@mui/material";
-import {
-  Box,
-  Divider,
-  Drawer,
-  SvgIcon,
-  Typography,
-  useMediaQuery,
-} from "@mui/material";
+import { Box, Divider, Drawer, Typography, useMediaQuery } from "@mui/material";
 import NextImage from "next/image";
 import type { NavItemProp } from "./NavItem";
 import { NavItem } from "./NavItem";
@@ -22,13 +16,18 @@ import { NavItem } from "./NavItem";
 const AdminMenuItems = [
   {
     href: "/dashboard",
-    icon: <StackedBarChartIcon fontSize="small" />,
+    icon: <DashboardIcon fontSize="small" />,
     title: "Dashboard",
   },
   {
     href: "/forms",
-    icon: <LibraryBooksIcon fontSize="small" />,
+    icon: <DynamicFormIcon fontSize="small" />,
     title: "Forms",
+  },
+  {
+    href: "/rules",
+    icon: <GridViewIcon fontSize="small" />,
+    title: "Rules",
   },
   // {
   //   href: "/admin/customers",
@@ -70,29 +69,17 @@ const AdminMenuItems = [
 const UserMenuItems = [
   {
     href: "/user-profile",
-    icon: (
-      <SvgIcon fontSize="small">
-        <UserIcon />
-      </SvgIcon>
-    ),
+    icon: <Person4Icon />,
     title: "Profile",
   },
   {
     href: "/settings",
-    icon: (
-      <SvgIcon fontSize="small">
-        <CogIcon />
-      </SvgIcon>
-    ),
+    icon: <SettingsIcon />,
     title: "Settings",
   },
   {
     href: "/",
-    icon: (
-      <SvgIcon fontSize="small">
-        <ArrowLeftEndOnRectangleIcon />
-      </SvgIcon>
-    ),
+    icon: <TurnLeftIcon />,
     title: "Exit",
   },
 ];

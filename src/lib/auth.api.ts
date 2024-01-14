@@ -17,7 +17,7 @@ export const signUp = async (newUsers: INewUser): Promise<INewUserResponse> => {
 };
 
 export const setup2FA = async (
-  twoFactor: TwoFactor
+  twoFactor: TwoFactor,
 ): Promise<TwoFactorSetupResponse> => {
   // const currentUer = getCurrentUserAction();
   const data = await fetch(`/api/auth/two-factor`, {

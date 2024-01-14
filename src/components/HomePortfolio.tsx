@@ -97,7 +97,7 @@ export const HomePortfolio = (): ReactElement => {
                 </Link>
               </Grid>
             );
-          }
+          },
         )}
       </Grid>
     </div>

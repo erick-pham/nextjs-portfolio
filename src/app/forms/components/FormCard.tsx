@@ -86,7 +86,7 @@ export const FormCard = ({
             <ArrowDownOnSquareIcon />
           </SvgIcon>
           <Typography color="text.secondary" display="inline" variant="body2">
-            {1} Downloads
+            {0} Submissions
           </Typography>
         </Stack>
       </Stack>

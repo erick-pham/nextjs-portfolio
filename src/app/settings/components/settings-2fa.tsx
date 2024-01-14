@@ -86,7 +86,7 @@ export const Settings2FA = ({
 
   const handleSetup = async (
     event: React.ChangeEvent<HTMLInputElement>,
-    checked: boolean
+    checked: boolean,
   ): Promise<void> => {
     setIsSubmitting(true);
 

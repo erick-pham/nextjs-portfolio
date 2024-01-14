@@ -387,8 +387,11 @@ export const themeDark = createTheme({
     },
     background: {
       // default: "#121212",
-      default: "#14141F",
+      // default: "#14141F",
+      // default: "#2A3F54",
+      default: "#1c2631",
       paper: "#0E1217",
+      // paper: "#2A3F54",
     },
     divider: "#2D3748",
     primary: {

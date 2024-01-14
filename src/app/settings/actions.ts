@@ -7,7 +7,7 @@ import type {
 } from "../api/auth/two-factor/route";
 
 export const setup2FAAction = async (
-  twoFactor: TwoFactor
+  twoFactor: TwoFactor,
 ): Promise<TwoFactorSetupResponse> => {
   // const currentUer = getCurrentUserAction();
   const data = await fetch(`${process.env.BE_HOST}/api/auth/two-factor`, {

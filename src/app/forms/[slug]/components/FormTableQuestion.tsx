@@ -8,9 +8,7 @@ import DeleteQuestionPopconfirm from "./DeleteQuestionPopconfirm.component";
 import EditQuestionModal from "./EditQuestionModal";
 import { QUESTION_TYPE_LABEL } from "@/common/constants";
 import type { IQuestion, IQuestionnaire } from "@/types/questionnaire";
-import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import LaunchIcon from "@mui/icons-material/Launch";
-import type { Theme } from "@mui/material";
 import {
   Box,
   Button,
@@ -22,28 +20,9 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  styled,
 } from "@mui/material";
 import { formatDate } from "@/util/date";
-
-const StyledTableCell = styled(TableCell)(({ theme }: { theme: Theme }) => ({
-  [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
-  },
-  [`&.${tableCellClasses.body}`]: {
-    fontSize: 14,
-  },
-}));
-
-const StyledTableRow = styled(TableRow)(({ theme }: { theme: Theme }) => ({
-  "&:nth-of-type(odd)": {
-    backgroundColor: theme.palette.action.hover,
-  },
-  "&:last-child td, &:last-child th": {
-    border: 0,
-  },
-}));
+import { StyledTableCell, StyledTableRow } from "@/components/StyledTable";
 
 const FormTableQuestion = ({
   questionnaire,

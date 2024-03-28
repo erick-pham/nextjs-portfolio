@@ -1,6 +1,6 @@
 import type { RuleFactorTypeEnum } from "@/common/constants";
 
-export interface IIRuleFactor {
+export interface IRuleFactor {
   name: string;
   type: RuleFactorTypeEnum;
 }
@@ -8,8 +8,19 @@ export interface IIRuleFactor {
 export interface IRuleSet {
   createdAt: Date | string;
   decisions: [];
-  factors: IIRuleFactor[];
+  factors: IRuleFactor[];
   id: string;
   name: string;
   updatedAt: Date;
+}
+
+export interface IAddRuleFactor {
+  factorName: string;
+  factorType: RuleFactorTypeEnum;
+  ruleId: IRuleSet["id"];
+}
+
+export interface IDeleteRuleFactor {
+  factorIndex: number;
+  ruleId: IRuleSet["id"];
 }

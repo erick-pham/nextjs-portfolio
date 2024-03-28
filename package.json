@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "prisma generate && next dev",
+    "dev": "next dev",
     "build": "prisma generate && prisma db push && next build",
     "start": "next start",
     "lint": "next lint",
@@ -16,6 +16,7 @@
     "@emotion/styled": "^11.11.0",
     "@heroicons/react": "^2.1.1",
     "@mui/icons-material": "^5.15.0",
+    "@mui/lab": "^5.0.0-alpha.169",
     "@mui/material": "^5.15.0",
     "@mui/material-nextjs": "^5.15.0",
     "@mui/x-date-pickers": "^6.18.5",

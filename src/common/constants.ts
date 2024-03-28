@@ -99,3 +99,25 @@ export enum RuleFactorTypeEnum {
   ARRAY = "ARRAY",
   OBJECT = "OBJECT",
 }
+
+export const RULE_FACTOR_TYPE_LABEL: {
+  code: RuleFactorTypeEnum;
+  label: string;
+}[] = [
+  {
+    code: RuleFactorTypeEnum.STRING,
+    label: "String",
+  },
+  {
+    code: RuleFactorTypeEnum.NUMBER,
+    label: "Number",
+  },
+  {
+    code: RuleFactorTypeEnum.ARRAY,
+    label: "Array",
+  },
+  {
+    code: RuleFactorTypeEnum.OBJECT,
+    label: "Object",
+  },
+];

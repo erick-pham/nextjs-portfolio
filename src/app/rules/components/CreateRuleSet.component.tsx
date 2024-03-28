@@ -16,7 +16,7 @@ import { FormInputText } from "@/components/Form/FormInputText";
 import toast from "react-hot-toast";
 import type { IActionResponse } from "@/types/base";
 import { PlusIcon } from "@heroicons/react/16/solid";
-import { addRuleSet } from "../action";
+import { addRuleSet } from "../actions";
 import type { IRuleSet } from "@/types/rule";
 
 const CreateRuleSet = (): React.ReactElement => {

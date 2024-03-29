@@ -7,6 +7,7 @@ import RuleFactorTable from "./RuleFactorTable";
 import type { IRuleSet } from "@/types/rule";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
+import RuleDecisionTable from "./RuleDecisionTable";
 export const RuleDetailTab = ({
   ruleSet,
 }: {
@@ -37,7 +38,9 @@ export const RuleDetailTab = ({
         <TabPanel value="factors">
           <RuleFactorTable ruleSet={ruleSet} />
         </TabPanel>
-        <TabPanel value="decisions">Item Two</TabPanel>
+        <TabPanel value="decisions">
+          <RuleDecisionTable ruleSet={ruleSet} />
+        </TabPanel>
         <TabPanel value="validate">Item Three</TabPanel>
       </TabContext>
     </Box>

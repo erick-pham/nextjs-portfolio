@@ -10,7 +10,7 @@ import {
   FormHelperText,
 } from "@mui/material";
 
-type SelectGroupOptions = {
+export type SelectGroupOptions = {
   code: string;
   label: string;
 };
@@ -46,11 +46,11 @@ export const FormInputSelect = ({
         field,
         fieldState: { error },
       }: // formState,
-        {
-          field: ControllerFieldType;
-          fieldState: ControllerFieldState;
-          // formState: UseFormStateReturn;
-        }) => (
+      {
+        field: ControllerFieldType;
+        fieldState: ControllerFieldState;
+        // formState: UseFormStateReturn;
+      }) => (
         <FormControl
           fullWidth
           sx={{ m: 1, display: hidden ? "none" : undefined }}

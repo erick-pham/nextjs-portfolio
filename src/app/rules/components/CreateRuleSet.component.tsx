@@ -1,84 +1,67 @@
 "use client";
 
 import { useState } from "react";
-import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  Grid,
-  SvgIcon,
-} from "@mui/material";
-import LoadingWrapper from "@/components/LoadingWrapper";
+import { Button, Grid, SvgIcon } from "@mui/material";
 import { useForm, type FieldValues, FormProvider } from "react-hook-form";
 import { FormInputText } from "@/components/Form/FormInputText";
 import toast from "react-hot-toast";
-import type { IActionResponse } from "@/types/base";
 import { PlusIcon } from "@heroicons/react/16/solid";
 import { addRuleSet } from "../actions";
 import type { IRuleSet } from "@/types/rule";
+import { useServerAction } from "@/hooks/useServerAction";
+import DialogForm from "@/components/DialogForm";
 
 const CreateRuleSet = (): React.ReactElement => {
   const [openCreateRuleSetModal, setOpenCreateRuleSetModal] = useState(false);
-  const [isPending, setIsPending] = useState<boolean>(false);
+  const [runAction, isPending] = useServerAction(addRuleSet);
+
   const createRuleSetMethod = useForm<FieldValues>({
     mode: "all",
     defaultValues: {},
   });
+  const {
+    formState: { isValid: createRuleSetFormValid },
+  } = createRuleSetMethod;
 
-  const handleAddNewRule = (): void => {
-    setIsPending(true);
-    addRuleSet(createRuleSetMethod.getValues() as IRuleSet)
-      .then((addRuleSetRes: IActionResponse<null>) => {
-        createRuleSetMethod.reset();
-        setOpenCreateRuleSetModal(false);
-        toast.success(addRuleSetRes.message);
-      })
-      .finally(() => {
-        setIsPending(false);
-      });
+  const handleAddNewRule = async (): Promise<void> => {
+    const addRuleSetRes = await runAction(
+      createRuleSetMethod.getValues() as IRuleSet
+    );
+
+    if (addRuleSetRes?.success) {
+      createRuleSetMethod.reset();
+      setOpenCreateRuleSetModal(false);
+      toast.success(addRuleSetRes.message);
+    }
   };
 
   return (
     <div>
-      <Dialog open={openCreateRuleSetModal} onClose={setOpenCreateRuleSetModal}>
-        <LoadingWrapper loading={isPending}>
-          <DialogTitle>Create Rule Set</DialogTitle>
-          <DialogContent>
-            <FormProvider {...createRuleSetMethod}>
-              <Grid container>
-                <Grid item xs={12} sm={12} md={12}>
-                  <FormInputText
-                    label="Name"
-                    fieldName="name"
-                    validation={{
-                      required: "This field required",
-                    }}
-                  />
-                </Grid>
-              </Grid>
-            </FormProvider>
-          </DialogContent>
-          <DialogActions>
-            <Button
-              variant="contained"
-              onClick={() => {
-                setOpenCreateRuleSetModal(false);
-              }}
-            >
-              Cancel
-            </Button>
-            <Button
-              variant="contained"
-              color="success"
-              onClick={handleAddNewRule}
-            >
-              Create
-            </Button>
-          </DialogActions>
-        </LoadingWrapper>
-      </Dialog>
+      <DialogForm
+        open={openCreateRuleSetModal}
+        onClose={setOpenCreateRuleSetModal}
+        loading={isPending}
+        handleClickSave={handleAddNewRule}
+        handleClickCancel={(): void => {
+          setOpenCreateRuleSetModal(false);
+        }}
+        dialogFormTitle="Create Rule Set"
+        disabledSaveButton={!createRuleSetFormValid}
+      >
+        <FormProvider {...createRuleSetMethod}>
+          <Grid container>
+            <Grid item xs={12} sm={12} md={12}>
+              <FormInputText
+                label="Name"
+                fieldName="name"
+                validation={{
+                  required: "This field required",
+                }}
+              />
+            </Grid>
+          </Grid>
+        </FormProvider>
+      </DialogForm>
 
       <Grid mb={2}>
         <Button

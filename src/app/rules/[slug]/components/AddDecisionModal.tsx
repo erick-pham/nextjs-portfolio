@@ -1,7 +1,5 @@
 "use client";
 import { useState } from "react";
-import { addFactor } from "../../actions";
-import { RULE_FACTOR_TYPE_LABEL, RuleFactorTypeEnum } from "@/common/constants";
 
 import {
   Button,
@@ -15,10 +13,9 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 import type { FieldValues } from "react-hook-form";
 import { FormProvider, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import { FormInputSelect } from "@/components/Form/FormInputSelect";
 import { FormInputText } from "@/components/Form/FormInputText";
 import LoadingWrapper from "@/components/LoadingWrapper";
-import type { IAddRuleFactor, IRuleSet } from "@/types/rule";
+import type { IRuleSet } from "@/types/rule";
 import { AddConditionRule } from "./AddConditionRule";
 
 const AddFactorModal = ({
@@ -32,9 +29,8 @@ const AddFactorModal = ({
   const addFormFactorMethod = useForm<FieldValues>({
     mode: "all",
     values: {
-      factorName: "",
+      decisionName: "",
       ruleId: ruleSet.id,
-      factorType: RuleFactorTypeEnum.STRING,
     },
   });
 
@@ -53,6 +49,8 @@ const AddFactorModal = ({
     new Promise((): void => {
       (async (): Promise<void> => {
         try {
+          console.log("getValues()", getValues());
+          toast.success("getValues");
           // setIsLoadingCreateFactor(true);
           // const addFactorFormRes = await addFactor(
           //   getValues() as IAddRuleFactor
@@ -90,6 +88,7 @@ const AddFactorModal = ({
         open={openCreateDecisionModal}
         onClose={setOpenCreateFactorModal}
         fullWidth
+        maxWidth="md"
       >
         <LoadingWrapper loading={isLoadingCreateDecision}>
           <DialogTitle>New Decision</DialogTitle>
@@ -103,15 +102,20 @@ const AddFactorModal = ({
                   <Grid item xs={12}>
                     <FormInputText
                       multiline
-                      label="Name"
-                      fieldName="factorName"
+                      label="Decision Name"
+                      fieldName="decisionName"
                       validation={{
                         required: "This field required",
+                      }}
+                      InputLabelProps={{
+                        sx: {
+                          fontSize: "20px",
+                        },
                       }}
                     />
                   </Grid>
 
-                  <Grid item xs={12} p={4}>
+                  <Grid item xs={12}>
                     <AddConditionRule ruleSet={ruleSet} />
                   </Grid>
                 </Grid>

@@ -26,7 +26,7 @@ type ControllerFieldType = Partial<FieldValues> & {
 export const FormInputText = ({
   fieldName,
   label,
-
+  InputLabelProps,
   hidden,
   validation,
   ...rest
@@ -48,7 +48,7 @@ export const FormInputText = ({
             sx={{ m: 1, display: hidden ? "none" : undefined }}
             variant="standard"
           >
-            <FormLabel>{label}</FormLabel>
+            <FormLabel {...InputLabelProps}>{label}</FormLabel>
             <TextField
               {...field}
               {...rest}

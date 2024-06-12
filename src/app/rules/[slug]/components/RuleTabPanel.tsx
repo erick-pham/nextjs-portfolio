@@ -3,23 +3,38 @@ import * as React from "react";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
 import TabPanel from "@mui/lab/TabPanel";
-import RuleFactorTable from "./RuleFactorTable";
+import RuleFactorTab from "./RuleFactorTab";
 import type { IRuleSet } from "@/types/rule";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
-import RuleDecisionTable from "./RuleDecisionTable";
-export const RuleDetailTab = ({
+import RuleDecisionTab from "./RuleDecisionTab";
+import { useState } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+const TAB_KEYS = ["factors", "decisions", "validate"];
+
+export const RuleTabPanel = ({
   ruleSet,
+  activeTab,
 }: {
+  activeTab: string;
   ruleSet: IRuleSet;
 }): React.ReactElement => {
-  const [currentTabValue, setCurrentTabValue] = React.useState("factors");
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const { replace } = useRouter();
+  const params = new URLSearchParams(searchParams);
+
+  const [currentTabValue, setCurrentTabValue] = useState(
+    TAB_KEYS.indexOf(activeTab) >= 0 ? activeTab : "factors"
+  );
 
   const handleChangeRuleDetailTab = (
     event: React.SyntheticEvent,
     newValue: string
   ): void => {
     setCurrentTabValue(newValue);
+    params.set("active_tab", newValue);
+    replace(`${pathname}?${params.toString()}`);
   };
 
   return (
@@ -36,10 +51,10 @@ export const RuleDetailTab = ({
           </TabList>
         </Box>
         <TabPanel value="factors">
-          <RuleFactorTable ruleSet={ruleSet} />
+          <RuleFactorTab ruleSet={ruleSet} />
         </TabPanel>
         <TabPanel value="decisions">
-          <RuleDecisionTable ruleSet={ruleSet} />
+          <RuleDecisionTab ruleSet={ruleSet} />
         </TabPanel>
         <TabPanel value="validate">Item Three</TabPanel>
       </TabContext>

@@ -121,3 +121,25 @@ export const RULE_FACTOR_TYPE_LABEL: {
     label: "Object",
   },
 ];
+
+export const DECISION_OPERATOR_LABEL: {
+  code: string;
+  label: string;
+}[] = [
+  {
+    code: "lte",
+    label: "Lower than or equal",
+  },
+  {
+    code: "gte",
+    label: "Greater  than or equal",
+  },
+  {
+    code: "in",
+    label: "In",
+  },
+  {
+    code: "eq",
+    label: "Equal",
+  },
+];

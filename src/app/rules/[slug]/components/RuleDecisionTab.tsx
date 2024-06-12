@@ -9,18 +9,16 @@ import {
   Paper,
   Table,
   TableBody,
+  TableCell,
   TableContainer,
+  TableHead,
+  TableRow,
 } from "@mui/material";
-import { StyledTableCell, StyledTableRow } from "@/components/StyledTable";
 import type { IRuleFactor, IRuleSet } from "@/types/rule";
 import DeleteFactorConfirmation from "./DeleteFactorConfirmation";
 import AddDecisionModal from "./AddDecisionModal";
 
-const RuleDecisionTable = ({
-  ruleSet,
-}: {
-  ruleSet: IRuleSet;
-}): ReactElement => {
+const RuleDecisionTab = ({ ruleSet }: { ruleSet: IRuleSet }): ReactElement => {
   return (
     <Card>
       <CardContent>
@@ -37,31 +35,27 @@ const RuleDecisionTable = ({
 
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }}>
-            {/* <TableHead>
+            <TableHead>
               <TableRow>
-                <StyledTableCell align="left">#</StyledTableCell>
-                <StyledTableCell align="left">Name</StyledTableCell>
-                <StyledTableCell align="center">Data type</StyledTableCell>
-                <StyledTableCell align="center">Action</StyledTableCell>
+                <TableCell align="left">#</TableCell>
+                <TableCell align="left">Name</TableCell>
+                <TableCell align="center">Data type</TableCell>
+                <TableCell align="center">Action</TableCell>
               </TableRow>
-            </TableHead> */}
+            </TableHead>
             <TableBody>
               {ruleSet.factors.map(
                 (ruleFactor: IRuleFactor, ruleFactorIndex: number) => (
-                  <StyledTableRow key={ruleFactor.name + ruleFactorIndex}>
-                    <StyledTableCell align="left">
-                      {ruleFactorIndex + 1}
-                    </StyledTableCell>
-                    <StyledTableCell align="left">
-                      {ruleFactor.name}
-                    </StyledTableCell>
-                    <StyledTableCell align="center">
+                  <TableRow key={ruleFactor.name + ruleFactorIndex}>
+                    <TableCell align="left">{ruleFactorIndex + 1}</TableCell>
+                    <TableCell align="left">{ruleFactor.name}</TableCell>
+                    <TableCell align="center">
                       {getLabelText(
                         RULE_FACTOR_TYPE_LABEL,
                         ruleFactor.type as string
                       )}
-                    </StyledTableCell>
-                    <StyledTableCell align="center">
+                    </TableCell>
+                    <TableCell align="center">
                       <Box
                         sx={{
                           display: "flex",
@@ -77,8 +71,8 @@ const RuleDecisionTable = ({
                           ruleId={ruleSet.id}
                         />
                       </Box>
-                    </StyledTableCell>
-                  </StyledTableRow>
+                    </TableCell>
+                  </TableRow>
                 )
               )}
             </TableBody>
@@ -89,4 +83,4 @@ const RuleDecisionTable = ({
   );
 };
 
-export default RuleDecisionTable;
+export default RuleDecisionTab;

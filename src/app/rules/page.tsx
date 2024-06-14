@@ -1,5 +1,4 @@
 import type { ReactElement } from "react";
-
 import type { PageProps } from "@/types/base";
 import {
   Box,
@@ -8,6 +7,7 @@ import {
   CardContent,
   Container,
   Grid,
+  IconButton,
   Paper,
   Stack,
   SvgIcon,
@@ -30,6 +30,7 @@ import type { IRuleSet } from "@/types/rule";
 import { formatDate } from "@/util/date";
 import { StyledTableCell, StyledTableRow } from "@/components/StyledTable";
 import { getListRule } from "@/lib/rules.api";
+import DeleteRuleSet from "./components/DeleteRuleSet.component";
 
 export const metadata: Metadata = {
   title: "ErickApp Rules",
@@ -117,19 +118,11 @@ const RulePage = async ({ searchParams }: PageProps): Promise<ReactElement> => {
                                 gap={2}
                               >
                                 <Link href={`/rules/${ruleSet.id}`}>
-                                  <Button
-                                    title="Edit"
-                                    size="small"
-                                    startIcon={<ModeEditIcon />}
-                                  >
-                                    View
-                                  </Button>
+                                  <IconButton title="Edit" size="small">
+                                    <ModeEditIcon />
+                                  </IconButton>
                                 </Link>
-
-                                {/* <DeleteQuestionPopconfirm
-                          questionnaireId={questionnaire.id}
-                          questionId={question.id}
-                        /> */}
+                                <DeleteRuleSet ruleSetId={ruleSet.id} />
                               </Box>
                             </StyledTableCell>
                           </StyledTableRow>

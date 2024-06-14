@@ -15,8 +15,10 @@ import { FormProvider, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { FormInputText } from "@/components/Form/FormInputText";
 import LoadingWrapper from "@/components/LoadingWrapper";
-import type { IRuleSet } from "@/types/rule";
+import type { IRuleSet, IAddRuleDecision } from "@/types/rule";
 import { AddConditionRule } from "./AddConditionRule";
+import { useServerAction } from "@/hooks/useServerAction";
+import { addRuleDecision } from "../actions";
 
 const AddFactorModal = ({
   ruleSet,
@@ -24,7 +26,7 @@ const AddFactorModal = ({
   ruleSet: IRuleSet;
 }): React.ReactElement => {
   const [openCreateDecisionModal, setOpenCreateFactorModal] = useState(false);
-  const [isLoadingCreateDecision, setIsLoadingCreateFactor] = useState(false);
+  const [runAction, isPending] = useServerAction(addRuleDecision);
 
   const addFormFactorMethod = useForm<FieldValues>({
     mode: "all",
@@ -37,37 +39,21 @@ const AddFactorModal = ({
   const {
     getValues,
     formState: { isValid },
-    reset,
   } = addFormFactorMethod;
 
   const handleCloseCreateFactorModal = (): void => {
+    addFormFactorMethod.reset();
     setOpenCreateFactorModal(false);
-    reset();
   };
 
-  const handleSaveNewRuleDecision = (): void => {
-    new Promise((): void => {
-      (async (): Promise<void> => {
-        try {
-          console.log("getValues()", getValues());
-          toast.success("getValues");
-          // setIsLoadingCreateFactor(true);
-          // const addFactorFormRes = await addFactor(
-          //   getValues() as IAddRuleFactor
-          // );
-          // if (addFactorFormRes.success === false) {
-          //   toast.error(addFactorFormRes.message);
-          // } else {
-          //   toast.success(addFactorFormRes.message);
-          //   handleCloseCreateFactorModal();
-          // }
-        } catch (error) {
-          console.log(error);
-        } finally {
-          setIsLoadingCreateFactor(false);
-        }
-      })();
-    });
+  const handleSaveNewRuleDecision = async (): Promise<void> => {
+    const addRuleDecisionRes = await runAction(getValues() as IAddRuleDecision);
+
+    if (addRuleDecisionRes?.success) {
+      addFormFactorMethod.reset();
+      setOpenCreateFactorModal(false);
+      toast.success(addRuleDecisionRes.message);
+    }
   };
 
   return (
@@ -90,7 +76,7 @@ const AddFactorModal = ({
         fullWidth
         maxWidth="md"
       >
-        <LoadingWrapper loading={isLoadingCreateDecision}>
+        <LoadingWrapper loading={isPending}>
           <DialogTitle>New Decision</DialogTitle>
           <DialogContent>
             <DialogContent dividers>

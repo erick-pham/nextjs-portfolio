@@ -27,6 +27,24 @@ export const addRuleSet = async (
   return new InternalResponse<null>().toJSON();
 };
 
+export const deleteRuleSet = async (
+  ruleSetId: IRuleSet["id"]
+): Promise<IActionResponse<null>> => {
+  const ruleRecord: IRuleSet | null = await RuleSetModel.findOne({
+    id: ruleSetId,
+  });
+
+  if (ruleRecord) {
+    await RuleSetModel.deleteOne({
+      id: ruleSetId,
+    });
+  }
+
+  revalidatePath("/rules", "page");
+
+  return new InternalResponse<null>({ message: "Delete success" }).toJSON();
+};
+
 export const getRuleById = async (id: string): Promise<IRuleSet | null> => {
   await connectToDatabase();
 
